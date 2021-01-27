@@ -1,5 +1,5 @@
 import React from 'react';
-import { /*Modal, ModalHeader, ModalBody, ModalFooter,*/ Form, Label, Input } from 'reactstrap';
+import { Form, Label, Input } from 'reactstrap';
 import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ToLogInSuccess } from './actions';

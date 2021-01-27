@@ -3,6 +3,7 @@ import  { IRootState } from './store';
 import { useDispatch, useSelector } from 'react-redux'
 import {ToLogOutSuccess } from './Login/actions';
 import { push } from 'connected-react-router';
+import SearchBox from './SearchBox';
 
 const NavBar:React.FC=() => {
     const dispatch=useDispatch();
@@ -15,6 +16,7 @@ const NavBar:React.FC=() => {
             <button onClick={()=>dispatch(push('/SelfProfile'))}>SelfProfile</button>
             <button onClick={()=>dispatch(push('/InfoPage'))}>Info Page</button>
             {username && <p>Hello,{username}</p>}
+            <SearchBox/>
             {!isLoggedIn &&<button onClick={()=>dispatch(push('/register'))}>Register</button>}
              {!isLoggedIn &&<button onClick={()=>dispatch(push('/login'))}>Login</button>}
             {isLoggedIn && <button className="Logout" onClick={()=>dispatch(ToLogOutSuccess())}>LogOut</button>}
