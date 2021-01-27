@@ -2,8 +2,9 @@ import React from 'react';
 import { /*Modal, ModalHeader, ModalBody, ModalFooter,*/ Form, Label, Input } from 'reactstrap';
 import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { ToLogInSuccess } from './Login/actions';
+import { ToLogInSuccess } from './actions';
 import { replace } from 'connected-react-router';
+import NavBar from '../NavBar';
 interface IRegistrationForm{
     username:string,
     password:string,
@@ -26,9 +27,9 @@ const Registration:React.FC=() => {
 
     }
     return (
-        /*<Modal isOpen={true}  >
-            <ModalHeader>Registration</ModalHeader>
-            <ModalBody>*/
+        <>
+        <NavBar/>
+        
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Label>
                         Username:
@@ -53,11 +54,7 @@ const Registration:React.FC=() => {
                    
                     <Input type='submit' value="Register" />
                 </Form>
-           /* </ModalBody>
-            <ModalFooter>
-                <p>this can be use as footer message</p>
-            </ModalFooter>
-        </Modal>*/
+        </>
     )
 }
 export default Registration;

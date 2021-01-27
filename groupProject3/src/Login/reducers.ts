@@ -19,6 +19,12 @@ export const LoginReducers = (state:ILoginState = initialState,action:ILoginActi
                 username:action.username,
                 isLoggedIn:action.isLoggedIn,
             }
+            case "REGISTER":
+            return {
+                ...state,
+                username:action.username,
+                isLoggedIn:action.isLoggedIn,
+            }
         default:
             return state
     }

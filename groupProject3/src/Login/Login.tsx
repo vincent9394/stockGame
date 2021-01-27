@@ -3,7 +3,8 @@ import { /*Modal, ModalHeader, ModalBody, ModalFooter,*/ Form, Label, Input } fr
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import { replace } from 'connected-react-router';
-import { ToLogIn } from './Login/thunks';
+//import { ToLogInThunk } from './Login/thunks';
+import NavBar from '../NavBar';
 interface ILoginForm{
     username:string,
     password:string,
@@ -17,7 +18,7 @@ const Login:React.FC=()=> {
     });
     const dispatch=useDispatch();
     const onSubmit =(data:ILoginForm)=>{
-       // dispatch(ToLogIn(data.username,data.password));
+       // dispatch(ToLogInThunk(data.username,data.password));
         console.log(data.username)  //suppose to check the username & password
         console.log(data.password)
         dispatch(replace('/homepage'))
@@ -25,9 +26,8 @@ const Login:React.FC=()=> {
     }
 
     return (
-       /* <Modal isOpen={true}  >
-            <ModalHeader>Login</ModalHeader>
-            <ModalBody>*/
+        <>
+        <NavBar/>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Label>
                         Username:
@@ -42,11 +42,7 @@ const Login:React.FC=()=> {
                    
                     <Input type='submit' value="Login" />
                 </Form>
-          /*  </ModalBody>
-            <ModalFooter>
-                <p>this can be use as footer message</p>
-            </ModalFooter>
-        </Modal>*/
+          </>
     )
 }
 export default Login;

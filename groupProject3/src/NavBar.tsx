@@ -1,7 +1,7 @@
 import React from 'react'
 import  { IRootState } from './store';
 import { useDispatch, useSelector } from 'react-redux'
-import { ToLogInSuccess, ToLogOut } from './Login/actions';
+import {ToLogOutSuccess } from './Login/actions';
 import { push } from 'connected-react-router';
 
 const NavBar:React.FC=() => {
@@ -10,13 +10,14 @@ const NavBar:React.FC=() => {
     const username=useSelector((state:IRootState)=>state.login.username);
     return (
         <div>
-            <button>Homepage</button>
-            <button>Chatroom</button>
-            <button>Schedule Planing</button>
+            <button onClick={()=>dispatch(push('/homepage'))}>Homepage</button>
+            <button onClick={()=>dispatch(push('/Graph'))}>Graph</button>
+            <button onClick={()=>dispatch(push('/SelfProfile'))}>SelfProfile</button>
+            <button onClick={()=>dispatch(push('/InfoPage'))}>Info Page</button>
             {username && <p>Hello,{username}</p>}
             {!isLoggedIn &&<button onClick={()=>dispatch(push('/register'))}>Register</button>}
              {!isLoggedIn &&<button onClick={()=>dispatch(push('/login'))}>Login</button>}
-            {isLoggedIn && <button className="Logout" onClick={()=>dispatch(ToLogOut())}>LogOut</button>}
+            {isLoggedIn && <button className="Logout" onClick={()=>dispatch(ToLogOutSuccess())}>LogOut</button>}
         </div>
     )
 }
