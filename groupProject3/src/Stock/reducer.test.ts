@@ -1,6 +1,6 @@
 import {StockReducers} from './reducers';
 import { IStockState } from './state';
-import {  ToBuyStockSuccess, ToSoldStockSuccess} from './actions';
+import {  ToBuyStockSuccess, ToLoadAllStockSuccess, ToLoadSpecificStockSuccess, ToSoldStockSuccess} from './actions';
 
 
 describe('StockReducers',()=>{
@@ -11,6 +11,11 @@ describe('StockReducers',()=>{
             stockIDArray:['11.hk'],
             stockAmountArray:[20],
             stockValueArray:[3.4],
+            AllStockID:['23.hk'],
+            AllStockDayMaximum:[2.1],
+            AllStockDayMinimum:[1.0],
+            SearchStockID:null,
+            SearchStockName:null,
         }
     })
 
@@ -29,6 +34,21 @@ describe('StockReducers',()=>{
             stockIDArray:['11.hk','34.org'],
             stockAmountArray:[20,-20],
             stockValueArray:[3.4,0.4],
+        });
+    });
+    it("should load all the stock Info correctly",()=>{
+        const finalState = StockReducers( initialState, ToLoadAllStockSuccess(['54.tw','34.jp','20.hk'],[5,2,1],[3,1.7,0.5]));
+        expect(finalState).toEqual({
+            AllStockID:['54.tw','34.jp','20.hk'],
+            AllStockDayMaximum:[5,2,1],
+            AllStockDayMinimum:[3,1.7,0.5],
+        });
+    });
+    it("should load specific stock Info correctly",()=>{
+        const finalState = StockReducers( initialState, ToLoadSpecificStockSuccess('34.usa','Winning'));
+        expect(finalState).toEqual({
+            SearchStockID:'34.usa',
+            SearchStockName:'Winning',
         });
     });
    /* it("should handle fail case correctly",()=>{

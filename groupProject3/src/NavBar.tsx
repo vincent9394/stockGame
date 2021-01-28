@@ -12,9 +12,8 @@ const NavBar:React.FC=() => {
     return (
         <div>
             <button onClick={()=>dispatch(push('/homepage'))}>Homepage</button>
-            <button onClick={()=>dispatch(push('/Graph'))}>Graph</button>
-            <button onClick={()=>dispatch(push('/SelfProfile'))}>SelfProfile</button>
-            <button onClick={()=>dispatch(push('/InfoPage'))}>Info Page</button>
+            <button onClick={()=>dispatch(push('/selfProfilePage'))}>selfProfilePage</button>
+            <button onClick={()=>dispatch(push('/showTheStockBySortingPage'))}>showTheStockBySortingPage</button>
             {username && <p>Hello,{username}</p>}
             <SearchBox/>
             {!isLoggedIn &&<button onClick={()=>dispatch(push('/register'))}>Register</button>}

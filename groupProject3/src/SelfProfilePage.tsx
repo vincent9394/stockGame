@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from './NavBar'
 
-const SelfProfile:React.FC=()=>{ //suppose it have CRUD in here
+const SelfProfilePage:React.FC=()=>{ //suppose it have CRUD in here
     return (                                 //
         <div>
              <NavBar/>
@@ -10,4 +10,4 @@ const SelfProfile:React.FC=()=>{ //suppose it have CRUD in here
     )
 }
 
-export default SelfProfile
+export default SelfProfilePage

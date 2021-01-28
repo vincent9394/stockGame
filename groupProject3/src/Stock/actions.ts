@@ -14,12 +14,28 @@ export function ToSoldStockSuccess(stockID:string,stockAmount:number,stockValue:
         stockValue:stockValue,
     }
 }
+export function ToLoadAllStockSuccess(AllStockID:string[], AllStockDayMaximum:number[],AllStockDayMinimum:number[]){  
+    return{                       //can add more para if needed more info of stocks
+        type:"LOAD_ALL_STOCK"as"LOAD_ALL_STOCK",
+        AllStockID:AllStockID,
+        AllStockDayMaximum:AllStockDayMaximum,
+        AllStockDayMinimum:AllStockDayMinimum,
+    }
+}
+export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null){  
+    return{                       //can add more para if needed more info of stocks
+        type:"LOAD_SPECIFIC_STOCK"as"LOAD_SPECIFIC_STOCK",
+        SearchStockID:SearchStockID,
+        SearchStockName:SearchStockName,  //suppose to have Search Stock Info
+    }
+}
 
-type FAILED="TO_BUY_STOCK_FAILED"|"TO_SOLD_STOCK_FAILED"
+
+type FAILED="TO_BUY_STOCK_FAILED"|"TO_SOLD_STOCK_FAILED"|"TO_LOAD_ALL_STOCK_FAILED"|"TO_LOAD_SPECIFIC_STOCK_FAILED"
 export function failed(type:FAILED,msg:string){
     return{
         type,msg
     }
 }
-type StockActionCreators=typeof ToBuyStockSuccess|typeof ToSoldStockSuccess|typeof failed
+type StockActionCreators=typeof ToBuyStockSuccess|typeof ToSoldStockSuccess|typeof ToLoadAllStockSuccess|typeof ToLoadSpecificStockSuccess|typeof failed
 export type IStockActions=ReturnType<StockActionCreators>
