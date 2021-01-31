@@ -7,14 +7,14 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import store, { history } from './store';
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
      <Provider store={store}>
       <ConnectedRouter history={history}>
     <App />
     </ConnectedRouter>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  //</React.StrictMode>
+  ,document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
