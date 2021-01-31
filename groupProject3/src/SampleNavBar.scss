@@ -1,0 +1,15 @@
+.NavBarBackground{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+//background-image: linear-gradient(to bottom right, rgba(0, 255, 255,0.2), rgba(204, 0, 255,0.3),rgba(0, 255, 255,0.3),rgba(204, 0, 255,0.2))
+}
+.NavBarArrangement{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-evenly;
+}
+.SearchForm{
+    display:flex;
+    flex-direction:row;
+}

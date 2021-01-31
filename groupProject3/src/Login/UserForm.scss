@@ -1,0 +1,32 @@
+
+.LoginForm{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width:35%;
+    padding:20px;
+    Label{
+     width:100%;
+     input{
+         width:100%;
+     }
+    }
+    .FormSubmitButton{
+        margin-top:15px;
+        margin-left:20%;
+        width:60%;
+        margin-right: 20%;
+    }
+    .Alert{
+        margin-top:5px;
+        margin-bottom: 5px;
+    }
+}
+.UserFormMainContent{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+}

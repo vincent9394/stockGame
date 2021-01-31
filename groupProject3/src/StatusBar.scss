@@ -1,0 +1,14 @@
+.StatusBar{
+    margin-top:60px;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items: center;
+padding:5px;
+button{
+    border-radius:10px;
+    background-color: rgba(100, 148, 237, 0.308);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+}

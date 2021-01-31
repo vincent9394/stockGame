@@ -1,13 +1,22 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Modal,Button } from 'antd';
-
-export class OrderingModal extends React.Component {
-  state = {
+import './OrderingModal.scss'
+type OrderingModalState={
+  loading: boolean,
+  visible: boolean
+}
+type transactionAction={
+ action:"BUY"|"SELL";
+}
+export class OrderingModal extends React.Component< transactionAction,OrderingModalState>{
+  constructor(props:transactionAction) {
+    super(props);
+  this.state = {
     loading: false,
     visible: false,
   };
-
+  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -29,28 +38,50 @@ export class OrderingModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <>
-        <Button type="primary" onClick={this.showModal}>
-          Buy
+        <Button type="primary" style={this.props.action==="BUY"?{backgroundColor:"#40A9FF"}:{backgroundColor:"red"}} onClick={this.showModal}>
+          {this.props.action}
         </Button>
         <Modal
           visible={visible}
-          title="Title"
+          title="Order"
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Back
             </Button>,
-            <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
-               BUY
+            <Button key="submit" type="primary" style={this.props.action==="BUY"?{backgroundColor:"#40A9FF"}:{backgroundColor:"red"}} loading={loading} onClick={this.handleOk}>
+              {this.props.action}
             </Button>,
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <div className="InfoColumn">
+          <div>Account Balance</div>
+          <div>HKD $99.99</div>
+          </div>
+          <div className="InfoColumn">
+          <div>Targeted Purchase Price</div>
+          <input type="text"></input>
+          </div>
+          <div className="InfoColumn">
+          <div>Targeted Purchase Volume</div>
+          <input type="text"></input>
+          </div>
+          <div className="InfoColumn">
+          <div>Order Effect Period</div>
+          <div className="optionColumn">
+            <div>
+          <input type="radio"  id="Today" name="Period" value="Today"/>
+          <label htmlFor="Today">Today</label>
+          </div>
+          <div>
+          <input type="radio"  id="Forever" name="Period" value="Forever"/>
+          <label htmlFor="Forever">Forever</label>
+          </div>
+          <br/>
+          </div>
+          </div>
+
         </Modal>
       </>
     );

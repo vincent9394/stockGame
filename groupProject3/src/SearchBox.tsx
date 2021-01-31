@@ -15,7 +15,7 @@ const SearchBox:React.FC=()=>{
     }
     return (
         <div>
-             <form onSubmit={onSubmit}>
+             <form className="SearchForm" onSubmit={onSubmit}>
  <select value={stockChoice} onChange={(e)=>setStockChoice(e.target.value)}>
      <option value="SearchStockID">stockID</option>
      <option value="SearchStockName">stockName</option>

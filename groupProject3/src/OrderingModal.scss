@@ -1,0 +1,22 @@
+.InfoColumn{
+    margin-top:10px;
+    margin-bottom:10px;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items: center;
+}
+.optionColumn{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: flex-start;
+}
+$action:SELL;
+.OrderingModal{
+@if $action==BUY{
+background-color:blue;
+}@else{
+    background-color:red;
+}
+}
