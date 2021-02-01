@@ -18,15 +18,8 @@
         "@types/react-redux": "^7.1.15",
         "@types/react-router-dom": "^5.1.7",
         "@types/redux-thunk": "^2.1.0",
-        <<
-        << << < HEAD "@types/socket.io": "^2.1.13",
-        ===
-        === =
-        "antd": "^4.11.2",
-        "babel-plugin-import": "^1.13.3",
-        "bootstrap": "^4.6.0",
-        >>>
-        >>> > 0b 2 d56def0b8fc536440daf40e44f1498ac2cd47 "connected-react-router": "^6.8.0",
+        "@types/socket.io": "^2.1.13",
+        "connected-react-router": "^6.8.0",
         "express-session": "^1.17.1",
         "jwt-simple": "^0.5.6",
         "knex": "^0.21.17",
