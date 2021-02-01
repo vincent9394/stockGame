@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
-group 'io.tecky'
+group 'io.io.tecky'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -18,8 +18,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
     compile group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.1.1'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.7.7'
-    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.935'
     compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.6.4'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.935'
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 test {
