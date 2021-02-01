@@ -1,4 +1,4 @@
-package tecky;
+package io.tecky;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
