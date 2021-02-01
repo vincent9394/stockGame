@@ -1,0 +1,19 @@
+.ActionBar{
+    margin-top:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items: center;
+.ButtonSet{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+button{
+    margin-left:5px;
+    margin-right:5px;
+}
+    }

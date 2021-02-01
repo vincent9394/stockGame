@@ -1,0 +1,20 @@
+.SortingMainContent{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    margin-left:10px;
+    margin-right:10px;
+    //background-image: linear-gradient(to bottom right, rgba(0, 255, 255,0.2), rgba(204, 0, 255,0.3),rgba(0, 255, 255,0.3),rgba(204, 0, 255,0.2));
+    //background-image: radial-gradient(circle, rgba(0, 255, 255,0.2), rgba(204, 0, 255,0.5),rgba(9, 255, 0, 0.2));
+  }
+.CenterInfoDiv{
+    width:80%;
+}
+.ActionBar{
+    width:20%;
+    margin-right:5px;
+}
+.StatusBar{
+    width:20%;
+    margin-left:5px;
+}

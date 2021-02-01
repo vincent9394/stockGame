@@ -3,8 +3,10 @@ import { Form, Label, Input } from 'reactstrap';
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import { replace } from 'connected-react-router';
+import './UserForm.scss'
+import { Alert } from 'antd';
+import 'antd/dist/antd.css';
 //import { ToLogInThunk } from './Login/thunks';
-import NavBar from '../NavBar';
 interface ILoginForm{
     username:string,
     password:string,
@@ -26,23 +28,27 @@ const Login:React.FC=()=> {
     }
 
     return (
-        <>
-        <NavBar/>
-                <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="UserFormMainContent">
+                <Form className="LoginForm" onSubmit={handleSubmit(onSubmit)}>
                     <Label>
-                        Username:
+                        Username:<br/>
                         <input type='text' name="username" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.username&&<p>error in username</p>}
                     <Label>
-                        Password:
+                        Password:<br/> 
                         <input type='password' name="password" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.password&&<p>error in password</p>}
-                   
-                    <Input type='submit' value="Login" />
+                    {(errors.username||errors.password)&&
+                    <Alert
+                    message="Error"
+                    description="Incorrect username/password"
+                    type="error"
+                    showIcon
+                  />
+                  }
+                    <Input className="FormSubmitButton" type='submit' value="Login" />
                 </Form>
-          </>
+          </div>
     )
 }
 export default Login;

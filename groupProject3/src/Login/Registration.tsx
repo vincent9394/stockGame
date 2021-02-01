@@ -4,7 +4,8 @@ import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ToLogInSuccess } from './actions';
 import { replace } from 'connected-react-router';
-import NavBar from '../NavBar';
+import './UserForm.scss'
+import { Alert } from 'antd';
 interface IRegistrationForm{
     username:string,
     password:string,
@@ -27,34 +28,55 @@ const Registration:React.FC=() => {
 
     }
     return (
-        <>
-        <NavBar/>
-        
-                <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="UserFormMainContent">
+                <Form className="LoginForm" onSubmit={handleSubmit(onSubmit)}>
                     <Label>
-                        Username:
+                        Username:<br/>
                         <input type='text' name="username" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.username&&<p>error in username</p>}
                     <Label>
-                        Password:
+                        Password:<br/>
                         <input type='text' name="password" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.password&&<p>error in password</p>}
                     <Label>
-                        Email:
+                        Email:<br/>
                         <input type='email' name="email" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.email&&<p>error in email</p>}
                     <Label>
-                        Address:
+                        Address:<br/>
                         <input type='text' name="address" ref={register({required:true})}/>
                     </Label><br/>
-                    {errors.address&&<p>error in address</p>}
-                   
-                    <Input type='submit' value="Register" />
+                    {errors.username&&
+                    <Alert
+                    message= "Invalid username"
+                    type="error"
+                    showIcon
+                  />
+                  }
+                  {errors.password&&
+                    <Alert
+                    message= "Invalid password"
+                    type="error"
+                    showIcon
+                  />
+                  }
+                  {errors.email&&
+                    <Alert
+                    message= "Invalid email"
+                    type="error"
+                    showIcon
+                  />
+                  }
+                    {errors.address&&
+                    <Alert
+                    message= "Invalid address"
+                    type="error"
+                    showIcon
+                  />
+                  }
+                    <Input className="FormSubmitButton" type='submit' value="Register" />
                 </Form>
-        </>
+        </div>
     )
 }
 export default Registration;

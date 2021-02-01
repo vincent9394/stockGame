@@ -122,6 +122,7 @@ class Graph extends React.Component<{},GraphState> {
       margin: "auto"
     };
     return (
+      <div className="GraphDiv">
       <div> 
         <div>
           {
@@ -132,6 +133,7 @@ class Graph extends React.Component<{},GraphState> {
             />
           }
         </div>
+      </div>
       </div>
     );
   }

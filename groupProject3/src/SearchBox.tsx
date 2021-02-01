@@ -4,18 +4,18 @@ import { useDispatch } from 'react-redux';
 import { ToLoadSpecificStockThunk } from './Stock/thunks';
 const SearchBox:React.FC=()=>{
     const dispatch=useDispatch();
-    const [stockChoice, setStockChoice] = useState('stockID');
+    const [stockChoice, setStockChoice] = useState('SearchStockID');
     const [SearchStockName, setSearchStockName] = useState('');
     const [SearchStockID, setSearchStockID] = useState('');
     const onSubmit =(event: React.FormEvent<HTMLFormElement>)=>{
-        event.preventDefault(); 
-        ToLoadSpecificStockThunk(SearchStockID,SearchStockName)
+        event.preventDefault();
+        ToLoadSpecificStockThunk(SearchStockID,SearchStockName,stockChoice)
         dispatch(push('/showStockPage'))       
                                         //fetch stock data from sprint and show it locally (directly by SearchStockID)
     }
     return (
         <div>
-             <form onSubmit={onSubmit}>
+             <form className="SearchForm" onSubmit={onSubmit}>
  <select value={stockChoice} onChange={(e)=>setStockChoice(e.target.value)}>
      <option value="SearchStockID">stockID</option>
      <option value="SearchStockName">stockName</option>

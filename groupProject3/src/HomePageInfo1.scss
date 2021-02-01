@@ -1,0 +1,24 @@
+.IndexRowArrangement{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+    align-items: center;
+    height:auto;
+    padding:5px;
+}
+.ItemColumnArrangement{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    div{
+        margin-top:20px;
+        margin-bottom: 20px;
+    }
+}
+.positiveNumber{
+    color:green;
+}
+.negativeNumber{
+    color:red;  
+}
