@@ -11,6 +11,9 @@ export async function seed(knex: Knex): Promise<void> {
         { id: 1, name: "alex", password: "alex", email: "alex@email.com", cash_in_hand: 100000 },
         { id: 2, name: "gordon", password: "gordon", email: "gordon@email.com", cash_in_hand: 100000 },
         { id: 3, name: "jason", password: "jason", email: "jason@email.com", cash_in_hand: 100000 },
+        { id: 4, name: "vincent", password: "vincent", email: "vincent@email.com", cash_in_hand: 100000 },
+        { id: 5, name: "bruce", password: "bruce", email: "bruce@email.com", cash_in_hand: 100000 },
+        { id: 6, name: "ricky", password: "ricky", email: "ricky@email.com", cash_in_hand: 100000 },
     ]);
 
     // Inserts seed entries
