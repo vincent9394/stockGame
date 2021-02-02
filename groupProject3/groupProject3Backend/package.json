@@ -2,6 +2,9 @@
   "name": "my-project-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",

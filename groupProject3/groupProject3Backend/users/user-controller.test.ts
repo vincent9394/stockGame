@@ -20,8 +20,7 @@ describe("User Controller",()=>{
         userController = new UserController(userService)
         res = {
             status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
-            token:jest.fn()
+            json:jest.fn() 
         } as any as Response;
     });
 
@@ -49,14 +48,12 @@ describe("User Controller",()=>{
             username:'Jack',
             password:'123'
             }
-            await userController.logIn(req,res)
+            const getUserSpy = jest.spyOn(userService, 'getUser')
+            getUserSpy.mockReturnValue([{ username: 'Jack',password:'123' }] as any)
+    await userController.logIn(req,res)              //can check with token and hash
     expect(res.status).toBeCalledWith(200)
-    const token='testingToken'
-    expect(res.json).toBe({
-        token: token
-    })
 
-    
+
     })
 
 

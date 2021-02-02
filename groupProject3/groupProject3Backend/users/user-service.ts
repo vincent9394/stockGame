@@ -26,6 +26,6 @@ export class UserService {
     }
     }
     async getUser(username:string){ //sampleService for Login
-        return await this.knex.select('username','password').from('users').where('username',username);
+        return await this.knex.select('*').from('users').where('username',username);
     }
 }
