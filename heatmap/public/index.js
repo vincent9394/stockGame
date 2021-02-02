@@ -1,3 +1,20 @@
+// kafka setup
+module.exports = {
+    kafka: {
+        TOPIC: 'mouseInfo',
+        BROKERS: ['localhost:9092'],
+        GROUPID: 'bills-consumer-group',
+        CLIENTID: 'sample-kafka-client'
+    }
+}
+
+// kafka producer
+const client = new Kafka({ brokers: config.kafka.BROKERS, clientId: config.kafka.CLIENTID })
+const topic = config.kafka.TOPIC
+const producer = client.producer()
+
+
+
 timeStart = Date.now()
 timeStartFormat = moment(timeStart).format("YYYY-MM-DD h:mm:ss")
 console.log(timeStartFormat)
@@ -54,6 +71,25 @@ window.onload = function() {
         heatmap.addData({ x: x, y: y, value: 1 });
 
         console.log(" x: " + x + " y: " + y + "  time: " + mouseTime)
+        mouseInfo = `${x}, ${y}, ${mouseTime}`
+
+        // sending message to kafka  
+        let i = 0
+        const sendMessage = async(producer, topic) => {
+            console.log("sendMessage")
+            await producer.connect()
+            setInterval(function() {
+                payloads = {
+                    topic: topic,
+                    messages: [
+                        { key: 'mouse-location(x,y,time)', value: JSON.stringify(mouseInfo) }
+                    ]
+                }
+                console.log('payloads=', payloads)
+                producer.send(payloads)
+            }, 1000)
+        }
+        sendMessage(producer, topic)
     };
 
     heatmapContainer.onclick = function(e) {
@@ -61,5 +97,8 @@ window.onload = function() {
         var y = e.layerY;
         heatmap.addData({ x: x, y: y, value: 1 });
     };
+
+
+
 
 };
