@@ -1,5 +1,5 @@
-import { UserController } from './user-controller'
-import { UserService } from './user-service'
+import { UserController } from '../users/user-controller'
+import { UserService } from '../users/user-service'
 import { Request, Response } from 'express'
 import * as Knex from 'knex';
 //import { timeConvert } from './timeConvertFunction';

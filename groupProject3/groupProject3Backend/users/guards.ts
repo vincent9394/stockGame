@@ -2,8 +2,8 @@ import {Bearer} from 'permit';
 import jwtSimple from 'jwt-simple';
 import express from 'express';
 import jwt from './jwt';
-import { IUser } from './model';
-import {userService} from './main';
+import { IUser } from '../model';
+import {userService} from '../main';
 
 
 const permit = new Bearer({
@@ -20,7 +20,7 @@ export async function isLoggedIn(
             return res.status(401).json({msg:"Permission Denied"});
         }
         const payload = jwtSimple.decode(token,jwt.jwtSecret);
-        const user:IUser = await userService.getUser(payload.id);
+        const user:IUser = (await userService.getUser(payload.id))[0];
         if(user){
             req.user = user;
             return next();

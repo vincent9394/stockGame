@@ -5,11 +5,15 @@ import Knex from 'knex';
 import { UserService } from './users/user-service';
 import { UserController } from './users/user-controller';
 import {createRoute}from './routes'
+import { StockController } from './stocks/stock-controller';
+import { StockService } from './stocks/stock-service';
 const knexConfig = require('../knexfile');
 const knex = Knex(knexConfig[process.env.NODE_ENV || "development"])
 export const userService = new UserService(knex)
 const userController = new UserController(userService)
-const routes = createRoute(userController);
+export const stockService = new StockService(knex)
+const stockController = new StockController(stockService)
+const routes = createRoute(userController,stockController);
 const app = express()
 app.use(cors({
   origin: [process.env.REACT_HOST!]
