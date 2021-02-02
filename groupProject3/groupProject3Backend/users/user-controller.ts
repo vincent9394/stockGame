@@ -2,14 +2,14 @@ import {Request,Response} from 'express';
 import { UserService } from './user-service';
 import jwtSimple from 'jwt-simple';
 import jwt from '../jwt';
-import { checkPassword} from '../hash';
+import { checkPassword, isEmail} from '../hash';
 //import fetch from 'node-fetch';
 
 export class UserController{
 
     constructor(private userService:UserService){}
 
-    post = async (req:Request,res:Response)=>{
+    logIn = async (req:Request,res:Response)=>{
         try{
             if (!req.body.username || !req.body.password) {
                 res.status(401).json({msg:"Wrong Username/Password"});
@@ -26,7 +26,7 @@ export class UserController{
                 username: user.username
             };
             const token = jwtSimple.encode(payload, jwt.jwtSecret);
-            res.json({
+            res.status(200).json({
                 token: token
             });
         }catch(e){
@@ -34,4 +34,34 @@ export class UserController{
             res.status(500).json({msg:e.toString()})
         }
     }
+
+    signUp = async (req:Request,res:Response)=>{
+        let {username,address, email, password} = req.body
+        if(!username ||!address|| !email || !password){
+            res.status(401).json({msg:"Please fill in+all blanks"});
+            return
+        }
+        if((isEmail(email))===false){
+            res.status(401).json({msg:"Please enter a valid email address"});
+            return
+        }
+        try {
+            let id = await this.userService.signUp({username,address, email, password })
+            const payload = {
+                id: id,
+                username: username
+            };
+            const token = jwtSimple.encode(payload, jwt.jwtSecret);
+            res.status(200).json({
+                token: token
+            });
+        } catch(e){
+            console.log(e)
+            res.status(500).json({msg:e.toString()})
+        }
+        
+        
+    }
+
+
 }

@@ -10,6 +10,7 @@ describe('LoginReducers', () => {
         initialState = {
             isLoggedIn: false,
             username: null,
+            msg:""
         }
     })
 
@@ -18,6 +19,7 @@ describe('LoginReducers', () => {
         expect(finalState).toEqual({
             username: 'Peter',
             isLoggedIn: true,
+            msg:""
         });
     });
 
@@ -26,6 +28,7 @@ describe('LoginReducers', () => {
         expect(finalState).toEqual({
             username: null,
             isLoggedIn: false,
+            msg:""
         });
     });
     it("should be register successfully", () => {
@@ -33,6 +36,7 @@ describe('LoginReducers', () => {
         expect(finalState).toEqual({
             username: 'John',
             isLoggedIn: true,
+            msg:""
         });
     });
 
