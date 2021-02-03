@@ -51,11 +51,11 @@ export async function up(knex: Knex): Promise<void> {
 
 
 export async function down(knex: Knex): Promise<void> {
-    await knex.schema.dropTable('portfolio');
-    await knex.schema.dropTable('stock');
-    await knex.schema.dropTable('trade');
-    await knex.schema.dropTable('trade_cart');
-    await knex.schema.dropTable('users');
+    await knex.schema.dropTableIfExists('portfolio');
+    await knex.schema.dropTableIfExists('stock');
+    await knex.schema.dropTableIfExists('trade');
+    await knex.schema.dropTableIfExists('trade_cart');
+    await knex.schema.dropTableIfExists('users');
 
 }
 
