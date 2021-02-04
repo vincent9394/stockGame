@@ -1,6 +1,16 @@
 import React from 'react'
-import './HomePageInfo1.scss'
+import { useSelector } from 'react-redux';
+import { IRootState } from './store';
+//import { useEffect } from 'react';
+//import { useDispatch } from 'react-redux';
+//import { ToLoadAllStockThunk } from './Stock/thunks';
 const HomePageInfoSection1: React.FC = () => {
+    const AllstockID= useSelector((state:IRootState)=>state.stock.AllStockID);
+    /*const dispatch=useDispatch();
+    useEffect(()=>{
+        dispatch(ToLoadAllStockThunk());
+      },[dispatch]);*/
+
     return (
         <div>
             <div className="IndexRowArrangement">

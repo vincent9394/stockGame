@@ -7,7 +7,8 @@ type OrderingModalState={
   visible: boolean
 }
 type transactionAction={
- action:"BUY"|"SELL";
+ action:"BUY"|"SELL",
+ arrayIndex:number,
 }
 export class OrderingModal extends React.Component< transactionAction,OrderingModalState>{
   constructor(props:transactionAction) {
@@ -25,6 +26,9 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
 
   handleOk = () => {
     this.setState({ loading: true });
+    console.log('this is submit')
+    //fetch data at here
+    //
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
@@ -57,7 +61,7 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
         >
           <div className="InfoColumn">
           <div>Account Balance</div>
-          <div>HKD $99.99</div>
+          <div>HKD $99.99+{this.props.arrayIndex}</div>
           </div>
           <div className="InfoColumn">
           <div>Targeted Purchase Price</div>
@@ -72,11 +76,11 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
           <div className="optionColumn">
             <div>
           <input type="radio"  id="Today" name="Period" value="Today"/>
-          <label htmlFor="Today">Today</label>
+          <label htmlFor="Today">Today{this.props.arrayIndex}</label>
           </div>
           <div>
           <input type="radio"  id="Forever" name="Period" value="Forever"/>
-          <label htmlFor="Forever">Forever</label>
+          <label htmlFor="Forever">Forever{this.props.arrayIndex}</label>
           </div>
           <br/>
           </div>

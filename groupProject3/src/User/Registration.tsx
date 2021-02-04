@@ -10,13 +10,13 @@ interface IRegistrationForm{
     username:string,
     password:string,
     email:string,
-    address:string,
 }
 const Registration:React.FC=() => {
     const {register,handleSubmit,errors} = useForm<IRegistrationForm>({
         defaultValues:{
             username:"",
             password:"",
+            email:"",
         }
     });
     const dispatch=useDispatch();
@@ -42,10 +42,6 @@ const Registration:React.FC=() => {
                         Email:<br/>
                         <input type='email' name="email" ref={register({required:true})}/>
                     </Label><br/>
-                    <Label>
-                        Address:<br/>
-                        <input type='text' name="address" ref={register({required:true})}/>
-                    </Label><br/>
                     {errors.username&&
                     <Alert
                     message= "Invalid username"
@@ -67,13 +63,7 @@ const Registration:React.FC=() => {
                     showIcon
                   />
                   }
-                    {errors.address&&
-                    <Alert
-                    message= "Invalid address"
-                    type="error"
-                    showIcon
-                  />
-                  }
+                    
                     <Input className="FormSubmitButton" type='submit' value="Register" />
                 </Form>
         </div>

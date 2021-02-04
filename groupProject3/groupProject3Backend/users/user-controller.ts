@@ -18,7 +18,7 @@ export class UserController {
             const { username, password } = req.body;
             const user = (await this.userService.getUser(username))[0];
             if (!user || !(await checkPassword(password, user.password))) {
-                res.status(401).json({ msg: "Wrong Username/Password" });
+                res.status(402).json({ msg: "Wrong Username/Password" });
                 return;
             }
             const payload = {
@@ -36,8 +36,8 @@ export class UserController {
     }
 
     signUp = async (req: Request, res: Response) => {
-        let { username, address, email, password } = req.body
-        if (!username || !address || !email || !password) {
+        let { username, email, password } = req.body
+        if (!username || !email || !password) {
             res.status(401).json({ msg: "Please fill in+all blanks" });
             return
         }
@@ -60,12 +60,15 @@ export class UserController {
         }
     }
     showUserAccountBalance = async (req: Request, res: Response) => {
-       // maybe get by req.headers.authorization
-       let userID=1; //just sample
-        let  AccountBalance=(await this.userService.getAccountBalance(userID))[0] //userID suppose get by token
+       if(req.user){
+        let  AccountBalance=(await this.userService.getAccountBalance(req.user.id))[0].cash_in_hand //userID suppose get by token
         res.status(200).json({
+            result:true,
             AccountBalance:AccountBalance,
         })
+    }else{
+        res.status(401).json({result:false,msg:"Unauthorized"})
+    }
     }
 
 }

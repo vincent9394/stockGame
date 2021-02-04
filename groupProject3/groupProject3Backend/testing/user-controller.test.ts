@@ -2,13 +2,13 @@ import { UserController } from '../users/user-controller'
 import { UserService } from '../users/user-service'
 import { Request, Response } from 'express'
 import * as Knex from 'knex';
-//import { timeConvert } from './timeConvertFunction';
+import { checkPassword, isEmail } from '../users/hash';
+jest.mock('../users/hash')
 jest.mock('express')
 describe("User Controller",()=>{
     let userController: UserController;
     let req: Request;
     let res: Response;
-    //let resJson:jest.SpyInstance;
     let userService: UserService;
     beforeEach(function () {
         userService = new UserService({} as Knex);
@@ -30,7 +30,7 @@ describe("User Controller",()=>{
     }
        await userController.logIn(req,res)
        expect(res.status).toBeCalledWith(401)
-       expect(res.json).toBe({msg:"Wrong Username/Password"})
+       expect(res.json).toBeCalledWith({msg:"Wrong Username/Password"})
 
     })
     it('will return json  if there are no password during login', async () => {
@@ -38,10 +38,10 @@ describe("User Controller",()=>{
             username:'Jack',
     }
     const getUserSpy = jest.spyOn(userService, 'getUser')
-    getUserSpy.mockReturnValue([{ username: '20' }] as any)
+    getUserSpy.mockReturnValue([{ id:1,username: 'Jack',password:'123' }] as any)
         await userController.logIn(req,res)
        expect(res.status).toBeCalledWith(401)
-       expect(res.json).toBe({msg:"Wrong Username/Password"})
+       expect(res.json).toBeCalledWith({msg:"Wrong Username/Password"})
     })
     it('can handle login successfully', async () => {
         req.body={
@@ -49,13 +49,41 @@ describe("User Controller",()=>{
             password:'123'
             }
             const getUserSpy = jest.spyOn(userService, 'getUser')
-            getUserSpy.mockReturnValue([{ username: 'Jack',password:'123' }] as any)
+            getUserSpy.mockReturnValue([{ id:1,username: 'Jack',password:'123'}]as any);
+            (checkPassword as jest.Mock).mockReturnValue(true)
     await userController.logIn(req,res)              //can check with token and hash
     expect(res.status).toBeCalledWith(200)
+   // expect(res.json).toHaveProperty('token')
 
 
     })
+    it('can show userAccount Balance', async () => {
+        req.user={
+            id:1,
+            username:'Jack',
+            password:'123',
+    }
+    const getAccountBalanceSpy = jest.spyOn(userService, 'getAccountBalance')
+    getAccountBalanceSpy.mockReturnValue([{ cash_in_hand:3000}]as any)
+       await userController.showUserAccountBalance(req,res)
+       expect(res.status).toBeCalledWith(200)
+       expect(res.json).toBeCalledWith({
+        result:true,
+        AccountBalance:3000,
+    })
+    })
 
-
-
+    it('can signUp correctly', async () => {
+        req.body={
+            username:'Jack',
+            email:'abc',
+            password:'123',
+    };
+    (isEmail as jest.Mock).mockReturnValue(true)
+    const signUpSpy = jest.spyOn(userService, 'signUp')
+    signUpSpy.mockReturnValue([{id:2}]as any)
+       await userController.signUp(req,res)
+       expect(res.status).toBeCalledWith(200)
+      // expect(res.json).toHaveProperty('token')
+    })
 })
