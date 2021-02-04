@@ -55,8 +55,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('stock_symbol');
         table.integer('transaction_type_id');
         table.integer('transaction_status_id');
-        table.decimal('price', 6, 2);
-        table.decimal('shares', 10, 2);
+        table.decimal('price', 6, 4);
+        table.decimal('shares', 10, 4);
         table.dateTime('exp_datetime');
         table.timestamps(true, true);
         table.foreign('user_id').references('users.id');
@@ -66,8 +66,8 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('user_id');
         table.string('stock_symbol');
         table.integer('transaction_type_id');
-        table.decimal('price', 6, 2);
-        table.decimal('shares', 10, 2);
+        table.decimal('price', 6, 4);
+        table.decimal('shares', 10, 4);
         table.timestamps(true, true);
         table.foreign('user_id').references('users.id');
     })
@@ -81,7 +81,7 @@ export async function up(knex: Knex): Promise<void> {
         table.increments();
         table.integer('user_id');
         table.string('stock_symbol');
-        table.decimal('shares', 10, 2);
+        table.decimal('shares', 10, 4);
         table.foreign('user_id').references('users.id');
     })
 
@@ -95,24 +95,24 @@ export async function up(knex: Knex): Promise<void> {
         table.increments();
         table.dateTime('date');
         table.string('stock_symbol');
-        table.decimal('open', 6, 2);
-        table.decimal('high', 6, 2);
-        table.decimal('low', 6, 2);
-        table.decimal('close', 6, 2);
-        table.decimal('volume_ltc', 10, 2);
-        table.decimal('volume_usd', 10, 2);
+        table.decimal('open', 6, 4);
+        table.decimal('high', 6, 4);
+        table.decimal('low', 6, 4);
+        table.decimal('close', 6, 4);
+        table.decimal('volume_ltc', 10, 4);
+        table.decimal('volume_usd', 10, 4);
         table.foreign('stock_symbol').references('stock_info.stock_symbol');
     })
     await knex.schema.createTable('stock_current', (table) => {
         table.increments();
         table.dateTime('date');
         table.string('stock_symbol');
-        table.decimal('open', 6, 2);
-        table.decimal('high', 6, 2);
-        table.decimal('low', 6, 2);
-        table.decimal('close', 6, 2);
-        table.decimal('volume_ltc', 10, 2);
-        table.decimal('volume_usd', 10, 2);
+        table.decimal('open', 6, 4);
+        table.decimal('high', 6, 4);
+        table.decimal('low', 6, 4);
+        table.decimal('close', 6, 4);
+        table.decimal('volume_ltc', 10, 4);
+        table.decimal('volume_usd', 10, 4);
         table.foreign('stock_symbol').references('stock_info.stock_symbol');
     })
 
