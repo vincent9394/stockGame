@@ -1,14 +1,11 @@
 import React from 'react'
-import { OrderingModal } from './OrderingModal'
 import './ActionBar.scss'
+import ActionBarButtonSet from './ActionBarButtonSet'
 const GraphPageInfo:React.FC=()=> {
     return (
         <div>
             This is the place show a stock Info
-            <div className="ButtonSet">
-            <OrderingModal action="BUY"/>
-            <OrderingModal action="SELL"/>
-            </div>
+           {ActionBarButtonSet({value:1})}
         </div>
     )
 }

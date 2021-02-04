@@ -1,8 +1,8 @@
 import { connectRouter, RouterState,routerMiddleware, CallHistoryMethodAction } from "connected-react-router";
 import {createStore, combineReducers, compose, applyMiddleware} from "redux";
-import { ILoginActions } from "./Login/actions";
-import { LoginReducers } from "./Login/reducers";
-import { ILoginState } from "./Login/state";
+import { ILoginActions } from "./User/actions";
+import { LoginReducers } from "./User/reducers";
+import { ILoginState } from "./User/state";
 import { createBrowserHistory } from "history";
 import thunk,{ThunkDispatch as OldThunkDispatch} from 'redux-thunk';
 import { IStockActions } from "./Stock/actions";

@@ -1,7 +1,7 @@
 import React from 'react'
 import  { IRootState } from './store';
 import { useDispatch, useSelector } from 'react-redux'
-import {ToLogOutSuccess } from './Login/actions';
+import {ToLogOutSuccess } from './User/actions';
 import { push } from 'connected-react-router';
 import SearchBox from './SearchBox';
 

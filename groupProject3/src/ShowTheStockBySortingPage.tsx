@@ -2,13 +2,13 @@ import React from 'react'
 import ActionBar from './ActionBar'
 import StatusBar from './StatusBar'
 import './Sorting.scss'
-import HomePageInfoSection1 from './HomePageInfoSection1'
+import HomePageInfoSection2 from './HomePageInfoSection2'
 const ShowTheStockBySortingPage:React.FC=()=>{
     return (
         <div className="SortingMainContent">
             <StatusBar/>
             <div className="CenterInfoDiv">
-            <HomePageInfoSection1/> 
+            <HomePageInfoSection2/>
             </div>
             <ActionBar/>
         </div>

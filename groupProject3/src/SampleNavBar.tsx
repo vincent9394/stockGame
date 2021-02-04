@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
 import SearchBox from './SearchBox';
-import { ToLogOutSuccess } from './Login/actions';
+import { ToLogOutSuccess } from './User/actions';
 import { push } from 'connected-react-router';
 
 const SampleNavBar:React.FC = () => {
@@ -34,18 +34,26 @@ const SampleNavBar:React.FC = () => {
             <NavItem>
             <NavLink onClick={()=>dispatch(push('/homepage'))}>Home</NavLink>
             </NavItem>
+            <NavItem>
             <NavLink onClick={()=>dispatch(push('/selfProfilePage'))}>Profile</NavLink>
+            </NavItem>
             <NavItem>
               <NavLink onClick={()=>dispatch(push('/showTheStockBySortingPage'))}>Info</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink onClick={()=>dispatch(push('/instructionHistory'))}>History</NavLink>
+            </NavItem>
             {username && <p>Hello,{username}</p>}
-            {!isLoggedIn &&<NavItem>
+            {!isLoggedIn &&
+            <NavItem>
               <NavLink onClick={()=>dispatch(push("/register"))}>Register</NavLink>
             </NavItem>}
-             {!isLoggedIn &&<NavItem>
+             {!isLoggedIn &&
+             <NavItem>
               <NavLink onClick={()=>dispatch(push("/login"))}>Login</NavLink>
             </NavItem>}
-            {isLoggedIn && <NavItem>
+            {isLoggedIn && 
+            <NavItem>
               <NavLink className="Logout" onClick={()=>dispatch(ToLogOutSuccess())}>LogOut</NavLink>
             </NavItem>}
             <SearchBox/>

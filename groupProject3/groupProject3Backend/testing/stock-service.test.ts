@@ -1,4 +1,4 @@
-import {StockService} from './stock-service'
+import {StockService} from '../stocks/stock-service'
 import  Knex from 'knex'
 const knexConfig=require('../knexfile')
 const knex=Knex(knexConfig['test'])
@@ -11,12 +11,12 @@ describe('stockService integrated with database',()=>{
         await knex.seed.run();
     });
     it('can work with Buy transaction',async()=>{
-        const addTrading=await stockService.stockTrading(1,'abc',true,20,400,2)
+        const addTrading=await stockService.stockTrading(1,'abc',true,20,400)
         expect(addTrading[0]).toHaveLength(1)
 
     })
     it('can work with sell transaction',async()=>{
-        const addTrading=await stockService.stockTrading(1,'abc',false,20,400,2)
+        const addTrading=await stockService.stockTrading(1,'abc',false,20,400)
         expect(addTrading[0]).toHaveLength(1)
 
     })

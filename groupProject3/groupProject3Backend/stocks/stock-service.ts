@@ -1,35 +1,45 @@
 import * as Knex from 'knex';
-import { userService } from '../main';
 export class StockService{
     constructor(private knex:Knex){}
-async stockTrading(user_id:number,stock_symbol:string,isBuy:Boolean,price:number,shares:number,portfolio_id:number){    //problem trading action will be delay   it will be done only the tradingCart accept time problem
+async stockTrading(user_id:number,stock_symbol:string,is_buy:Boolean,price:number,shares:number){    //problem trading action will be delay   it will be done only the tradingCart accept time problem
     this.knex.transaction(async (trx)=>{
-        const newTransactionID=await trx.insert({     //adding trading record
+        const newTransactionID=await trx.insert({    
             user_id:user_id,
             stock_symbol:stock_symbol,
-            isBuy:isBuy,
+            is_buy:is_buy,
             price:price,
-            shares:shares,
-            portfolio_id:portfolio_id,   //should be check if there are portfolio or not
-                                         //if yes,update share if no,insert a new portfolio
+            shares:shares,   
         }).into('trade').returning('id')
-         const OriginalAccountBalance=await userService.getAccountBalance(user_id)[0]  //maybe incorrect by trx                        //update the balance
-         const NewAccountBalance=isBuy?OriginalAccountBalance-(price*shares):OriginalAccountBalance+(price*shares);
+         const OriginalAccountBalance=await trx.select('cash_in_hand').from('users').where('id',user_id)[0];  
+         const NewAccountBalance=is_buy?OriginalAccountBalance-(price*shares):OriginalAccountBalance+(price*shares);
             await trx('users').update({
                 cash_in_hand:NewAccountBalance,
             }).where('id',user_id)
-
+const checkPortfolio=await trx.select('*').from('portfolio').where('id',user_id).where('stock_symbol',stock_symbol)
+if(checkPortfolio.length===0){
+       await trx.insert({  
+        user_id:user_id,
+        stock_symbol:stock_symbol,
+        shares:is_buy?shares:-shares,
+    }).into('portfolio')
+}else{
+    const OriginalShares=await trx.select('shares').from('users').where('id',user_id).where('stock_symbol',stock_symbol)[0]; //maybe incorrect by trx                        //update the balance
+         const NewShares=is_buy?OriginalShares+shares:OriginalShares-shares;
+            await trx('users').update({
+            shares:NewShares,
+            }).where('id',user_id)
+}
          return [newTransactionID[0],NewAccountBalance]
     })
 }
-async AddStockTradingInstruction(user_id:number,stock_symbol:string,isBuy:Boolean,price:number,shares:number,dateTime:any){ 
-    return await this.knex('multi_media').insert({
+async AddStockTradingInstruction(user_id:number,stock_symbol:string,is_buy:Boolean,price:number,shares:number,dateTime:Date){ 
+    return await this.knex('trade_cart').insert({
         user_id:user_id,
         stock_symbol:stock_symbol,
-        isBuy:isBuy,
+        is_buy:is_buy,
         price:price,
         shares:shares,
-        datetime:dateTime,
+        expiration_date:dateTime,
     }).returning('id')
 }
 async loadSearchingResult(stockSymbol:string|null,stockName:string|null){   //get the result time by time to draw a graph

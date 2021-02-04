@@ -19,6 +19,7 @@ export class UserService {
             username:user.username,
             email:user.email,
             password:hash,
+            cash_in_hand:100000,
         }).returning('id')
     }catch(e){
         throw new Error(e.toString())

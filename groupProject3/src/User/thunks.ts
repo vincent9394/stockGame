@@ -33,7 +33,7 @@ export function ToRegisterThunk(username:string,password:string,email:string,add
         method:"POST",
         body: formData});
         const result = await res.json();
-        if(result.isSuccess){ /*successfully add to database*/
+        if(result.result){ /*successfully add to database*/
             dispatch(ToRegisterSuccess(result.data.username));
         }else{
             dispatch(failed("TO_LOGIN_FAILED",result.msg))
