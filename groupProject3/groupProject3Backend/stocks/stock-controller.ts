@@ -50,7 +50,17 @@ export class StockController {
     }
     StockSearch = async (req: Request, res: Response) => {
         try {
-            const SearchingResult = await this.stockService.loadSearchingResult(req.body.stockID, req.body.stockName)
+            let SearchingResult;
+            if(req.body.SearchStockID){
+                SearchingResult = await this.stockService.loadSearchingResult(req.body.SearchStockID, null)
+            }else if(req.body.SearchName){
+                SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchName)
+            }else{
+                res.status(500).json({
+                    result:false,
+                    msg:"no searching Item",
+                })
+            }
             if(SearchingResult!=null){
                 res.status(200).json({
                     result:true,

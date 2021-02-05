@@ -15,12 +15,12 @@ export class UserService {
             throw new Error("username already used")
           }
         let hash = await hashPassword(user.password)
-        await this.knex('users').insert({
+        return await this.knex('users').insert({
             name:user.username,
             email:user.email,
             password:hash,
             cash_in_hand:100000,
-        }).returning('id')
+        }).returning('*')
     }catch(e){
         throw new Error(e.toString())
     }

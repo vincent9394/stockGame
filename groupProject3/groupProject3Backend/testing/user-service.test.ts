@@ -12,7 +12,7 @@ describe('User Service integrated with database',()=>{
         await knex.seed.run();
     });
     it('usersInfo can be successfully get by login',async()=>{
-        const user=await userService.getUser('Jack')
+        const user=await userService.getUserByUsername('Jack')
         expect(user).toHaveLength(1)
         expect(user[0].username).toEqual('Jack')
         expect(user[0].id).toEqual('1')
