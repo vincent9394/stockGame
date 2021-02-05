@@ -14,8 +14,6 @@ let tickets: string[] = [
     "TSLA",
 ];
 
-//https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AAPL&interval=1min&apikey=Z4FGWZ2COT1JBQ9K
-
 setInterval( async () =>{
     let datas = [];
     for (let ticket of tickets) {
