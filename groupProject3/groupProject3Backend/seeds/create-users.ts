@@ -2,67 +2,71 @@ import * as Knex from "knex";
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
-    await knex("users").del();
-    await knex("trade").del();
+    await knex("stock_history").del();
+    await knex("stock_current").del();
+    await knex("stock_info").del();
     await knex("portfolio").del();
+    await knex("watch_list").del();
+    await knex("trade").del();
+    await knex("trade_cart").del();
     await knex("transaction_type").del();
     await knex("transaction_status").del();
-    await knex("trade_cart").del();
+    await knex("users").del();
 
     // Inserts seed entries
-    await knex("users").insert([
+    let user_id = await knex("users").insert([
         { name: "alex", password: "alex", email: "alex@email.com", cash_in_hand: 100000 },
         { name: "gordon", password: "gordon", email: "gordon@email.com", cash_in_hand: 100000 },
         { name: "jason", password: "jason", email: "jason@email.com", cash_in_hand: 100000 },
         { name: "vincent", password: "vincent", email: "vincent@email.com", cash_in_hand: 100000 },
         { name: "bruce", password: "bruce", email: "bruce@email.com", cash_in_hand: 100000 },
         { name: "ricky", password: "ricky", email: "ricky@email.com", cash_in_hand: 100000 },
-    ]);
+    ]).returning('id');
 
-    // Inserts seed entries
     await knex("portfolio").insert([
-        {  user_id: 1, stock_symbol: "AAPL", shares: 100 },
-        {user_id: 2, stock_symbol: "GOOGL", shares: 200 },
-        { user_id: 3, stock_symbol: "TSLA", shares: 200 },
+        { user_id: user_id[0], stock_symbol: "AAPL", shares: 100 },
+        { user_id: user_id[1], stock_symbol: "GOOGL", shares: 200 },
+        { user_id: user_id[0], stock_symbol: "TSLA", shares: 200 },
     ]);
 
+    let transaction_type = await knex("transaction_type").insert([
+        { id: 1, type: "buy" },
+        { id: 2, type: "sell" },
+    ]).returning('id');
 
-    // Inserts seed entries
+    let transaction_status = await knex("transaction_status").insert([
+        { id: 1, type: "failed" },
+        { id: 2, type: "pending" },
+        { id: 3, type: "success" },
+    ]).returning('id');
+    transaction_status = transaction_status;
+
     await knex("trade").insert([
-        { user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 10.4, shares: 50, portfolio_id: 1, datetime: "2001-01-02 10:20" },
-        { user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 20.4, shares: 50, portfolio_id: 1, datetime: "2010-01-02 10:20" },
+        { user_id: user_id[0], stock_symbol: "AAPL", transaction_type_id: transaction_type[0], price: 100, shares: 100, created_at: "2021-01-30 10:00", updated_at: "2021-01-30 10:00" },
+        { user_id: user_id[1], stock_symbol: "GOOGL", transaction_type_id: transaction_type[1], price: 100, shares: 200, created_at: "2021-01-30 10:00", updated_at: "2021-01-30 10:00" },
+        { user_id: user_id[0], stock_symbol: "TSLA", transaction_type_id: transaction_type[0], price: 100, shares: 150, created_at: "2021-01-30 10:00", updated_at: "2021-01-30 10:00" },
     ]);
 
-    await knex("transation_type").insert([
-        { type: "buy" },
-        { type: "sell" },
-    ])
-
-    await knex("transation_status").insert([
-        { type: "failed" },
-        { type: "pending" },
-        { type: "success" },
-    ])
 
     await knex("trade_cart").insert([
-        { user_id: 1, stock_symbol: "AAPL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { user_id: 1, stock_symbol: "AAPL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: user_id[0], stock_symbol: "AAPL", transaction_type_id: 1, transaction_status_id: 1, price: 100, shares: 20, exp_datetime: "2021-01-31 23:59", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: user_id[0], stock_symbol: "AAPL", transaction_type_id: 1, transaction_status_id: 2, price: 120, shares: 30, exp_datetime: "2021-01-31 23:59", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: user_id[1], stock_symbol: "GOOGL", transaction_type_id: 2, transaction_status_id: 3, price: 100, shares: 20, exp_datetime: "2021-01-31 23:59", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: user_id[2], stock_symbol: "GOOGL", transaction_type_id: 2, transaction_status_id: 1, price: 120, shares: 30, exp_datetime: "2021-01-31 23:59", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
     ])
 
     await knex("watch_list").insert([
-        { user_id: 1, stock_symbol: "AAPL" },
-        { user_id: 1, stock_symbol: "GOOGL" },
-        { user_id: 1, stock_symbol: "TSLA" },
-        { user_id: 2, stock_symbol: "GOOGL" },
+        { user_id: user_id[0], stock_symbol: "AAPL" },
+        { user_id: user_id[0], stock_symbol: "GOOGL" },
+        { user_id: user_id[0], stock_symbol: "TSLA" },
+        { user_id: user_id[2], stock_symbol: "GOOGL" },
     ])
 
     await knex("portfolio").insert([
-        { user_id: 1, stock_symbol: "AAPL", shares: 200 },
-        { user_id: 1, stock_symbol: "GOOGL", shares: 300 },
-        { user_id: 1, stock_symbol: "TSLA", shares: 400 },
-        { user_id: 2, stock_symbol: "GOOGL", shares: 800 },
+        { user_id: user_id[0], stock_symbol: "AAPL", shares: 200 },
+        { user_id: user_id[0], stock_symbol: "GOOGL", shares: 300 },
+        { user_id: user_id[0], stock_symbol: "TSLA", shares: 400 },
+        { user_id: user_id[1], stock_symbol: "GOOGL", shares: 800 },
     ])
 
     await knex("stock_info").insert([
@@ -72,14 +76,26 @@ export async function seed(knex: Knex): Promise<void> {
     ])
 
     await knex("stock_history").insert([
-        { date: "2021-02-03 19:56:00", stock_symbol: "AAPL", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume: 12786 },
-        { date: "2021-02-03 19:57:00", stock_symbol: "AAPL", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume: 7184 },
-        { date: "2021-02-03 19:58:00", stock_symbol: "AAPL", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume: 9191 },
-        { date: "2021-02-03 19:59:00", stock_symbol: "AAPL", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume: 32716 },
-        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
+        { date: "2021-02-03 19:56:00", stock_symbol: "AAPL", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume_ltc: 12786, volume_usd: 1747206.9},
+        { date: "2021-02-03 19:57:00", stock_symbol: "AAPL", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume_ltc: 7184, volume_usd: 981334.4 },
+        { date: "2021-02-03 19:58:00", stock_symbol: "AAPL", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume_ltc: 9191, volume_usd: 1256317.79 },
+        { date: "2021-02-03 19:59:00", stock_symbol: "AAPL", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume_ltc: 32716, volume_usd: 4470641.4 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
+        { date: "2021-02-03 19:56:00", stock_symbol: "GOOGL", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume_ltc: 12786, volume_usd: 1747206.9},
+        { date: "2021-02-03 19:57:00", stock_symbol: "GOOGL", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume_ltc: 7184, volume_usd: 981334.4 },
+        { date: "2021-02-03 19:58:00", stock_symbol: "GOOGL", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume_ltc: 9191, volume_usd: 1256317.79 },
+        { date: "2021-02-03 19:59:00", stock_symbol: "GOOGL", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume_ltc: 32716, volume_usd: 4470641.4 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "GOOGL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
+        { date: "2021-02-03 19:56:00", stock_symbol: "TSLA", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume_ltc: 12786, volume_usd: 1747206.9},
+        { date: "2021-02-03 19:57:00", stock_symbol: "TSLA", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume_ltc: 7184, volume_usd: 981334.4 },
+        { date: "2021-02-03 19:58:00", stock_symbol: "TSLA", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume_ltc: 9191, volume_usd: 1256317.79 },
+        { date: "2021-02-03 19:59:00", stock_symbol: "TSLA", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume_ltc: 32716, volume_usd: 4470641.4 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "TSLA", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
     ])
 
-    await knex("stock_history").insert([
-        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
+    await knex("stock_current").insert([
+        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "GOOGL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "TSLA", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume_ltc: 26611, volume_usd: 3633998.16 },
     ])
 };
