@@ -1,7 +1,8 @@
 //import HomePageInfoSection1 from './HomePageInfoSection1'
-import { useEffect, useState } from 'react'
+//import { useEffect, useState } from 'react'
 import HomePageInfoSection2 from './HomePageInfoSection2'
 export function Homepage(){ 
+  /*
    const [count, setCount] = useState(0)
    useEffect(() => {
       const HomePageTimer=setTimeout(()=>{
@@ -11,7 +12,7 @@ export function Homepage(){
         clearInterval(HomePageTimer)
         console.log(count)
       }
-    },[count])    //get Market Info
+    },[count])    //get Market Info */
      return(
         <div>
            <HomePageInfoSection2/>

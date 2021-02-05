@@ -4,7 +4,10 @@ import { Modal,Button } from 'antd';
 import './OrderingModal.scss'
 type OrderingModalState={
   loading: boolean,
-  visible: boolean
+  visible: boolean,
+  PurchaseVolume:string,
+  PurchasePrice:string,
+  EffectPeriod:string,
 }
 type transactionAction={
  action:"BUY"|"SELL",
@@ -16,6 +19,9 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
   this.state = {
     loading: false,
     visible: false,
+    PurchaseVolume:'',
+    PurchasePrice:'',
+    EffectPeriod:'',
   };
   }
   showModal = () => {
@@ -26,7 +32,9 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
 
   handleOk = () => {
     this.setState({ loading: true });
-    console.log('this is submit')
+    console.log(this.state.PurchasePrice)
+    console.log(this.state.PurchaseVolume)
+    console.log(this.state.EffectPeriod)
     //fetch data at here
     //
     setTimeout(() => {
@@ -37,7 +45,21 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
   handleCancel = () => {
     this.setState({ visible: false });
   };
-
+  updatePurchaseVolume(evt:any) {
+    this.setState({
+      PurchaseVolume: evt.target.value
+    });
+  }
+  updatePurchasePrice(evt:any) {
+    this.setState({
+      PurchasePrice: evt.target.value
+    });
+  }
+  updateEffectPeriod(value:string) {
+    this.setState({
+      EffectPeriod:value,
+    });
+  }
   render() {
     const { visible, loading } = this.state;
     return (
@@ -65,21 +87,21 @@ export class OrderingModal extends React.Component< transactionAction,OrderingMo
           </div>
           <div className="InfoColumn">
           <div>Targeted Purchase Price</div>
-          <input type="text"></input>
+          <input type="text" value={this.state.PurchasePrice} onChange={evt => this.updatePurchasePrice(evt)}></input>
           </div>
           <div className="InfoColumn">
           <div>Targeted Purchase Volume</div>
-          <input type="text"></input>
+          <input type="text" value={this.state.PurchaseVolume} onChange={evt => this.updatePurchaseVolume(evt)}></input>
           </div>
           <div className="InfoColumn">
           <div>Order Effect Period</div>
           <div className="optionColumn">
             <div>
-          <input type="radio"  id="Today" name="Period" value="Today"/>
+          <input type="radio"  id="Today" name="Period" value={this.state.EffectPeriod} onChange={evt =>this.updateEffectPeriod("Today")}/>
           <label htmlFor="Today">Today{this.props.arrayIndex}</label>
           </div>
           <div>
-          <input type="radio"  id="Forever" name="Period" value="Forever"/>
+          <input type="radio"  id="Forever" name="Period" value={this.state.EffectPeriod} onChange={evt => this.updateEffectPeriod("Forever")}/>
           <label htmlFor="Forever">Forever{this.props.arrayIndex}</label>
           </div>
           <br/>

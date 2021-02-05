@@ -1,50 +1,77 @@
-import { CallHistoryMethodAction, push } from "connected-react-router";
+import { CallHistoryMethodAction} from "connected-react-router";
 import { Dispatch } from "react";
 import { failed, ILoginActions, ToLogInSuccess, ToLogOutSuccess, ToRegisterSuccess } from "./actions";
 
 const { REACT_APP_API_BACKEND_SERVER } = process.env
 
 export function ToLogInThunk(username:string,password:string){
-    return async (dispatch:Dispatch<ILoginActions|CallHistoryMethodAction>)=>{
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('password', password);
+    return async (dispatch:Dispatch<ILoginActions>)=>{
+        const formObject:any={};
+          formObject['username']=username;
+          formObject['password']=password;
         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/login`,{
             method:"POST",
-            body: formData});
+            headers: {
+                "Content-Type": "application/json"
+        
+            },
+            body: JSON.stringify(formObject)
+        });
         const result = await res.json();
-        if(res.status===200){                                           //return the username and password if exist
+        console.log(result)
+        if(result.result){                                           //return the username and password if exist
             localStorage.setItem('token',result.token);
-            dispatch(ToLogInSuccess(result.data.username));
-            dispatch(push('/'))
+            dispatch(ToLogInSuccess(username));
         }else{
             dispatch(failed("TO_LOGIN_FAILED",result.msg))
         }
     }
 }
-export function ToRegisterThunk(username:string,password:string,email:string,address:string,){
+export function ToRegisterThunk(username:string,password:string,email:string,){
     return async (dispatch:Dispatch<ILoginActions>)=>{
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('password', password);
-        formData.append('email', email);
-        formData.append('address', address);
+        
+        const formObject:any={};
+          formObject['username']=username;
+          formObject['password']=password;
+          formObject['email']=email;
         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/register`,{
-        method:"POST",
-        body: formData});
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+        
+            },
+            body: JSON.stringify(formObject)
+        });
         const result = await res.json();
+        console.log(result)
         if(result.result){ /*successfully add to database*/
-            dispatch(ToRegisterSuccess(result.data.username));
+            localStorage.setItem('token',result.token);
+            dispatch(ToRegisterSuccess(username));
         }else{
-            dispatch(failed("TO_LOGIN_FAILED",result.msg))
+            dispatch(failed("TO_REGISTER_FAILED",result.msg))
         }
     }
     
 }
 export function logout(){
-    return async (dispatch:Dispatch<ILoginActions|CallHistoryMethodAction>)=>{
+    return async (dispatch:Dispatch<ILoginActions>)=>{
         dispatch(ToLogOutSuccess());
         localStorage.removeItem('token');
-        dispatch(push('/'));
+    }
+}
+export function ToGetUserThunk(){
+    return async (dispatch:Dispatch<ILoginActions>)=>{
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/getTheUsername`,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const result = await res.json();
+        console.log(result.username)
+        if(result.result){                                           //return the username and password if exist
+            dispatch(ToLogInSuccess(result.username));
+        }else{
+            dispatch(failed("TO_LOGIN_FAILED",result.msg))
+        }
     }
 }

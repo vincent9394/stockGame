@@ -11,58 +11,58 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("users").insert([
-        { id: 1, name: "alex", password: "alex", email: "alex@email.com", cash_in_hand: 100000 },
-        { id: 2, name: "gordon", password: "gordon", email: "gordon@email.com", cash_in_hand: 100000 },
-        { id: 3, name: "jason", password: "jason", email: "jason@email.com", cash_in_hand: 100000 },
-        { id: 4, name: "vincent", password: "vincent", email: "vincent@email.com", cash_in_hand: 100000 },
-        { id: 5, name: "bruce", password: "bruce", email: "bruce@email.com", cash_in_hand: 100000 },
-        { id: 6, name: "ricky", password: "ricky", email: "ricky@email.com", cash_in_hand: 100000 },
+        { name: "alex", password: "alex", email: "alex@email.com", cash_in_hand: 100000 },
+        { name: "gordon", password: "gordon", email: "gordon@email.com", cash_in_hand: 100000 },
+        { name: "jason", password: "jason", email: "jason@email.com", cash_in_hand: 100000 },
+        { name: "vincent", password: "vincent", email: "vincent@email.com", cash_in_hand: 100000 },
+        { name: "bruce", password: "bruce", email: "bruce@email.com", cash_in_hand: 100000 },
+        { name: "ricky", password: "ricky", email: "ricky@email.com", cash_in_hand: 100000 },
     ]);
 
     // Inserts seed entries
     await knex("portfolio").insert([
-        { id: 1, user_id: 1, stock_symbol: "AAPL", shares: 100 },
-        { id: 2, user_id: 2, stock_symbol: "GOOGL", shares: 200 },
-        { id: 3, user_id: 3, stock_symbol: "TSLA", shares: 200 },
+        {  user_id: 1, stock_symbol: "AAPL", shares: 100 },
+        {user_id: 2, stock_symbol: "GOOGL", shares: 200 },
+        { user_id: 3, stock_symbol: "TSLA", shares: 200 },
     ]);
 
 
     // Inserts seed entries
     await knex("trade").insert([
-        { id: 1, user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 10.4, shares: 50, portfolio_id: 1, datetime: "2001-01-02 10:20" },
-        { id: 2, user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 20.4, shares: 50, portfolio_id: 1, datetime: "2010-01-02 10:20" },
+        { user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 10.4, shares: 50, portfolio_id: 1, datetime: "2001-01-02 10:20" },
+        { user_id: 1, stock_symbol: "AAPL", isBuy: "t", price: 20.4, shares: 50, portfolio_id: 1, datetime: "2010-01-02 10:20" },
     ]);
 
     await knex("transation_type").insert([
-        { id: 1, type: "buy" },
-        { id: 2, type: "sell" },
+        { type: "buy" },
+        { type: "sell" },
     ])
 
     await knex("transation_status").insert([
-        { id: 1, type: "failed" },
-        { id: 2, type: "pending" },
-        { id: 2, type: "success" },
+        { type: "failed" },
+        { type: "pending" },
+        { type: "success" },
     ])
 
     await knex("trade_cart").insert([
-        { id: 1, user_id: 1, stock_symbol: "AAPL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { id: 2, user_id: 1, stock_symbol: "AAPL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { id: 3, user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
-        { id: 4, user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: 1, stock_symbol: "AAPL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: 1, stock_symbol: "AAPL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 1, transaction_status_id: 1, price: 100, share: 20, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
+        { user_id: 2, stock_symbol: "GOOGL", transaction_type_id: 2, transaction_status_id: 2, price: 120, share: 30, exp_datetime: "2021-01-31", created_at: "2021-01-30 0:00", updated_at: "2021-01-30 0:00" },
     ])
 
     await knex("watch_list").insert([
-        { id: 1, user_id: 1, stock_symbol: "AAPL" },
-        { id: 2, user_id: 1, stock_symbol: "GOOGL" },
-        { id: 3, user_id: 1, stock_symbol: "TSLA" },
-        { id: 4, user_id: 2, stock_symbol: "GOOGL" },
+        { user_id: 1, stock_symbol: "AAPL" },
+        { user_id: 1, stock_symbol: "GOOGL" },
+        { user_id: 1, stock_symbol: "TSLA" },
+        { user_id: 2, stock_symbol: "GOOGL" },
     ])
 
     await knex("portfolio").insert([
-        { id: 1, user_id: 1, stock_symbol: "AAPL", shares: 200 },
-        { id: 2, user_id: 1, stock_symbol: "GOOGL", shares: 300 },
-        { id: 3, user_id: 1, stock_symbol: "TSLA", shares: 400 },
-        { id: 4, user_id: 2, stock_symbol: "GOOGL", shares: 800 },
+        { user_id: 1, stock_symbol: "AAPL", shares: 200 },
+        { user_id: 1, stock_symbol: "GOOGL", shares: 300 },
+        { user_id: 1, stock_symbol: "TSLA", shares: 400 },
+        { user_id: 2, stock_symbol: "GOOGL", shares: 800 },
     ])
 
     await knex("stock_info").insert([
@@ -72,14 +72,14 @@ export async function seed(knex: Knex): Promise<void> {
     ])
 
     await knex("stock_history").insert([
-        { id: 1, date: "2021-02-03 19:56:00", stock_symbol: "AAPL", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume: 12786 },
-        { id: 2, date: "2021-02-03 19:57:00", stock_symbol: "AAPL", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume: 7184 },
-        { id: 3, date: "2021-02-03 19:58:00", stock_symbol: "AAPL", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume: 9191 },
-        { id: 4, date: "2021-02-03 19:59:00", stock_symbol: "AAPL", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume: 32716 },
-        { id: 5, date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
+        { date: "2021-02-03 19:56:00", stock_symbol: "AAPL", open: 136.6000, high: 136.6500, low: 136.5500, close: 136.6500, volume: 12786 },
+        { date: "2021-02-03 19:57:00", stock_symbol: "AAPL", open: 136.5800, high: 136.6500, low: 136.5600, close: 136.6000, volume: 7184 },
+        { date: "2021-02-03 19:58:00", stock_symbol: "AAPL", open: 136.6500, high: 136.7000, low: 136.6500, close: 136.6900, volume: 9191 },
+        { date: "2021-02-03 19:59:00", stock_symbol: "AAPL", open: 136.6899, high: 136.7000, low: 136.6000, close: 136.6500, volume: 32716 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
     ])
 
     await knex("stock_history").insert([
-        { id: 1, date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
+        { date: "2021-02-03 20:00:00", stock_symbol: "AAPL", open: 136.6500, high: 136.6500, low: 136.5500, close: 136.5600, volume: 26611 },
     ])
 };

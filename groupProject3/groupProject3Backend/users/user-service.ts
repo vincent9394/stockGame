@@ -10,13 +10,13 @@ export class UserService {
         if (duplicatedEmail.length > 0) {
             throw new Error("Email already registered")
           }
-          let duplicatedUsername = await this.knex.select('id').from('users').where('username',user.username)
+          let duplicatedUsername = await this.knex.select('id').from('users').where('name',user.username)
           if (duplicatedUsername.length> 0) {
             throw new Error("username already used")
           }
         let hash = await hashPassword(user.password)
         await this.knex('users').insert({
-            username:user.username,
+            name:user.username,
             email:user.email,
             password:hash,
             cash_in_hand:100000,
@@ -25,8 +25,11 @@ export class UserService {
         throw new Error(e.toString())
     }
     }
-    async getUser(username:string){ //sampleService for Login
-        return await this.knex.select('*').from('users').where('username',username);
+    async getUser(id:number){ //sampleService for Login
+        return await this.knex.select('*').from('users').where('id',id);
+    }
+    async getUserByUsername(username:string){ //sampleService for Login
+        return await this.knex.select('*').from('users').where('name',username);
     }
    
     async getAccountBalance(userID:number){ //maybe trx problem

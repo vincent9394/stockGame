@@ -9,6 +9,7 @@ export function createRoute(userController: UserController,stockController:Stock
     routes.get('/getAccountBalance',isLoggedIn,userController.showUserAccountBalance)
     routes.post('/search',stockController.StockSearch)
     routes.get('/selfProfilePage',isLoggedIn)  //not finish
+    routes.get('/getTheUsername',isLoggedIn,userController.getTheUser)
     routes.get('/homepageInfo',stockController.ShowStockInfo)
     routes.post('/changeForWatchList',isLoggedIn,stockController.ActionToWatchList)
     routes.post('/addStockTradingInstruction',isLoggedIn,stockController.writeStockTransactionInstruction)
