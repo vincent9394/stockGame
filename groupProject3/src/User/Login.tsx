@@ -6,6 +6,7 @@ import { replace } from 'connected-react-router';
 import './UserForm.scss'
 import { Alert } from 'antd';
 import 'antd/dist/antd.css';
+import { ToLogInThunk } from './thunks';
 //import { ToLogInThunk } from './Login/thunks';
 interface ILoginForm{
     username:string,
@@ -21,8 +22,7 @@ const Login:React.FC=()=> {
     const dispatch=useDispatch();
     const onSubmit =(data:ILoginForm)=>{
        // dispatch(ToLogInThunk(data.username,data.password));
-        console.log(data.username)  //suppose to check the username & password
-        console.log(data.password)
+        dispatch(ToLogInThunk(data.username,data.password))
         dispatch(replace('/homepage'))
         // You can do whatever you want in the data here.
     }

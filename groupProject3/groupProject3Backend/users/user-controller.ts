@@ -16,17 +16,18 @@ export class UserController {
                 return;
             }
             const { username, password } = req.body;
-            const user = (await this.userService.getUser(username))[0];
+            const user = (await this.userService.getUserByUsername(username))[0];
             if (!user || !(await checkPassword(password, user.password))) {
                 res.status(402).json({ msg: "Wrong Username/Password" });
                 return;
             }
             const payload = {
                 id: user.id,
-                username: user.username
+                username: user.name
             };
             const token = jwtSimple.encode(payload, jwt.jwtSecret);
             res.status(200).json({
+                result:true,
                 token: token
             });
         } catch (e) {
@@ -38,7 +39,7 @@ export class UserController {
     signUp = async (req: Request, res: Response) => {
         let { username, email, password } = req.body
         if (!username || !email || !password) {
-            res.status(401).json({ msg: "Please fill in+all blanks" });
+            res.status(401).json({ msg: "Please fill in all blanks" });
             return
         }
         if ((isEmail(email)) === false) {
@@ -53,7 +54,8 @@ export class UserController {
             };
             const token = jwtSimple.encode(payload, jwt.jwtSecret);
             res.status(200).json({
-                token: token
+                result:true,
+                token: token,
             });
         } catch (e) {
             res.status(500).json({ msg: e.toString() })
@@ -70,5 +72,16 @@ export class UserController {
         res.status(401).json({result:false,msg:"Unauthorized"})
     }
     }
-
+    getTheUser = async (req: Request, res: Response) => {
+        if(req.user){
+            const user=await this.userService.getUser(req.user.id)
+            console.log(user)
+         res.status(200).json({
+             result:true,
+             username:user[0].name,
+         })
+     }else{
+         res.status(401).json({result:false,msg:"Unauthorized"})
+     }
+     }
 }

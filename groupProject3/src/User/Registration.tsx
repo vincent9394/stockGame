@@ -2,10 +2,12 @@ import React from 'react';
 import { Form, Label, Input } from 'reactstrap';
 import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { ToLogInSuccess } from './actions';
-import { replace } from 'connected-react-router';
+/*import { ToLogInSuccess } from './actions';
+import { replace } from 'connected-react-router';*/
 import './UserForm.scss'
 import { Alert } from 'antd';
+import { ToRegisterThunk } from './thunks';
+import { push } from 'connected-react-router';
 interface IRegistrationForm{
     username:string,
     password:string,
@@ -23,8 +25,9 @@ const Registration:React.FC=() => {
     const onSubmit = (data:IRegistrationForm)=>{
         //compare with database  if success,add data to database
         // You can do whatever you want in the data here.
-        dispatch(ToLogInSuccess(data.username));
-        dispatch(replace('/homepage'))
+        dispatch(ToRegisterThunk(data.username,data.password,data.email))
+        dispatch(push('/homepage'))
+        //dispatch(ToLogInSuccess(data.username));
 
     }
     return (
