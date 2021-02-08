@@ -12,7 +12,29 @@ import SampleNavBar from './SampleNavBar';
 import InstructionHistoryPage from './InstructionHistoryPage';
 import React from 'react';
 import { PrivateRoute } from './PrivateRoute';
+import Heatmap from './Heatmap';
 //import { useEffect } from 'react';
+
+const start=new Date();
+
+function mouseXY(e:React.MouseEvent<HTMLDivElement, MouseEvent>){
+     
+  // we need preventDefault for the touchmove
+  e.preventDefault();
+  var x = e.screenX;
+  var y = e.screenY;
+  let current=new Date()
+  let time = (current.getTime()-start.getTime())/1000;
+  let  component = "??"
+  // if (e.touches) {
+  //     x = e.touches[0].pageX;
+  //     y = e.touches[0].pageY;
+  // }
+  // console.log(" x: " + x + " y: " + y + "  time: " + mouseTime);
+  console.log("Begin Date Time "+ " User "+ " x: " + x + " y: " + y + "  time: "+(time) + " component: " + component);
+  // heatmap.addData({ x: x, y: y, value: 1 });
+}
+
 function App() {    //1.homepage:landingPage->show basic market Info
                     //Navbar--->login/logout,search,switch page
                     //2.SelfProfile--->Analyse player profit and loss by chart,show all of the history action of player
@@ -30,6 +52,9 @@ function App() {    //1.homepage:landingPage->show basic market Info
                       }
                     },[])*/
   return (
+    <div onMouseMove={(e)=>{
+      mouseXY(e);
+  }}>
     <>
     <SampleNavBar/>
     <Switch>
@@ -42,10 +67,14 @@ function App() {    //1.homepage:landingPage->show basic market Info
     <Route path="/login"  component={Login} />
     <Route path="/register"  component={Registration} />
     <Route path="/showTheStockBySortingPage"  component={ShowTheStockBySortingPage} />
+    <Route path="/heatmap"  component={ Heatmap } />
     <Route component={NotFound} />
     </Switch>
   </>
+  </div>
   );
 }
+
+
 
 export default App;
