@@ -17,7 +17,7 @@ then you can just simply type run step 4 everywhere
 ```
 psql --username=postgres
 ```
-
+psql -U "User_Name" -W -h localhost "DB_Name"
 # Knex 3 steps:
 
 yarn knex migrate:latest

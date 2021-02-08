@@ -1,21 +1,21 @@
-// kafka setup
-module.exports = {
-    kafka: {
-        TOPIC: 'mouseInfo',
-        BROKERS: ['localhost:9092'],
-        GROUPID: 'bills-consumer-group',
-        CLIENTID: 'sample-kafka-client'
-    }
-}
+// // kafka setup
+// module.exports = {
+//     kafka: {
+//         TOPIC: 'mouseInfo',
+//         BROKERS: ['localhost:9092'],
+//         GROUPID: 'bills-consumer-group',
+//         CLIENTID: 'sample-kafka-client'
+//     }
+// }
 
-// kafka producer
-const client = new Kafka({ brokers: config.kafka.BROKERS, clientId: config.kafka.CLIENTID })
-const topic = config.kafka.TOPIC
-const producer = client.producer()
+// // kafka producer
+// const client = new Kafka({ brokers: config.kafka.BROKERS, clientId: config.kafka.CLIENTID })
+// const topic = config.kafka.TOPIC
+// const producer = client.producer()
 
 
 
-timeStart = Date.now()
+var timeStart = Date.now()
 timeStartFormat = moment(timeStart).format("YYYY-MM-DD h:mm:ss")
 console.log(timeStartFormat)
 var mouseTime;
@@ -45,13 +45,12 @@ function startTimer() {
 startTimer();
 
 
-
 window.onload = function() {
     // create a heatmap instance
     var heatmap = h337.create({
         container: document.getElementById('heatmapContainer'),
         maxOpacity: .6,
-        radius: 40,
+        radius: 50,
         blur: .90,
         // backgroundColor with alpha so you can see through it
         backgroundColor: 'rgba(0, 0, 58, 0.96)'
@@ -67,29 +66,9 @@ window.onload = function() {
             x = e.touches[0].pageX;
             y = e.touches[0].pageY;
         }
-
+        console.log(" x: " + x + " y: " + y + "  time: " + mouseTime)
         heatmap.addData({ x: x, y: y, value: 1 });
 
-        console.log(" x: " + x + " y: " + y + "  time: " + mouseTime)
-        mouseInfo = `${x}, ${y}, ${mouseTime}`
-
-        // sending message to kafka  
-        let i = 0
-        const sendMessage = async(producer, topic) => {
-            console.log("sendMessage")
-            await producer.connect()
-            setInterval(function() {
-                payloads = {
-                    topic: topic,
-                    messages: [
-                        { key: 'mouse-location(x,y,time)', value: JSON.stringify(mouseInfo) }
-                    ]
-                }
-                console.log('payloads=', payloads)
-                producer.send(payloads)
-            }, 1000)
-        }
-        sendMessage(producer, topic)
     };
 
     heatmapContainer.onclick = function(e) {
@@ -97,8 +76,5 @@ window.onload = function() {
         var y = e.layerY;
         heatmap.addData({ x: x, y: y, value: 1 });
     };
-
-
-
 
 };
