@@ -1,6 +1,6 @@
 import React from "react";
 import CanvasJSReact from './canvasjs.stock.react';
-import { IRootState } from "./store";
+//import { IRootState } from "./store";
 //var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
@@ -11,24 +11,24 @@ var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
     isLoaded: boolean,
  }
 
- type graphType={
+ /*type graphType={
    content:{date:any,stock_symbol:any,open:any,high:any,low:any,close:any,volume_ltc:any,volume_usd:any}[]|null;
- }
-class Graph extends React.Component<graphType,GraphState> {
-  constructor(props:graphType) {
+ }*/
+class Graph extends React.Component<{},GraphState> { //graphType
+  constructor(props:any) { //:graphType
     super(props);
     this.state = { dataPoints1: [], dataPoints2: [], dataPoints3: [], isLoaded: false };
   }
  
   componentDidMount() {
     //Reference: https://reactjs.org/docs/faq-ajax.html#example-using-ajax-results-to-set-local-state
-    /*fetch("https://canvasjs.com/data/docs/ltcusd2018.json") // getting data by json format (data format below)
+    fetch("https://canvasjs.com/data/docs/ltcusd2018.json") // getting data by json format (data format below)
       .then(res => res.json())             // {"date": "2018-01-01","open": 227.17,"high": 232.29,"low": 217.66,
       .then(                               //"close": 225.22,"volume_ltc": 246251.23,"volume_usd": 55290393.45}
-        (data) => {*/
-          console.log(this.props.content)
+        (data) => {
+         /* console.log(this.props.content)
           if(this.props.content!=null){
-          const data=this.props.content;
+          const data=this.props.content;*/
           var dps1 = [], dps2 = [], dps3 = [];
           for (var i = 0; i < data.length; i++) {
             dps1.push({
@@ -49,10 +49,10 @@ class Graph extends React.Component<graphType,GraphState> {
             dataPoints2: dps2,
             dataPoints3: dps3
           });
-       // }
-    //  )
-
         }
+     )
+
+      //  } 
   }
  
   render() {
