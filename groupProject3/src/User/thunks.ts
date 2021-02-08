@@ -1,4 +1,3 @@
-import { CallHistoryMethodAction} from "connected-react-router";
 import { Dispatch } from "react";
 import { failed, ILoginActions, ToLogInSuccess, ToLogOutSuccess, ToRegisterSuccess } from "./actions";
 
@@ -18,10 +17,9 @@ export function ToLogInThunk(username:string,password:string){
             body: JSON.stringify(formObject)
         });
         const result = await res.json();
-        console.log(result)
         if(result.result){                                           //return the username and password if exist
             localStorage.setItem('token',result.token);
-            dispatch(ToLogInSuccess(username));
+            dispatch(ToLogInSuccess(username,result.AccountBalance));
         }else{
             dispatch(failed("TO_LOGIN_FAILED",result.msg))
         }
@@ -46,7 +44,7 @@ export function ToRegisterThunk(username:string,password:string,email:string,){
         console.log(result)
         if(result.result){ /*successfully add to database*/
             localStorage.setItem('token',result.token);
-            dispatch(ToRegisterSuccess(username));
+            dispatch(ToRegisterSuccess(username,result.AccountBalance));
         }else{
             dispatch(failed("TO_REGISTER_FAILED",result.msg))
         }
@@ -67,9 +65,8 @@ export function ToGetUserThunk(){
             }
         });
         const result = await res.json();
-        console.log(result.username)
         if(result.result){                                           //return the username and password if exist
-            dispatch(ToLogInSuccess(result.username));
+            dispatch(ToLogInSuccess(result.username,result.AccountBalance));
         }else{
             dispatch(failed("TO_LOGIN_FAILED",result.msg))
         }

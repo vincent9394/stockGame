@@ -1,12 +1,13 @@
 import React from 'react';
 import { Form, Label, Input } from 'reactstrap';
 import {useForm} from 'react-hook-form';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { replace } from 'connected-react-router';
 import './UserForm.scss'
 import { Alert } from 'antd';
 import 'antd/dist/antd.css';
 import { ToLogInThunk } from './thunks';
+import { IRootState } from '../store';
 //import { ToLogInThunk } from './Login/thunks';
 interface ILoginForm{
     username:string,
@@ -19,11 +20,14 @@ const Login:React.FC=()=> {
             password:"",
         }
     });
+    const isLoggedIn=useSelector((state:IRootState)=>state.login.isLoggedIn);
     const dispatch=useDispatch();
     const onSubmit =(data:ILoginForm)=>{
        // dispatch(ToLogInThunk(data.username,data.password));
         dispatch(ToLogInThunk(data.username,data.password))
+        if(isLoggedIn){
         dispatch(replace('/homepage'))
+        }
         // You can do whatever you want in the data here.
     }
 

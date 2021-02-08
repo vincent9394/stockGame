@@ -2,7 +2,7 @@ import * as Knex from 'knex';
 export class StockService{
     constructor(private knex:Knex){}
 async stockTrading(user_id:number,stock_symbol:string,is_buy:Boolean,price:number,shares:number){    //problem trading action will be delay   it will be done only the tradingCart accept time problem
-    this.knex.transaction(async (trx)=>{
+    return await this.knex.transaction(async (trx)=>{
         const newTransactionID=await trx.insert({    
             user_id:user_id,
             stock_symbol:stock_symbol,
@@ -43,12 +43,12 @@ async AddStockTradingInstruction(user_id:number,stock_symbol:string,is_buy:Boole
     }).returning('id')
 }
 async loadSearchingResult(stockSymbol:string|null,stockName:string|null){   //get the result time by time to draw a graph
-    if (stockSymbol!=null){
-        return await this.knex.select('*').from('stock').where('stock_symbol',stockSymbol);
-    }else if(stockName!=null){
-        return await this.knex.select('*').from('stock').where('stockName',stockName);
+    if (stockSymbol!==null){
+        return await this.knex.select('*').from('stock_history').where('stock_symbol',stockSymbol);
+    }else if(stockName!==null){
+        return await this.knex.select('*').from('stock_history').where('stockName',stockName);
     }else{
-        return null
+        return []
     }
 }
 async loadAllStockInfo(){   //show all basic info with latest  ,problem

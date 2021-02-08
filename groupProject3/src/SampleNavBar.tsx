@@ -13,9 +13,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
 import SearchBox from './SearchBox';
-import { ToLogOutSuccess } from './User/actions';
 import { push, replace } from 'connected-react-router';
-import { ToGetUserThunk } from './User/thunks';
+import { logout, ToGetUserThunk } from './User/thunks';
 
 const SampleNavBar:React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +23,7 @@ const SampleNavBar:React.FC = () => {
   const dispatch=useDispatch();
   const isLoggedIn=useSelector((state:IRootState)=>state.login.isLoggedIn);
   const username=useSelector((state:IRootState)=>state.login.username);
+  const accountBalance=useSelector((state:IRootState)=>state.login.accountBalance);
 useEffect(() => {
   if(isLoggedIn){
     dispatch(ToGetUserThunk())
@@ -50,6 +50,7 @@ useEffect(() => {
               <NavLink onClick={()=>dispatch(push('/instructionHistory'))}>History</NavLink>
             </NavItem>
             {isLoggedIn && username &&<p>Hello,{username}</p>}
+            {isLoggedIn && accountBalance &&<p>Hello,{accountBalance}</p>}
             {!isLoggedIn &&
             <NavItem>
               <NavLink onClick={()=>dispatch(push("/register"))}>Register</NavLink>
@@ -61,7 +62,7 @@ useEffect(() => {
             {isLoggedIn && 
             <NavItem>
               <NavLink className="Logout" onClick={()=>{
-                dispatch(ToLogOutSuccess())
+                dispatch(logout())
                 dispatch(replace('/'))
               }}>LogOut</NavLink>
             </NavItem>}

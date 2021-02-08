@@ -21,29 +21,29 @@ describe('stockService integrated with database',()=>{
 
     })
     it('can load SearchResult by stockSymbol',async()=>{
-        const loadResult=stockService.loadSearchingResult('AAPL',null)
-        expect(loadResult).toHaveLength(1)
+        const loadResult=await stockService.loadSearchingResult('AAPL',null)
+        expect(loadResult).toHaveLength(5)
         expect(loadResult[0].stock_symbol).toBe('AAPL')
 
     })
     it('can load SearchResult by stockName',async()=>{
-        const loadResult=stockService.loadSearchingResult(null,"APPLE")
+        const loadResult=await stockService.loadSearchingResult(null,"APPLE")
         expect(loadResult).toHaveLength(1)
         expect(loadResult[0].stockName).toBe("APPLE")
 
     })
     it("can't load SearchResult by IncorrectStockName",async()=>{
-        const loadResult=stockService.loadSearchingResult(null,"APPLED")
+        const loadResult=await stockService.loadSearchingResult(null,"APPLED")
         expect(loadResult).toHaveLength(0)
 
     })
     it("can't load SearchResult by IncorrectStockSymbol",async()=>{
-        const loadResult=stockService.loadSearchingResult('AAPLT',null)
+        const loadResult=await stockService.loadSearchingResult('AAPLT',null)
         expect(loadResult).toHaveLength(0)
 
     })
     it("can't load SearchResult if there are no name and no symbol",async()=>{
-        const loadResult=stockService.loadSearchingResult(null,null)
+        const loadResult=await stockService.loadSearchingResult(null,null)
         expect(loadResult).toBe(null)
 
     })
@@ -53,6 +53,8 @@ describe('stockService integrated with database',()=>{
         expect(loadStockInfo).toHaveLength(5)
 
     })
-
+    afterAll( ()=>{
+        knex.destroy();
+    })
 
 })

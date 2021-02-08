@@ -64,7 +64,7 @@ export class StockController {
             if(SearchingResult!=null){
                 res.status(200).json({
                     result:true,
-                    content:SearchingResult[0],
+                    content:SearchingResult,
                 })
             }else{
                 res.status(400).json({result:false})

@@ -16,6 +16,7 @@ describe('StockReducers',()=>{
             AllStockDayMinimum:[1.0],
             SearchStockID:null,
             SearchStockName:null,
+            SearchContent:null,
         }
     })
 
@@ -45,7 +46,7 @@ describe('StockReducers',()=>{
         });
     });
     it("should load specific stock Info correctly",()=>{
-        const finalState = StockReducers( initialState, ToLoadSpecificStockSuccess('34.usa','Winning'));
+        const finalState = StockReducers( initialState, ToLoadSpecificStockSuccess('34.usa','Winning',[{}]));
         expect(finalState).toEqual({
             SearchStockID:'34.usa',
             SearchStockName:'Winning',

@@ -10,6 +10,8 @@ import OrderingPage from './OrderingPage';
 import ShowTheStockBySortingPage from './ShowTheStockBySortingPage';
 import SampleNavBar from './SampleNavBar';
 import InstructionHistoryPage from './InstructionHistoryPage';
+import React from 'react';
+import { PrivateRoute } from './PrivateRoute';
 //import { useEffect } from 'react';
 function App() {    //1.homepage:landingPage->show basic market Info
                     //Navbar--->login/logout,search,switch page
@@ -33,10 +35,10 @@ function App() {    //1.homepage:landingPage->show basic market Info
     <Switch>
     <Route path="/" exact={true} ><Redirect to='/homepage' /></Route>
     <Route path="/homepage" component={Homepage} />
-    <Route path="/ordering" component={OrderingPage} />
+    <PrivateRoute path="/ordering" component={OrderingPage} />
     <Route path="/showStockPage" component={ShowStockPage} />
-    <Route path="/selfProfilePage" component={SelfProfilePage} />
-    <Route path="/instructionHistory" component={InstructionHistoryPage} />
+    <PrivateRoute path="/selfProfilePage" component={SelfProfilePage} />
+    <PrivateRoute path="/instructionHistory" component={InstructionHistoryPage} />
     <Route path="/login"  component={Login} />
     <Route path="/register"  component={Registration} />
     <Route path="/showTheStockBySortingPage"  component={ShowTheStockBySortingPage} />

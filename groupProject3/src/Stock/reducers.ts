@@ -10,6 +10,7 @@ const initialState = {
     AllStockDayMinimum:[],
     SearchStockID:null,
     SearchStockName:null,
+    SearchContent:null,
 }
 export const StockReducers = (state: IStockState = initialState, action: IStockActions) => {
     const newStockIDArray = state.stockIDArray.slice()
@@ -48,6 +49,7 @@ export const StockReducers = (state: IStockState = initialState, action: IStockA
                 ...state,
                 SearchStockID:action.SearchStockID,
                 SearchStockName:action.SearchStockName,
+                SearchContent:action.SearchContent,
             }
         default:
             return state

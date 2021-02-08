@@ -3,7 +3,6 @@ import { UserService } from './user-service';
 import jwtSimple from 'jwt-simple';
 import jwt from './jwt';
 import { checkPassword, isEmail } from './hash';
-//import fetch from 'node-fetch';
 
 export class UserController {
 

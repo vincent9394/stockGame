@@ -30,7 +30,10 @@ describe("User Controller",()=>{
     }
        await userController.logIn(req,res)
        expect(res.status).toBeCalledWith(401)
-       expect(res.json).toBeCalledWith({msg:"Wrong Username/Password"})
+       expect(res.json).toBeCalledWith({ 
+        result:false,
+        msg: "Wrong Username/Password" 
+    })
 
     })
     it('will return json  if there are no password during login', async () => {
@@ -41,15 +44,18 @@ describe("User Controller",()=>{
     getUserSpy.mockReturnValue([{ id:1,username: 'Jack',password:'123' }] as any)
         await userController.logIn(req,res)
        expect(res.status).toBeCalledWith(401)
-       expect(res.json).toBeCalledWith({msg:"Wrong Username/Password"})
+       expect(res.json).toBeCalledWith({ 
+        result:false,
+        msg: "Wrong Username/Password" 
+    })
     })
     it('can handle login successfully', async () => {
         req.body={
             username:'Jack',
             password:'123'
             }
-            const getUserSpy = jest.spyOn(userService, 'getUser')
-            getUserSpy.mockReturnValue([{ id:1,username: 'Jack',password:'123'}]as any);
+            const getUserSpy = jest.spyOn(userService, 'getUserByUsername')
+            getUserSpy.mockReturnValue([{ id:1,name: 'Jack',password:'123'}]as any);
             (checkPassword as jest.Mock).mockReturnValue(true)
     await userController.logIn(req,res)              //can check with token and hash
     expect(res.status).toBeCalledWith(200)
@@ -60,7 +66,7 @@ describe("User Controller",()=>{
     it('can show userAccount Balance', async () => {
         req.user={
             id:1,
-            username:'Jack',
+            name:'Jack',
             password:'123',
     }
     const getAccountBalanceSpy = jest.spyOn(userService, 'getAccountBalance')

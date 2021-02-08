@@ -22,11 +22,12 @@ export function ToLoadAllStockSuccess(AllStockID:string[], AllStockDayMaximum:nu
         AllStockDayMinimum:AllStockDayMinimum,
     }
 }
-export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null){  
+export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null,content:{}[]){  
     return{                       //can add more para if needed more info of stocks
         type:"LOAD_SPECIFIC_STOCK"as"LOAD_SPECIFIC_STOCK",
         SearchStockID:SearchStockID,
-        SearchStockName:SearchStockName,  //suppose to have Search Stock Info
+        SearchStockName:SearchStockName,
+        SearchContent:content,
     }
 }
 

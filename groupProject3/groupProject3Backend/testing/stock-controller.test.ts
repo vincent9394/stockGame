@@ -81,8 +81,8 @@ expect(res.json).toBeCalledWith({result:true})
 
     it('should handle stock search by stockID correctly', async () => {
         req.body={
-           stockID:'1123.TW',
-           stockName:null,
+            SearchStockID:'1123.TW',
+            SearchName:null,
         }
         const StockSearchSpy = jest.spyOn(stockService, 'loadSearchingResult')
         StockSearchSpy.mockReturnValue([{id:2,stock_symbol:'1123.TW',name:"abcTW",open:1.2,close:1.4}] as any)
@@ -93,14 +93,14 @@ expect(stockService.loadSearchingResult).toBeCalledWith("1123.TW",null)
 expect(res.status).toBeCalledWith(200)
 expect(res.json).toBeCalledWith({
     result:true,
-    content:{id:2,stock_symbol:'1123.TW',name:"abcTW",open:1.2,close:1.4},
+    content:[{id:2,stock_symbol:'1123.TW',name:"abcTW",open:1.2,close:1.4}],
 })
     })
 
     it('should handle stock search by stockName correctly', async () => {
         req.body={
-           stockID:null,
-           stockName:'AAPL',
+            SearchStockID:null,
+           SearchName:'AAPL',
         }
         const StockSearchSpy = jest.spyOn(stockService, 'loadSearchingResult')
         StockSearchSpy.mockReturnValue([{id:2,stock_symbol:'1234',name:"AAPL",open:1.2,close:1.4}] as any)
@@ -111,7 +111,7 @@ expect(stockService.loadSearchingResult).toBeCalledWith(null,"AAPL")
 expect(res.status).toBeCalledWith(200)
 expect(res.json).toBeCalledWith({
     result:true,
-    content:{id:2,stock_symbol:'1234',name:"AAPL",open:1.2,close:1.4},
+    content:[{id:2,stock_symbol:'1234',name:"AAPL",open:1.2,close:1.4}],
 })
     })
 

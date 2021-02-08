@@ -1,8 +1,9 @@
-export function ToLogInSuccess(username:string){
+export function ToLogInSuccess(username:string,accountBalance:number){
     return{
         type:"LOGIN"as"LOGIN",
         isLoggedIn:true,
         username,
+        accountBalance,
     }
 }
 export function ToLogOutSuccess(){
@@ -10,13 +11,15 @@ export function ToLogOutSuccess(){
         type:"LOGOUT"as"LOGOUT",
         isLoggedIn:false,
         username:null,
+        accountBalance:null,
     }
 }
-export function ToRegisterSuccess(username:string){
+export function ToRegisterSuccess(username:string,accountBalance:number){
     return{
         type:"REGISTER"as"REGISTER",
         isLoggedIn:true,
         username,
+        accountBalance,
     }
 }
 type FAILED="TO_LOGIN_FAILED"|"TO_LOGOUT_FAILED"|"TO_REGISTER_FAILED"

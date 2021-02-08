@@ -12,30 +12,26 @@ describe('User Service integrated with database',()=>{
         await knex.seed.run();
     });
     it('usersInfo can be successfully get by login',async()=>{
-        const user=await userService.getUserByUsername('Jack')
+        const user=await userService.getUserByUsername('alex')
         expect(user).toHaveLength(1)
-        expect(user[0].username).toEqual('Jack')
-        expect(user[0].id).toEqual('1')
+        expect(user[0].name).toEqual('alex')
+        expect(user[0].id).toEqual(1)
     })
     it('users can be successfully SignUp',async()=>{
-        const newUserID=await userService.signUp({ username:'Jack',email:'abc@gmail.com',password:'334421'})
-        expect(newUserID).toHaveLength(1)
-        expect(newUserID[0]).toBe(1)
-        const getUserInfo=await knex.select('*').from('users').where('id',newUserID[0])
-        expect(getUserInfo).toHaveLength(1)
-        expect(getUserInfo[0].id).toBe(1)
-        expect(getUserInfo[0].username).toBe('Jack')
-        expect(getUserInfo[0].address).toBe('Mong Kok')
-        expect(getUserInfo[0].email).toBe('abc@gmail.com')
+        const newUser=await userService.signUp({ username:'Jack',email:'abc@gmail.com',password:'334421'})
+        expect(newUser).toHaveLength(1)
+        expect(newUser[0].id).toBe(7)
+        expect(newUser[0].name).toBe('Jack')
+        expect(newUser[0].email).toBe('abc@gmail.com')
     })
     it("users can't register with duplicatedEmail",async()=>{
-        const newUserID=await userService.signUp({ username:'Jack',email:'abc@gmail.com',password:'334421'})
-        expect(newUserID).toThrowError("Email already registered")
+       // const user=await userService.signUp({ username:'Jack',email:'alex@email.com',password:'334421'})
+        expect(await userService.signUp({ username:'Jack',email:'alex@email.com',password:'334421'})).toBe("Email already registered")
         
     })
     it("users can't register with  duplicatedUsername",async()=>{
-        const newUserID=await userService.signUp({ username:'Jack',email:'abc@gmail.com',password:'334421'})
-        expect(newUserID).toThrowError("username already used")
+        //const user=await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})
+        expect(await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})).toBe("username already used")
     })
     afterAll( ()=>{
         knex.destroy();

@@ -39,20 +39,27 @@ export function ToLoadAllStockThunk() {
 }
 export function ToLoadSpecificStockThunk(SearchStockID: string, SearchStockName: string, stockChoice: string) {
     return async (dispatch: Dispatch<IStockActions>) => {
-        const formData = new FormData();
+        console.log(stockChoice)
+        console.log(SearchStockID)
+        const formObject:any={};
         if (stockChoice === 'SearchStockID') {
-            formData.append('SearchStockID', SearchStockID);
+            formObject['SearchStockID']=SearchStockID;
         } else {
-            formData.append('SearchStockName', SearchStockName)
+            formObject['SearchStockName']=SearchStockName;
         }
 
         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/search`, { //giving ID/name to Search Info
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            },
             method: "POST",
-            body: formData
+            body: JSON.stringify(formObject)
         });
         const result = await res.json();
+        console.log(result)
         if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
-            ToLoadSpecificStockSuccess(SearchStockID, SearchStockName) //can add Search Info to Stock(keep 1 page as record)
+            ToLoadSpecificStockSuccess(SearchStockID, SearchStockName,result.content) //can add Search Info to Stock(keep 1 page as record)
         } else {
             dispatch(failed("TO_LOAD_SPECIFIC_STOCK_FAILED", result.msg))
         }

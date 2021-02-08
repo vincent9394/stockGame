@@ -8,11 +8,11 @@ export class UserService {
         try{
         let duplicatedEmail = await this.knex.select('id').from('users').where('email',user.email)
         if (duplicatedEmail.length > 0) {
-            throw new Error("Email already registered")
+           throw  new Error("Email already registered")
           }
           let duplicatedUsername = await this.knex.select('id').from('users').where('name',user.username)
           if (duplicatedUsername.length> 0) {
-            throw new Error("username already used")
+           throw new Error("username already used")
           }
         let hash = await hashPassword(user.password)
         return await this.knex('users').insert({

@@ -9,7 +9,7 @@ const SearchBox:React.FC=()=>{
     const [SearchStockID, setSearchStockID] = useState('');
     const onSubmit =(event: React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
-        ToLoadSpecificStockThunk(SearchStockID,SearchStockName,stockChoice)
+        dispatch(ToLoadSpecificStockThunk(SearchStockID,SearchStockName,stockChoice))
         dispatch(push('/showStockPage'))       
                                         //fetch stock data from sprint and show it locally (directly by SearchStockID)
     }

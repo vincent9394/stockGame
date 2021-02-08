@@ -4,7 +4,8 @@ import { ILoginActions } from './actions';
 const initialState = {
     isLoggedIn: (localStorage.getItem('token') != null),
     username: null,
-    msg: ""
+    msg: "",
+    accountBalance:null,
 }
 export const LoginReducers = (state: ILoginState = initialState, action: ILoginActions) => {
     switch (action.type) {
@@ -13,6 +14,7 @@ export const LoginReducers = (state: ILoginState = initialState, action: ILoginA
                 ...state,
                 username: action.username,
                 isLoggedIn: action.isLoggedIn,
+                accountBalance:action.accountBalance,
                 msg: ""
             }
         case "LOGOUT":
