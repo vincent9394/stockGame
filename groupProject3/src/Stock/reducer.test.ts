@@ -16,7 +16,8 @@ describe('StockReducers',()=>{
             AllStockDayMinimum:[1.0],
             SearchStockID:null,
             SearchStockName:null,
-            SearchContent:null,
+            SearchContent:[],
+            CurrentStockInfoArray:[],
         }
     })
 
@@ -38,11 +39,17 @@ describe('StockReducers',()=>{
         });
     });
     it("should load all the stock Info correctly",()=>{
-        const finalState = StockReducers( initialState, ToLoadAllStockSuccess(['54.tw','34.jp','20.hk'],[5,2,1],[3,1.7,0.5]));
+        const finalState = StockReducers( initialState, ToLoadAllStockSuccess([
+            {stock_symbol:'54.tw',open:5,close:3},
+            {stock_symbol:'34.jp',open:2,close:1.7},
+            {stock_symbol:'20.hk',open:0.5,close:1},
+        ]));
         expect(finalState).toEqual({
-            AllStockID:['54.tw','34.jp','20.hk'],
-            AllStockDayMaximum:[5,2,1],
-            AllStockDayMinimum:[3,1.7,0.5],
+            CurrentStockInfoArray:[
+                {stock_symbol:'54.tw',open:5,close:3},
+                {stock_symbol:'34.jp',open:2,close:1.7},
+                {stock_symbol:'20.hk',open:0.5,close:1},
+            ]
         });
     });
     it("should load specific stock Info correctly",()=>{

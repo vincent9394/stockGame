@@ -1,4 +1,5 @@
 export interface IStockState{
+    CurrentStockInfoArray:{stock_symbol:string,date:string,open:number,high:number,low:number,close:number,volume_ltc:number,volume_usd:number}[],
     stockIDArray:string[],
     stockAmountArray:number[],
     stockValueArray:number[],
@@ -7,5 +8,5 @@ export interface IStockState{
     AllStockDayMinimum:number[],
     SearchStockID:string|null,
     SearchStockName:string|null,
-    SearchContent:{}[]|null,
+    SearchContent:{stock_symbol:string,date:string,open:number,high:number,low:number,close:number,volume_ltc:number,volume_usd:number}[],
 }

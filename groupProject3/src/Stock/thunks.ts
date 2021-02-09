@@ -30,7 +30,7 @@ export function ToLoadAllStockThunk() {
         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/homepageInfo`);
         const result = await res.json();
         if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
-            dispatch(ToLoadAllStockSuccess(result.AllStockID, result.AllStockDayMaximum, result.AllStockDayMinimum));
+            dispatch(ToLoadAllStockSuccess(result.content));
             //need to adjust para
         } else {
             dispatch(failed("TO_LOAD_ALL_STOCK_FAILED", result.msg))
@@ -57,11 +57,37 @@ export function ToLoadSpecificStockThunk(SearchStockID: string, SearchStockName:
             body: JSON.stringify(formObject)
         });
         const result = await res.json();
-        console.log(result)
         if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
-            ToLoadSpecificStockSuccess(SearchStockID, SearchStockName,result.content) //can add Search Info to Stock(keep 1 page as record)
+            dispatch(ToLoadSpecificStockSuccess(SearchStockID, SearchStockName,result.content)) //can add Search Info to Stock(keep 1 page as record)
         } else {
             dispatch(failed("TO_LOAD_SPECIFIC_STOCK_FAILED", result.msg))
+        }
+    }
+}
+
+export function ToAddInstructionThunk(stock_symbol:string,action:string,PurchasePrice:number,PurchaseVolume:number,EffectPeriod:string) {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const formObject:any={};
+        formObject['stock_symbol']=stock_symbol;
+        formObject['action']=action;
+        formObject['price']=PurchasePrice;
+        formObject['shares']=PurchaseVolume;
+        formObject['exp_datetime']=EffectPeriod;
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/addStockTradingInstruction`,{
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            },
+            method: "POST",
+            body: JSON.stringify(formObject)
+        })
+        
+        const result = await res.json();
+        if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
+             console.log("successful")
+            //need to adjust para
+        } else {
+            dispatch(failed("TO_LOAD_ALL_STOCK_FAILED", result.msg))
         }
     }
 }

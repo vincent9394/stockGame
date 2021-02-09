@@ -14,15 +14,13 @@ export function ToSoldStockSuccess(stockID:string,stockAmount:number,stockValue:
         stockValue:stockValue,
     }
 }
-export function ToLoadAllStockSuccess(AllStockID:string[], AllStockDayMaximum:number[],AllStockDayMinimum:number[]){  
+export function ToLoadAllStockSuccess(InfoContent:any){  
     return{                       //can add more para if needed more info of stocks
         type:"LOAD_ALL_STOCK"as"LOAD_ALL_STOCK",
-        AllStockID:AllStockID,
-        AllStockDayMaximum:AllStockDayMaximum,
-        AllStockDayMinimum:AllStockDayMinimum,
+        CurrentStockInfoArray:InfoContent,
     }
 }
-export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null,content:{}[]){  
+export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null,content:any){  
     return{                       //can add more para if needed more info of stocks
         type:"LOAD_SPECIFIC_STOCK"as"LOAD_SPECIFIC_STOCK",
         SearchStockID:SearchStockID,
@@ -32,7 +30,7 @@ export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStock
 }
 
 
-type FAILED="TO_BUY_STOCK_FAILED"|"TO_SOLD_STOCK_FAILED"|"TO_LOAD_ALL_STOCK_FAILED"|"TO_LOAD_SPECIFIC_STOCK_FAILED"
+type FAILED="TO_BUY_STOCK_FAILED"|"TO_SOLD_STOCK_FAILED"|"TO_LOAD_ALL_STOCK_FAILED"|"TO_LOAD_SPECIFIC_STOCK_FAILED"|"TO_ADD_INSTRUCTION_FAILED"
 export function failed(type:FAILED,msg:string){
     return{
         type,msg

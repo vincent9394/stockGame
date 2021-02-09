@@ -12,7 +12,9 @@ import SampleNavBar from './SampleNavBar';
 import InstructionHistoryPage from './InstructionHistoryPage';
 import React from 'react';
 import { PrivateRoute } from './PrivateRoute';
-//import { useEffect } from 'react';
+import { useEffect } from 'react';
+import { ToLoadAllStockThunk } from './Stock/thunks';
+import { useDispatch } from 'react-redux';
 function App() {    //1.homepage:landingPage->show basic market Info
                     //Navbar--->login/logout,search,switch page
                     //2.SelfProfile--->Analyse player profit and loss by chart,show all of the history action of player
@@ -21,14 +23,17 @@ function App() {    //1.homepage:landingPage->show basic market Info
                     //5.ShowTheStockBySortingPage--->Such as watch list,buyIn list
                     //6.LoginPage------>LoginFunction
                     //7.Register------->Register Function
-                  /*  useEffect(() => {
+                    const dispatch=useDispatch();
+                    useEffect(() => {
+                      dispatch(ToLoadAllStockThunk())
                       const timer=setInterval(()=>{
-                          console.log('time')
-                      },1000)
+                        dispatch(ToLoadAllStockThunk())
+                        console.log('Updated Home')
+                      },1000*120)
                       return ()=>{
                         clearInterval(timer)
                       }
-                    },[])*/
+                    })
   return (
     <>
     <SampleNavBar/>
@@ -41,7 +46,7 @@ function App() {    //1.homepage:landingPage->show basic market Info
     <PrivateRoute path="/instructionHistory" component={InstructionHistoryPage} />
     <Route path="/login"  component={Login} />
     <Route path="/register"  component={Registration} />
-    <Route path="/showTheStockBySortingPage"  component={ShowTheStockBySortingPage} />
+    <PrivateRoute path="/showTheStockBySortingPage"  component={ShowTheStockBySortingPage} />
     <Route component={NotFound} />
     </Switch>
   </>

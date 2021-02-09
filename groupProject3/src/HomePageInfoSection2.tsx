@@ -1,15 +1,43 @@
 import React from 'react'
 import './HomePageInfo1.scss'
-import {PushpinOutlined} from '@ant-design/icons';
 import HomePageStockRow from './HomePageStockRow';
+import { useSelector } from 'react-redux';
+import { IRootState } from './store';
 const HomePageInfoSection2:React.FC=()=>{
-    //const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.AllStockID);
-    let AllStockInfoArray=[{id:'1',name:"this"},{id:'2',name:"that"}]
-
+    const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray);
+    //let AllStockInfoArray=[{id:'1',name:"this"},{id:'2',name:"that"}]
+    const isLoggedIn= useSelector((state:IRootState)=>state.login.isLoggedIn);
 
     return (
         <div>
-                <div className="IndexRowArrangement">
+               
+
+                  <div className="IndexRowArrangement">
+                    <div>股票代號</div>
+                    <div>開市價</div>
+                    <div>收市價</div>
+                    <div>最高</div>
+                    <div>最低</div>
+                    <div>成交量</div>
+                    <div>成交金額</div>
+                  {isLoggedIn&&<div>關注</div>}  
+                </div>
+
+
+
+                  {AllStockInfoArray.map(
+                      (StockInfo,index)=>{
+                      return<HomePageStockRow key={index} value={index} Content={StockInfo} />
+                  }
+                  )}
+        </div>
+    )
+
+}
+
+export default HomePageInfoSection2
+/*
+ <div className="IndexRowArrangement">
                     <div>指數</div>
                     <div>升跌</div>
                     <div>升跌(%)</div>
@@ -47,16 +75,4 @@ const HomePageInfoSection2:React.FC=()=>{
                   {-20>0 &&  <div className="positiveNumber">-20%</div>}
                   {-20<0 &&  <div className="negativeNumber">-20%</div>}
                   <div className="watchListButton"><PushpinOutlined style={{fontSize:'30px'}}/></div>
-                  </div>
-
-                  {AllStockInfoArray.map(
-                      (StockInfo,index)=>{
-                      return<HomePageStockRow key={index} value={index} Content={StockInfo} />
-                  }
-                  )}
-        </div>
-    )
-
-}
-
-export default HomePageInfoSection2
+                  </div>*/

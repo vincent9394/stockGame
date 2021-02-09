@@ -50,7 +50,7 @@ useEffect(() => {
               <NavLink onClick={()=>dispatch(push('/instructionHistory'))}>History</NavLink>
             </NavItem>
             {isLoggedIn && username &&<p>Hello,{username}</p>}
-            {isLoggedIn && accountBalance &&<p>Hello,{accountBalance}</p>}
+            {isLoggedIn && accountBalance &&<p> Account Balance:${accountBalance}</p>}
             {!isLoggedIn &&
             <NavItem>
               <NavLink onClick={()=>dispatch(push("/register"))}>Register</NavLink>

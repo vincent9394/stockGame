@@ -1,18 +1,28 @@
-import React from 'react'
-import {PushpinOutlined} from '@ant-design/icons';
-//import { IRootState } from './store';
-//import { useDispatch, useSelector } from 'react-redux';
+//import React from 'react'
+//import {PushpinOutlined} from '@ant-design/icons';
+
+import { PushpinOutlined } from "@ant-design/icons";
+import React from "react";
+import { useSelector } from "react-redux";
+import { IRootState } from "./store";
+
 interface StockInfoProps{  //change props
     value:number,
     Content:{
-        id:string,
-        name:string
+        stock_symbol:string,
+        date:string,
+        open:number,
+        high:number,
+        low:number,
+        close:number,
+        volume_ltc:number,
+        volume_usd:number
     },
 }
 
 
 function HomePageStockRow(props:StockInfoProps) {
-    //const AllStockInfoArray = useSelector((state: IRootState) => state.stock.AllStockID);
+    const isLoggedIn= useSelector((state:IRootState)=>state.login.isLoggedIn);
     //sample style :
     //<div>Content.name</div>
     //{Content.now - Content.yesterday close > 0 && <div className="positiveNumber">+0.002</div>}
@@ -27,9 +37,19 @@ function HomePageStockRow(props:StockInfoProps) {
     useEffect(()=>{
 
       },[]);*/
-
     return (
-            <div className="ItemRowArrangement">
+<div className="ItemRowArrangement">
+    <div>{props.Content.stock_symbol}</div>
+    <div>{props.Content.open}</div>
+     <div>{props.Content.close}</div>
+    <div>{props.Content.high}</div>
+    <div>{props.Content.low}</div>
+    <div>{props.Content.volume_ltc}</div>
+    <div>{props.Content.volume_usd}</div>
+    {isLoggedIn &&  <div className="watchListButton"><PushpinOutlined style={{fontSize:'30px',color:'white'}}/></div>}
+</div>
+        
+            /*<div className="ItemRowArrangement">
             <div>{props.value}</div>
             <div>{props.Content.name}</div>
                 {+0.002 > 0 && <div className="positiveNumber">+0.002</div>}
@@ -42,7 +62,7 @@ function HomePageStockRow(props:StockInfoProps) {
                 {+10 > 0 && <div className="positiveNumber">+10%</div>}
                 {+10 < 0 && <div className="negativeNumber">+10%</div>}
                 <div className="watchListButton"><PushpinOutlined style={{ fontSize: '30px', color: 'white' }} /></div>
-            </div>
+            </div>*/
     );
 }
 

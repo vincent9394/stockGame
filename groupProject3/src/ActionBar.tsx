@@ -1,12 +1,13 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import './ActionBar.scss'
 import ActionBarButtonSet from './ActionBarButtonSet';
+import { IRootState } from './store';
 const ActionBar:React.FC=()=> {
-    let AllStockInfoArray=[{id:'1',name:"this"},{id:'2',name:"that"}]
+    const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray);
+
     return (
         <div className="ActionBar">
-            {ActionBarButtonSet({value:0})}
-            {ActionBarButtonSet({value:1})}
             {AllStockInfoArray.map(
                       (StockInfo,index)=>{
                       return<ActionBarButtonSet key={index} value={index} />

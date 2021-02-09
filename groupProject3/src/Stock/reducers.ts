@@ -10,7 +10,8 @@ const initialState = {
     AllStockDayMinimum:[],
     SearchStockID:null,
     SearchStockName:null,
-    SearchContent:null,
+    SearchContent:[],
+    CurrentStockInfoArray:[],
 }
 export const StockReducers = (state: IStockState = initialState, action: IStockActions) => {
     const newStockIDArray = state.stockIDArray.slice()
@@ -40,9 +41,7 @@ export const StockReducers = (state: IStockState = initialState, action: IStockA
             case "LOAD_ALL_STOCK":
             return {
                 ...state,
-                AllStockID:action.AllStockID,
-                AllStockDayMaximum:action.AllStockDayMaximum,
-                AllStockDayMinimum:action.AllStockDayMinimum,
+                CurrentStockInfoArray:action.CurrentStockInfoArray
             }
             case "LOAD_SPECIFIC_STOCK":
             return {
