@@ -3,7 +3,7 @@
 import React from 'react'
 import Graph from './Graph'
 import GraphPageInfo from './GraphPageInfo'
-import styles from './Heatmap.module.scss';
+// import styles from './Heatmap.module.scss';
 //  import h337 from "heatmap.js";
 //import { IRootState } from './store'
 //import NavBar from './NavBar'

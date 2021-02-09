@@ -27,6 +27,7 @@
         "express-session": "^1.17.1",
         "heatmap.js": "^2.0.5",
         "jwt-simple": "^0.5.6",
+        "kafkajs": "^1.15.0",
         "knex": "^0.21.17",
         "node-sass": "^4.0.0",
         "permit": "^0.2.4",
