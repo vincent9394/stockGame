@@ -5,7 +5,6 @@ import { hashPassword } from './hash';
 export class UserService {
     constructor(private knex:Knex){}
     async signUp(user: { username: string,email: string, password: string }) {
-        try{
         let duplicatedEmail = await this.knex.select('id').from('users').where('email',user.email)
         if (duplicatedEmail.length > 0) {
            throw  new Error("Email already registered")
@@ -21,9 +20,6 @@ export class UserService {
             password:hash,
             cash_in_hand:100000,
         }).returning('*')
-    }catch(e){
-        throw new Error(e.toString())
-    }
     }
     async getUser(id:number){ //sampleService for Login
         return await this.knex.select('*').from('users').where('id',id);

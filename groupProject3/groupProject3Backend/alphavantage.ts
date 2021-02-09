@@ -2,11 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import { stockService } from "./main";
 dotenv.config();
-const app = express();
+export const importCurrentStockRoutes = express.Router();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+importCurrentStockRoutes.use(bodyParser.urlencoded({ extended: true }));
+importCurrentStockRoutes.use(bodyParser.json());
 
 let tickets: string[] = [
     "AAPL",
@@ -15,7 +16,7 @@ let tickets: string[] = [
 ];
 
 //setInterval
-(async () => {
+async function updateStock(){
 	for (let ticket of tickets) {
 		// you need to apply for a token from alphavantage to obtain a key for the following api:
 		const request = await fetch(
@@ -32,24 +33,37 @@ let tickets: string[] = [
 		let dataList: any = Object.values(dataOnly);
 		console.log(ticket + "----------------------------------------")
 
-		for (let i = 0; i < dataTime.length; i++) {
+		//for (let i = 0; i < dataTime.length; i++) {
+			const dataID=await stockService.checkImportStockData(dataTime[0],ticket)
+			if(dataID.length===0){
 			let reformedData = {
-				'date': dataTime[i],
-				'stock_symbol': ticket,
+				'date': dataTime[0],//dataTime[i],
+				'stock_Symbol': ticket,
+				'open':0,
+				 'high':0,
+				 'low': 0,
+				 'close':0,
+				 'volume_ltc':0,
+				 'volume_usd':0,
 			};
-			for (let key in dataList[i]) {
-				if (key.slice(3) == "volume") {
-					reformedData["volume_ltc"] = (dataList[i][key] * 1);
+			for (let key in dataList[0]) { //dataList[i]
+				if (key.slice(3) === "volume") {
+					reformedData["volume_ltc"] = (dataList[0][key] * 1);
 				} else {
-					reformedData[`${key.slice(3)}`] = (dataList[i][key] * 1);
+					reformedData[`${key.slice(3)}`] = (dataList[0][key] * 1);
 				}
 			}
 			// @ts-ignore
 			reformedData["volume_usd"] = reformedData.close * reformedData.volume_ltc;
 			console.log(">>>>>>>>>>>>>>>>>>> new data")
 			console.log(reformedData);
-		}
+				await stockService.importCurrentStock(reformedData)
+				await stockService.importHistoryStock(reformedData)
+				await stockService.checkInstruction(reformedData.close,reformedData.stock_Symbol)
+			}
+		//}
 
 	}
-})() //, 60 * 1000 + Math.random() * 10 * 1000);
+} //, 60 * 1000 + Math.random() * 10 * 1000);
+setInterval(updateStock,60 * 1000 + Math.random() * 10 * 1000)
 

@@ -7,6 +7,7 @@ import { UserController } from './users/user-controller';
 import {createRoute}from './routes'
 import { StockController } from './stocks/stock-controller';
 import { StockService } from './stocks/stock-service';
+import { importCurrentStockRoutes } from './alphavantage';
 const knexConfig = require('./knexfile');
 const knex = Knex(knexConfig[process.env.NODE_ENV || "development"])
 export const userService = new UserService(knex)
@@ -21,6 +22,7 @@ app.use(cors({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(routes)
+app.use(importCurrentStockRoutes)
 
 const port = process.env.BackEndPort || 8000
 

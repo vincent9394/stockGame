@@ -2,7 +2,7 @@ import { StockService } from './stock-service'
 import { Request, Response } from 'express'
 export class StockController {
     constructor(private stockService: StockService) { }
-    StockTransaction = async (req: Request, res: Response) => {
+  /*  StockTransaction = async (req: Request, res: Response) => {
         try {
             if (!req.body.stock_symbol  ||req.body.is_buy==null|| !req.body.price || !req.body.shares||!req.user) {
                 res.status(400).json({
@@ -23,18 +23,23 @@ export class StockController {
         } catch (err) {
             res.status(500).send(err.message)
         }
-    }
+    }*/
     writeStockTransactionInstruction = async (req: Request, res: Response) => {
-        //get userId from token   question for  ?how to Accept Instruction in correct price                         //how to reject Instruction after effective period
+        //get userId from token   question for  ?how to Accept Instruction in correct price 
+        console.log(req.body)                        //how to reject Instruction after effective period
         try {
-            if (!req.body.stock_symbol || req.body.is_buy==null || !req.body.price || !req.body.shares||!req.body.dateTime||!req.user) {
+            if (!req.body.stock_symbol || req.body.action==null || !req.body.price || !req.body.shares||!req.body.exp_datetime||!req.user) {
                 res.status(400).json({
                     result: false,
                     message: "req.body missing data"
                 })
             } else {
+                let transactionType;
+               req.body.action==="BUY"?transactionType=1:transactionType=2;
+               req.body.action==="BUY"?req.body.shares=+(req.body.shares):req.body.shares=-(req.body.shares);
 
-                const tradingInstructionID = (await this.stockService.AddStockTradingInstruction(req.user.id, req.body.stock_symbol, req.body.is_buy, req.body.price, req.body.shares, req.body.dateTime))[0].id
+                const tradingInstructionID = (await this.stockService.AddStockTradingInstruction(req.user.id, req.body.stock_symbol, transactionType,req.body.price, req.body.shares, req.body.exp_datetime))[0]
+                console.log(tradingInstructionID)
                 if (tradingInstructionID != null) {
                     res.status(200).json({ result: true })
                 } else {
@@ -112,4 +117,11 @@ export class StockController {
             res.status(500).send(err.message)
         }
     }
+/*ImportCurrentStock=async(req: Request, res: Response) => {
+    const StockId=await this.importCurrentStock(ImportData)
+}
+ImportHistoryStock=async(ImportData:any) => {
+   const StockId=await this.importHistoryStock(ImportData)
+}*/
+
 }

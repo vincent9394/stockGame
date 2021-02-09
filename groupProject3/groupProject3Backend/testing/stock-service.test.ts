@@ -11,12 +11,12 @@ describe('stockService integrated with database',()=>{
         await knex.seed.run();
     });
     it('can work with Buy transaction',async()=>{
-        const addTrading=await stockService.stockTrading(1,'abc',1,20,400)
+        const addTrading=await stockService.stockTrading(1,1,'abc',1,20,400)
         expect(addTrading).toHaveLength(2)
 
     })
     it('can work with sell transaction',async()=>{
-        const addTrading=await stockService.stockTrading(1,'abc',2,20,400)
+        const addTrading=await stockService.stockTrading(1,1,'abc',2,20,400)
         expect(addTrading).toHaveLength(2)
 
     })
@@ -29,7 +29,7 @@ describe('stockService integrated with database',()=>{
     it('can load SearchResult by stockName',async()=>{
         const loadResult=await stockService.loadSearchingResult(null,"Apple Inc")
         expect(loadResult).toHaveLength(5)
-        expect(loadResult[0].stockName).toBe("Apple Inc")
+        expect(loadResult[0].stock_symbol).toBe("AAPL")
 
     })
     it("can't load SearchResult by IncorrectStockName",async()=>{
@@ -51,6 +51,11 @@ describe('stockService integrated with database',()=>{
     it('can load all the stocks info In home',async()=>{ //need adjust expect
         const loadStockInfo=await stockService.loadAllStockInfo()
         expect(loadStockInfo).toHaveLength(3)
+
+    })
+    it('can check with Instruction',async()=>{ 
+        const result=await stockService.checkInstruction(100, "AAPL")
+        expect(result).toBe({result:"done"})
 
     })
     afterAll( ()=>{

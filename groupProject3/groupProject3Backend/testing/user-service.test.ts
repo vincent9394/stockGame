@@ -26,12 +26,22 @@ describe('User Service integrated with database',()=>{
     })
     it("users can't register with duplicatedEmail",async()=>{
        // const user=await userService.signUp({ username:'Jack',email:'alex@email.com',password:'334421'})
-        expect(await userService.signUp({ username:'Jack',email:'alex@email.com',password:'334421'})).toBe("Email already registered")
+       try{
+        await userService.signUp({ username:'Jack',email:'alex@email.com',password:'334421'})
+       }catch(e){
+        expect(e.message).toEqual(
+            "Email already registered")
+       }
         
     })
     it("users can't register with  duplicatedUsername",async()=>{
         //const user=await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})
-        expect(await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})).toBe("username already used")
+       // expect(await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})).toBe("username already used")
+        try{
+            await userService.signUp({ username:'gordon',email:'abc@gmail.com',password:'334421'})
+           }catch(e){
+            expect(e.message).toEqual("username already used")
+           }
     })
     afterAll( ()=>{
         knex.destroy();

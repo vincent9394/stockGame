@@ -13,7 +13,7 @@ export function createRoute(userController: UserController,stockController:Stock
     routes.get('/homepageInfo',stockController.ShowStockInfo)
     routes.post('/changeForWatchList',isLoggedIn,stockController.ActionToWatchList)
     routes.post('/addStockTradingInstruction',isLoggedIn,stockController.writeStockTransactionInstruction)
-    routes.post('/stockTransaction',isLoggedIn,stockController.StockTransaction)
+   // routes.post('/stockTransaction',isLoggedIn,stockController.StockTransaction)
 
     return routes
 }
