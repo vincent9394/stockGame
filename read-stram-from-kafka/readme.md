@@ -23,6 +23,36 @@ create table mouse_move(
 );
 ```
 
+Mongo
+```
+mongo
+```
+
+```
+use heatmap
+```
+
+```
+db.createCollection( mouse_move,
+   {
+     capped: <boolean>,
+     autoIndexId: <boolean>,
+     size: <number>,
+     max: <number>,
+     storageEngine: <document>,
+     validator: <document>,
+     validationLevel: <string>,
+     validationAction: <string>,
+     indexOptionDefaults: <document>,
+     viewOn: <string>,              // Added in MongoDB 3.4
+     pipeline: <pipeline>,          // Added in MongoDB 3.4
+     collation: <document>,         // Added in MongoDB 3.4
+     writeConcern: <document>
+   }
+)
+```
+
+```
 
 
 
@@ -107,4 +137,61 @@ java --add-opens=java.base/sun.nio.ch=ALL-UNNAMED -jar kafdrop-3.27.0.jar --kafk
 
 // Read topic
 .\bin\windows\kafka-console-consumer.bat --topic Heatmap --from-beginning --bootstrap-server localhost:9092
+```
+
+
+
+
+
+# Run the spark for testing propose
+## Go to the spark folder, run the pyspark
+```
+./bin/pyspark
+```
+## run the following script
+```python
+
+dfStream = spark.readStream.format('kafka')\
+        .option('kafka.bootstrap.servers','localhost:9092')\
+        .option('subscribe','Heatmap').load()
+
+
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StringType, IntegerType, StructType, StructField
+schema = StructType([
+    StructField("_id",StringType()),
+    StructField("x",IntegerType()),
+    StructField("y",IntegerType()),
+    StructField("time_interval",IntegerType())
+])
+
+from pyspark.sql import functions as F
+dfStream = dfStream.select(F.from_json(dfStream['value'].cast('string'),schema).alias('mouse_move'))
+dfStream_with_schema = dfStream.selectExpr("mouse_move.x",
+                                "mouse_move.y",
+                                "mouse_move.time_interval"
+                                )
+
+
+# def print_df(df,epoch_id):
+#     # df here normal dataframe
+#     df.show()
+
+# query = dfStream_with_schema.writeStream.foreachBatch(print_df).start()
+# query.awaitTermination()
+
+db_config = {
+    "url":"jdbc:postgresql://localhost:5432/heatmap",
+    "user":"admin",
+    "password":"admin",
+    "driver" :"org.postgresql.Driver"
+}
+
+def insert_into_staging_table(df,epoch_id):
+     df.write.format('jdbc').options(**db_config).option('dbtable','mouse_move').mode('append').save()
+
+query = dfStream_with_schema.writeStream.foreachBatch(insert_into_staging_table).start()
+query.awaitTermination()
+
+
 ```

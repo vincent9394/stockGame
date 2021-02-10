@@ -38,7 +38,7 @@ schema = StructType([
     StructField("_id",StringType()),
     StructField("x",IntegerType()),
     StructField("y",IntegerType()),
-    StructField("time_interval",StringType())
+    StructField("time_interval",IntegerType())
 ])
 
 from pyspark.sql import functions as F

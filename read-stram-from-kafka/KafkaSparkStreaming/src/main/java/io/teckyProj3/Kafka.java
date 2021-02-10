@@ -17,6 +17,7 @@ public class Kafka {
         //SparkConf sparkConfig = new SparkConf().setAppName("Kafkaproject3").setMaster("local[2]");
         SparkSession spark = SparkSession
                 .builder()
+                .master("local")
                 .appName("Kafkaproject3")
                 .config("spark.some.config.option", "some-value")
                 .getOrCreate();
