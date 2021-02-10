@@ -4,11 +4,19 @@ export class KafkaService {
     // producer: any;
     constructor(private producer: Producer) {
     }
-    async sendMessage(x:number, y:number, timeInterval:number){
+    async sendMessage(x: number, y: number, timeInterval: number) {
         return await this.producer.send({
             topic: 'Heatmap',
             messages: [
-                {value:` {"x": ${x}, "y": ${y}, "time_interval": ${timeInterval}}`}
+                { value: ` {"x": ${x}, "y": ${y}, "time_interval": ${timeInterval}}` }
+            ]
+        })
+    }
+    async sendSearch(SearchStockID: string | null , SearchName: string | null) {
+        return await this.producer.send({
+            topic: 'StockSearch',
+            messages: [
+                { value: ` {"SearchStockID": ${SearchStockID}, "SearchName": ${SearchName}`}
             ]
         })
     }
