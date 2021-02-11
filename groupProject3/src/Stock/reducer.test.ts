@@ -18,6 +18,7 @@ describe('StockReducers',()=>{
             SearchStockName:null,
             SearchContent:[],
             CurrentStockInfoArray:[],
+            InstructionHistory:[],
         }
     })
 

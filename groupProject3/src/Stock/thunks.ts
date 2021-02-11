@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { failed, IStockActions, ToBuyStockSuccess, ToLoadAllStockSuccess, ToLoadSpecificStockSuccess, ToSoldStockSuccess } from "./actions";
+import { failed, IStockActions, ToBuyStockSuccess, ToChangeWatchListSuccess, ToLoadAllStockSuccess, ToLoadInstructionHistorySuccess, ToLoadPortfolioSuccess, ToLoadSpecificStockSuccess, ToLoadWatchListSuccess, ToSoldStockSuccess } from "./actions";
 
 const { REACT_APP_API_BACKEND_SERVER } = process.env
 
@@ -88,6 +88,78 @@ export function ToAddInstructionThunk(stock_symbol:string,action:string,Purchase
             //need to adjust para
         } else {
             dispatch(failed("TO_LOAD_ALL_STOCK_FAILED", result.msg))
+        }
+    }
+}
+
+export function ToChangeWatchListThunk(stock_symbol: string, watchListAction: string) {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const formObject:any={};
+            formObject['stock_symbol']=stock_symbol;
+            formObject['watchListAction']=watchListAction;
+
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/changeForWatchList`, { //giving ID/name to Search Info
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            },
+            method: "POST",
+            body: JSON.stringify(formObject)
+        });
+        const result = await res.json();
+        if (result.result) {   
+            dispatch(ToChangeWatchListSuccess())
+            console.log('OK')
+        } else {
+            dispatch(failed("TO_CHANGE_WATCH_LIST_FAILED", result.msg))
+        }
+    }
+}
+export function ToLoadWatchListThunk() {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/getWatchList`,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const result = await res.json();
+        if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
+            dispatch(ToLoadWatchListSuccess(result.content));
+            //need to adjust para
+        } else {
+            dispatch(failed("TO_LOAD_WATCH_LIST_FAILED", result.msg))
+        }
+    }
+}
+export function ToLoadPortfolioThunk() {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/LoadPortfolio`,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const result = await res.json();
+        if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
+            dispatch(ToLoadPortfolioSuccess(result.content));
+            //need to adjust para
+        } else {
+            dispatch(failed("TO_LOAD_PORTFOLIO_FAILED", result.msg))
+        }
+    }
+}
+export function ToLoadInstructionHistoryThunk() {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/LoadInstructionHistory`,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const result = await res.json();
+        if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
+            dispatch(ToLoadInstructionHistorySuccess(result.content));
+            //need to adjust para
+        } else {
+            dispatch(failed("TO_LOAD_INSTRUCTION_HISTORY_FAILED", result.msg))
         }
     }
 }

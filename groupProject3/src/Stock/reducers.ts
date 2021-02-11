@@ -12,6 +12,9 @@ const initialState = {
     SearchStockName:null,
     SearchContent:[],
     CurrentStockInfoArray:[],
+    WatchListArray:[],
+    Portfolio:[],
+    InstructionHistory:[],
 }
 export const StockReducers = (state: IStockState = initialState, action: IStockActions) => {
     const newStockIDArray = state.stockIDArray.slice()
@@ -50,6 +53,21 @@ export const StockReducers = (state: IStockState = initialState, action: IStockA
                 SearchStockName:action.SearchStockName,
                 SearchContent:action.SearchContent,
             }
+            case  "LOAD_WATCH_LIST":
+                return {
+                    ...state,
+                 WatchListArray:action.WatchListArray,
+                }
+                case  "LOAD_PORTFOLIO":
+                return {
+                    ...state,
+                 Portfolio:action.Portfolio,
+                }
+                case  "LOAD_INSTRUCTION_HISTORY":
+                return {
+                    ...state,
+                    InstructionHistory:action.InstructionHistory,
+                }
         default:
             return state
     }
