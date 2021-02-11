@@ -68,15 +68,27 @@ export class StockService {
     }
 
     async actionToWatchList(user_id: number, stock_symbol: string, watchListAction: string) {  //maybe use for watch list
-        return await this.knex('watchList').update({
-            isWatchList: watchListAction === 'Add' ? true : false,
-        }).where('id', user_id).where('stock_symbol', stock_symbol).returning('isWatchList')
+        if(watchListAction === 'Add'){
+            return await this.knex('watch_list').insert({
+                user_id:user_id,
+                stock_symbol:stock_symbol,
+            })
+        }else{
+            return await this.knex('watch_list').where('user_id',user_id).where('stock_symbol',stock_symbol).del()
+        }
+    }
+    async loadWatchListSymbol(user_id: number) {   
+        return await this.knex.select('stock_symbol').from('watch_list').where('user_id',user_id)
     }
     async loadInvestedList() {   //show all basic info with latest  ,problem
         return await this.knex.select('*').from('stock')
     }
-
-
+    async loadPortfolio(user_id:number) {   //show all basic info with latest  ,problem
+        return await this.knex.select('stock_symbol','shares').from('portfolio').where('user_id',user_id)
+    }
+    async loadInstruction(user_id:number) {   
+        return await this.knex.select('*').from('trade_cart').where('user_id',user_id)
+    }
     async importCurrentStock(stockData: { stock_Symbol: string, date: string, open: number, high: number, low: number, close: number, volume_ltc: number, volume_usd: number }) {
         return await this.knex('stock_current').update({
             date: stockData.date,

@@ -34,8 +34,8 @@ async function updateStock(){
 		console.log(ticket + "----------------------------------------")
 
 		//for (let i = 0; i < dataTime.length; i++) {
-			const dataID=await stockService.checkImportStockData(dataTime[0],ticket)
-			if(dataID.length===0){
+			//const dataID=await stockService.checkImportStockData(dataTime[0],ticket)
+			//if(dataID.length===0){
 			let reformedData = {
 				'date': dataTime[0],//dataTime[i],
 				'stock_Symbol': ticket,
@@ -60,7 +60,10 @@ async function updateStock(){
 				await stockService.importCurrentStock(reformedData)
 				await stockService.importHistoryStock(reformedData)
 				await stockService.checkInstruction(reformedData.close,reformedData.stock_Symbol)
-			}
+		//	}
+
+
+
 		//}
 
 	}

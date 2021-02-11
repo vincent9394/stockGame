@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './HomePageInfo1.scss'
 import HomePageStockRow from './HomePageStockRow';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
+import { ToLoadWatchListThunk } from './Stock/thunks';
 const HomePageInfoSection2:React.FC=()=>{
     const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray);
-    //let AllStockInfoArray=[{id:'1',name:"this"},{id:'2',name:"that"}]
+    const watchListArray= useSelector((state:IRootState)=>state.stock.WatchListArray);
     const isLoggedIn= useSelector((state:IRootState)=>state.login.isLoggedIn);
-
+    const pathName= useSelector((state:IRootState)=>state.router.location.pathname);
+    const dispatch=useDispatch();
+    useEffect(() => {
+      dispatch(ToLoadWatchListThunk())
+    }, [dispatch])
     return (
         <div>
                
@@ -27,7 +32,21 @@ const HomePageInfoSection2:React.FC=()=>{
 
                   {AllStockInfoArray.map(
                       (StockInfo,index)=>{
-                      return<HomePageStockRow key={index} value={index} Content={StockInfo} />
+                        let CheckWatchListCondition=false;
+                        for(let i=0;i<watchListArray.length;i++){
+                          if(StockInfo.stock_symbol===watchListArray[i].stock_symbol){
+                              CheckWatchListCondition= true;
+                          }
+                      }
+                      if(pathName==='/showTheStockBySortingPage'){
+                        if(CheckWatchListCondition===true){
+                          return <HomePageStockRow key={index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
+                        }else{
+                          return <></>
+                        }
+                      }else{
+                      return<HomePageStockRow key={index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
+                      }
                   }
                   )}
         </div>

@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import SelfProfileInfoRow from './SelfProfileInfoRow'
+import { ToLoadPortfolioThunk } from './Stock/thunks';
+import { IRootState } from './store';
 
 const SelfProfilePage:React.FC=()=>{ //suppose it have CRUD in here
-    let AllSelfProfileInfoArray=[{id:'1',name:"this"},{id:'2',name:"that"}]
+    const Portfolio= useSelector((state:IRootState)=>state.stock.Portfolio);
+    const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray)
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(ToLoadPortfolioThunk())
+    
+    },[dispatch])
     return (                                 //
         <div>
             <div className="IndexRowArrangement">
@@ -11,25 +20,17 @@ const SelfProfilePage:React.FC=()=>{ //suppose it have CRUD in here
                     <div>現價</div>
                     <div>總值</div>
                 </div>
-                <div className="ItemRowArrangement">
-                    <div>AAPL</div>
-                  <div>3000</div>
-                  <div>30</div>
-                  <div>90000</div>
-                </div>
-                <div className="ItemRowArrangement">
-                    <div>ABC</div>
-                  <div>2000</div>
-                  <div>10</div>
-                  <div>20000</div>
-                </div>
-
-                <div></div>
-                <div></div>
                 
-                {AllSelfProfileInfoArray.map(
-                      (StockInfo,index)=>{
-                      return<SelfProfileInfoRow key={index} value={index} Content={StockInfo} />
+                {Portfolio.map(
+                      (PortfolioInfo,index)=>{
+                        let ArrayIndex=0;
+                                for(let i=0;i<AllStockInfoArray.length;i++){
+                                if(AllStockInfoArray[i].stock_symbol===PortfolioInfo.stock_symbol){
+                                    ArrayIndex=i;
+                                    break;
+                                }
+                            }
+                      return <SelfProfileInfoRow key={index} value={index} refIndex={ArrayIndex} Content={PortfolioInfo} />
                   }
                   )}
                 <div className="IndexRowArrangement">

@@ -13,6 +13,9 @@ export function createRoute(userController: UserController,stockController:Stock
     routes.get('/getTheUsername',isLoggedIn,userController.getTheUser) //OK
     routes.get('/homepageInfo',stockController.ShowStockInfo)
     routes.post('/changeForWatchList',isLoggedIn,stockController.ActionToWatchList)
+    routes.get('/getWatchList',isLoggedIn,stockController.GetWatchList)
+    routes.get('/LoadPortfolio',isLoggedIn,stockController.GetPortfolio)
+    routes.get('/LoadInstructionHistory',isLoggedIn,stockController.GetInstructionHistory)
     routes.post('/addStockTradingInstruction',isLoggedIn,stockController.writeStockTransactionInstruction)
     //routes.post('/stockTransaction',isLoggedIn,stockController.StockTransaction)
     routes.post('/pushToKafka', kafkaController.pushToKafka)

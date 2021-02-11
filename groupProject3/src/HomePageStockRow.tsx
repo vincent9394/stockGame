@@ -2,8 +2,9 @@
 //import {PushpinOutlined} from '@ant-design/icons';
 
 import { PushpinOutlined } from "@ant-design/icons";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToChangeWatchListThunk } from "./Stock/thunks";
 import { IRootState } from "./store";
 
 interface StockInfoProps{  //change props
@@ -18,6 +19,7 @@ interface StockInfoProps{  //change props
         volume_ltc:number,
         volume_usd:number
     },
+    isWatchList:boolean,
 }
 
 
@@ -33,10 +35,15 @@ function HomePageStockRow(props:StockInfoProps) {
     //<div>Content.thisweeklowest</div>
     //{Content.isWatchList && <div className="watchListButton"><PushpinOutlined style={{fontSize:'30px',color:'white'}}/></div>}
 
-   /* const dispatch=useDispatch();
-    useEffect(()=>{
-
-      },[]);*/
+    const dispatch=useDispatch();
+      const ChangeWatchList=()=>{
+          let action='Add';
+              if(props.isWatchList){
+                  action='Remove'
+          }
+      dispatch(ToChangeWatchListThunk(props.Content.stock_symbol,action))
+      }
+      
     return (
 <div className="ItemRowArrangement">
     <div>{props.Content.stock_symbol}</div>
@@ -46,7 +53,7 @@ function HomePageStockRow(props:StockInfoProps) {
     <div>{props.Content.low}</div>
     <div>{props.Content.volume_ltc}</div>
     <div>{props.Content.volume_usd}</div>
-    {isLoggedIn &&  <div className="watchListButton"><PushpinOutlined style={{fontSize:'30px',color:'white'}}/></div>}
+    {isLoggedIn  && <div className="watchListButton" onClick={ChangeWatchList}><PushpinOutlined style={{fontSize:'30px',color:props.isWatchList?'black':'white'}}/></div>}
 </div>
         
             /*<div className="ItemRowArrangement">

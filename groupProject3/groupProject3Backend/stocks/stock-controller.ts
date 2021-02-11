@@ -95,19 +95,60 @@ export class StockController {
             res.status(500).send(err.message)
         }
     }
-    ActionToWatchList = async (req: Request, res: Response) => {
-        try {
-            if (!req.body.watchListAction ||
-                (req.body.watchListAction !== 'Add' && req.body.watchListAction !== 'Remove')
-            ) {
+    GetWatchList = async (req: Request, res: Response) => {
+        try {    //unexpected result & need to update
+            if(req.user){
+            const WatchListInfo=await this.stockService.loadWatchListSymbol(req.user.id)
+            res.status(200).json({
+                result:true,
+                content:WatchListInfo,
+            
+            })
+        }
+        }catch (err) {
+            res.status(500).send(err.message)
+        }
+    }
+    GetPortfolio = async (req: Request, res: Response) => {
+        try {   
+            if(req.user){
+            const portfolio=await this.stockService.loadPortfolio(req.user.id)
+            res.status(200).json({
+                result:true,
+                content:portfolio,
+            
+            })
+        }
+        }catch (err) {
+            res.status(500).send(err.message)
+        }
+    }
+    GetInstructionHistory = async (req: Request, res: Response) => {
+        try {   
+            if(req.user){
+            const InstructionHistory=await this.stockService.loadInstruction(req.user.id)
+            res.status(200).json({
+                result:true,
+                content:InstructionHistory,
+            
+            })
+        }
+        }catch (err) {
+            res.status(500).send(err.message)
+        }
+    }
+    ActionToWatchList=async(req: Request, res: Response) => {
+        try{
+            if(!req.body.watchListAction||
+                (req.body.watchListAction!=='Add'&&req.body.watchListAction!=='Remove')
+                ){
                 res.status(400).json({
                     result: false,
                     msg: "You did not have any watchList action"
                 })
-            } else {
-                if (req.user) {
-                    const watchListStatus = await this.stockService.actionToWatchList(req.user.id, req.body.stock_symbol, req.body.watchListAction)
-
+            }else{
+                if(req.user){
+                    const watchListStatus= await this.stockService.actionToWatchList(req.user.id,req.body.stock_symbol,req.body.watchListAction)
                     res.status(200).json({
                         result: true,
                         watchListStatus: watchListStatus[0],
