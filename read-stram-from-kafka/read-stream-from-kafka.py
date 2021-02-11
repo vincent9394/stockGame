@@ -13,7 +13,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder\
     .appName("Read Stream from kafka").getOrCreate()
      
-# %% [markdown]
+# %% [markdown]   If you run in pyspark start copy from here 
 # # Readstream from kafka  run in the WSL and change the localhost as ip
 dfStream = spark.readStream.format('kafka')\
         .option('kafka.bootstrap.servers','localhost:9092')\
@@ -50,12 +50,12 @@ dfStream_with_schema = dfStream.selectExpr("mouse_move.x",
 
 
 # %%
-def print_df(df,epoch_id):
-    # df here normal dataframe
-    df.show()
+# def print_df(df,epoch_id):
+#     # df here normal dataframe
+#     df.show()
 
-query = dfStream_with_schema.writeStream.foreachBatch(print_df).start()
-query.awaitTermination()
+# query = dfStream_with_schema.writeStream.foreachBatch(print_df).start()
+# query.awaitTermination()
 # %% [markdown]
 
 # %%
@@ -66,7 +66,7 @@ query.awaitTermination()
 #%%
 # create the database in psql 
 db_config = {
-    "url":"jdbc:postgresql://localhost:5432/heatmap",
+    "url":"jdbc:postgresql://localhost:5432/stock",
     "user":"admin",
     "password":"admin",
     "driver" :"org.postgresql.Driver"
