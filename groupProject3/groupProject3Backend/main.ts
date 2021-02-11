@@ -16,7 +16,6 @@ const knex = Knex(knexConfig[process.env.NODE_ENV || "development"])
 export const userService = new UserService(knex)
 const userController = new UserController(userService)
 export const stockService = new StockService(knex)
-const stockController = new StockController(stockService)
 
 // setup kafka
 const kafka = new Kafka({
@@ -27,6 +26,7 @@ const producer = kafka.producer();
 (async () => { await producer.connect(); })();
 export const kafkaService = new KafkaService(producer);
 const kafkaController = new KafkaController(kafkaService);
+const stockController = new StockController(stockService, kafkaService)
 const routes = createRoute(userController, stockController, kafkaController);
 
 const app = express()

@@ -1,44 +1,45 @@
 import { StockService } from './stock-service'
+import { KafkaService } from '../kafka/kafka-service'
 import { Request, Response } from 'express'
 export class StockController {
-    constructor(private stockService: StockService) { }
-  /*  StockTransaction = async (req: Request, res: Response) => {
-        try {
-            if (!req.body.stock_symbol  ||req.body.is_buy==null|| !req.body.price || !req.body.shares||!req.user) {
-                res.status(400).json({
-                    result: false,
-                    message: "req.body missing data"
-                })
-            } else {
-                const tradingID = (await this.stockService.stockTrading(req.user.id, req.body.stock_symbol, req.body.is_buy, req.body.price, req.body.shares))[0].id
-                if (tradingID != null) {
-                    res.status(200).json({ result: true })
-                } else {
-                    res.status(500).json({
-                        result: false,
-                        message: "trading Failed"
-                    })
-                }
-            }
-        } catch (err) {
-            res.status(500).send(err.message)
-        }
-    }*/
+    constructor(private stockService: StockService, private kafkaService: KafkaService) { }
+    /*  StockTransaction = async (req: Request, res: Response) => {
+          try {
+              if (!req.body.stock_symbol  ||req.body.is_buy==null|| !req.body.price || !req.body.shares||!req.user) {
+                  res.status(400).json({
+                      result: false,
+                      message: "req.body missing data"
+                  })
+              } else {
+                  const tradingID = (await this.stockService.stockTrading(req.user.id, req.body.stock_symbol, req.body.is_buy, req.body.price, req.body.shares))[0].id
+                  if (tradingID != null) {
+                      res.status(200).json({ result: true })
+                  } else {
+                      res.status(500).json({
+                          result: false,
+                          message: "trading Failed"
+                      })
+                  }
+              }
+          } catch (err) {
+              res.status(500).send(err.message)
+          }
+      }*/
     writeStockTransactionInstruction = async (req: Request, res: Response) => {
         //get userId from token   question for  ?how to Accept Instruction in correct price 
         console.log(req.body)                        //how to reject Instruction after effective period
         try {
-            if (!req.body.stock_symbol || req.body.action==null || !req.body.price || !req.body.shares||!req.body.exp_datetime||!req.user) {
+            if (!req.body.stock_symbol || req.body.action == null || !req.body.price || !req.body.shares || !req.body.exp_datetime || !req.user) {
                 res.status(400).json({
                     result: false,
                     message: "req.body missing data"
                 })
             } else {
                 let transactionType;
-               req.body.action==="BUY"?transactionType=1:transactionType=2;
-               req.body.action==="BUY"?req.body.shares=+(req.body.shares):req.body.shares=-(req.body.shares);
+                req.body.action === "BUY" ? transactionType = 1 : transactionType = 2;
+                req.body.action === "BUY" ? req.body.shares = +(req.body.shares) : req.body.shares = -(req.body.shares);
 
-                const tradingInstructionID = (await this.stockService.AddStockTradingInstruction(req.user.id, req.body.stock_symbol, transactionType,req.body.price, req.body.shares, req.body.exp_datetime))[0]
+                const tradingInstructionID = (await this.stockService.AddStockTradingInstruction(req.user.id, req.body.stock_symbol, transactionType, req.body.price, req.body.shares, req.body.exp_datetime))[0]
                 console.log(tradingInstructionID)
                 if (tradingInstructionID != null) {
                     res.status(200).json({ result: true })
@@ -56,23 +57,28 @@ export class StockController {
     StockSearch = async (req: Request, res: Response) => {
         try {
             let SearchingResult;
-            if(req.body.SearchStockID){
+            let kafkaResult;
+            if (req.body.SearchStockID) {
+                kafkaResult = await this.kafkaService.sendSearch(req.body.SearchStockID, null);
                 SearchingResult = await this.stockService.loadSearchingResult(req.body.SearchStockID, null)
-            }else if(req.body.SearchStockName){
-                SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchStockName)
-            }else{
+                kafkaResult = kafkaResult;
+            } else if (req.body.SearchName) {
+                kafkaResult = await this.kafkaService.sendSearch(null, req.body.SearchName);
+                SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchName)
+                kafkaResult = kafkaResult;
+            } else {
                 res.status(500).json({
-                    result:false,
-                    msg:"no searching Item",
+                    result: false,
+                    msg: "no searching Item",
                 })
             }
-            if(SearchingResult!=null){
+            if (SearchingResult != null) {
                 res.status(200).json({
-                    result:true,
-                    content:SearchingResult,
+                    result: true,
+                    content: SearchingResult,
                 })
-            }else{
-                res.status(400).json({result:false})
+            } else {
+                res.status(400).json({ result: false })
             }
         } catch (err) {
             res.status(500).send(err.message)
@@ -80,12 +86,12 @@ export class StockController {
     }
     ShowStockInfo = async (req: Request, res: Response) => {
         try {    //unexpected result & need to update
-            const StockBasicInfo=await this.stockService.loadAllStockInfo()
+            const StockBasicInfo = await this.stockService.loadAllStockInfo()
             res.status(200).json({
-                result:true,
-                content:StockBasicInfo,
+                result: true,
+                content: StockBasicInfo,
             })
-        }catch (err) {
+        } catch (err) {
             res.status(500).send(err.message)
         }
     }
@@ -137,32 +143,32 @@ export class StockController {
                 (req.body.watchListAction!=='Add'&&req.body.watchListAction!=='Remove')
                 ){
                 res.status(400).json({
-                    result:false,
-                    msg:"You did not have any watchList action"
+                    result: false,
+                    msg: "You did not have any watchList action"
                 })
             }else{
                 if(req.user){
                     const watchListStatus= await this.stockService.actionToWatchList(req.user.id,req.body.stock_symbol,req.body.watchListAction)
                     res.status(200).json({
-                    result:true,
-                    watchListStatus:watchListStatus[0],
-                })
-            }else{
-                res.status(401).json({
-                    result:false,
-                    msg:"Unauthorized"
-                })
+                        result: true,
+                        watchListStatus: watchListStatus[0],
+                    })
+                } else {
+                    res.status(401).json({
+                        result: false,
+                        msg: "Unauthorized"
+                    })
+                }
             }
-            }
-        }catch (err) {
+        } catch (err) {
             res.status(500).send(err.message)
         }
     }
-/*ImportCurrentStock=async(req: Request, res: Response) => {
-    const StockId=await this.importCurrentStock(ImportData)
-}
-ImportHistoryStock=async(ImportData:any) => {
-   const StockId=await this.importHistoryStock(ImportData)
-}*/
+    /*ImportCurrentStock=async(req: Request, res: Response) => {
+        const StockId=await this.importCurrentStock(ImportData)
+    }
+    ImportHistoryStock=async(ImportData:any) => {
+       const StockId=await this.importHistoryStock(ImportData)
+    }*/
 
 }
