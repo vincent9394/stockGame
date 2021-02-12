@@ -2,7 +2,7 @@
 //import {PushpinOutlined} from '@ant-design/icons';
 
 import { PushpinOutlined } from "@ant-design/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToChangeWatchListThunk } from "./Stock/thunks";
 import { IRootState } from "./store";
@@ -34,7 +34,6 @@ function HomePageStockRow(props:StockInfoProps) {
     //<div>Content.low</div>
     //<div>Content.thisweeklowest</div>
     //{Content.isWatchList && <div className="watchListButton"><PushpinOutlined style={{fontSize:'30px',color:'white'}}/></div>}
-
     const dispatch=useDispatch();
       const ChangeWatchList=()=>{
           let action='Add';
@@ -43,7 +42,6 @@ function HomePageStockRow(props:StockInfoProps) {
           }
       dispatch(ToChangeWatchListThunk(props.Content.stock_symbol,action))
       }
-      
     return (
 <div className="ItemRowArrangement">
     <div>{props.Content.stock_symbol}</div>

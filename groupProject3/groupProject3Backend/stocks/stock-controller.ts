@@ -67,7 +67,7 @@ export class StockController {
                 SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchName)
                 kafkaResult = kafkaResult;
             } else {
-                res.status(500).json({
+                res.status(401).json({
                     result: false,
                     msg: "no searching Item",
                 })

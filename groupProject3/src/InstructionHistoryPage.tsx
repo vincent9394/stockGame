@@ -11,7 +11,7 @@ const InstructionHistoryPage:React.FC=()=>{ //suppose it have CRUD in here
   const dispatch=useDispatch();
   useEffect(() => {
     dispatch(ToLoadInstructionHistoryThunk())
-  }, [dispatch])
+  }, [dispatch,InstructionHistoryArray])
     return (                                 //
         <div>
             <div className="IndexRowArrangement">

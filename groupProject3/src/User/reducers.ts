@@ -41,6 +41,11 @@ export const LoginReducers = (state: ILoginState = initialState, action: ILoginA
                 ...state,
                 msg: action.msg
             }
+            case "TO_CLEAR_MSG":
+            return {
+                ...state,
+                msg:"",
+            }
         default:
             return state
     }

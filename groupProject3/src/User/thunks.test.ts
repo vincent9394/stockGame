@@ -13,20 +13,24 @@ describe('Login thunks', () => {
     beforeEach(() => {
         const mockStore = configureMockStore<IRootState, ThunkDispatch>([thunk])
         store = mockStore();
+        jest.spyOn(window.localStorage.__proto__, 'setItem');
+      
     })
 
     it('should login successfully', async () => {
-        const result = {
-            isSuccess: true,
-            data: {
+        const result= {
+            result:true,
+            AccountBalance:100000,
+            token: '123'
+        }
+           const  data= {
                 username: 'Peter'
             }
-        };
-        fetchMock.get(`${process.env.REACT_APP_API_SERVER}/login`,
+        fetchMock.post(`${process.env.REACT_APP_API_SERVER}/login`,
             { body: result, status: 200 });
 
         const expectedActions = [
-            ToLogInSuccess(result.data.username),
+            ToLogInSuccess(data.username,100000),
         ]
         await store.dispatch(ToLogInThunk('Peter', '12345678'));
         expect(store.getActions()).toEqual(expectedActions);
@@ -37,7 +41,7 @@ describe('Login thunks', () => {
             isSuccess: false,
             msg: "Failed to login"
         };
-        fetchMock.get(`${process.env.REACT_APP_API_SERVER}/login`,
+        fetchMock.post(`${process.env.REACT_APP_API_SERVER}/login`,
             { body: result, status: 200 });
 
         const expectedActions = [
@@ -49,19 +53,21 @@ describe('Login thunks', () => {
     });
 
     it('should be register successfully', async () => {
-        const result = {
-            isSuccess: true,
-            data: {
+        const result= {
+            result:true,
+            AccountBalance:100000,
+            token: '123'
+        }
+            const data={
                 username: 'Peter'
             }
-        };
-        fetchMock.get(`${process.env.REACT_APP_API_SERVER}/register`,
+        fetchMock.post(`${process.env.REACT_APP_API_SERVER}/register`,
             { body: result, status: 200 });
 
         const expectedActions = [
-            ToRegisterSuccess(result.data.username),
+            ToRegisterSuccess(data.username,100000),
         ]
-        await store.dispatch(ToRegisterThunk('Peter', '12345678', 'abcde@gmail.com', 'MongKoK'));
+        await store.dispatch(ToRegisterThunk('Peter', '12345678', 'abcde@gmail.com'));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -77,7 +83,7 @@ describe('Login thunks', () => {
             failed('TO_REGISTER_FAILED', result.msg)
         ]
 
-        await store.dispatch(ToRegisterThunk('Peter', '12345678', 'abcde@gmail.com', 'MongKoK'));
+        await store.dispatch(ToRegisterThunk('Peter', '12345678', 'abcde@gmail.com'));
         expect(store.getActions()).toEqual(expectedActions);
     });
 

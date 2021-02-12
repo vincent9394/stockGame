@@ -21,6 +21,7 @@ const Login:React.FC=()=> {
         }
     });
     const isLoggedIn=useSelector((state:IRootState)=>state.login.isLoggedIn);
+    const message= useSelector((state:IRootState)=>state.login.msg);
     const dispatch=useDispatch();
     const onSubmit =(data:ILoginForm)=>{
        // dispatch(ToLogInThunk(data.username,data.password));
@@ -50,6 +51,14 @@ const Login:React.FC=()=> {
                     showIcon
                   />
                   }
+                  {message!=="" &&
+                        <Alert
+                        message="Error"
+                        description={message}
+                        type="error"
+                        showIcon
+                      />
+                      }
                     <Input className="FormSubmitButton" type='submit' value="Login" />
                 </Form>
           </div>

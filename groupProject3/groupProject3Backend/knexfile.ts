@@ -1,6 +1,7 @@
 // Update with your config settings.
-import * as dotenv from 'dotenv';
-dotenv.config();
+//import * as dotenv from 'dotenv';
+//dotenv.config();
+require('dotenv').config()
 
 module.exports = {
 

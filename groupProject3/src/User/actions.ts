@@ -22,11 +22,17 @@ export function ToRegisterSuccess(username:string,accountBalance:number){
         accountBalance,
     }
 }
+export function ToClearMsgSuccess(){
+    return{
+        type: "TO_CLEAR_MSG"as "TO_CLEAR_MSG",
+        msg:"",
+    }
+}
 type FAILED="TO_LOGIN_FAILED"|"TO_LOGOUT_FAILED"|"TO_REGISTER_FAILED"
 export function failed(type:FAILED,msg:string){
     return{
         type,msg
     }
 }
-type LoginActionCreators=typeof ToLogInSuccess|typeof ToLogOutSuccess|typeof ToRegisterSuccess|typeof failed
+type LoginActionCreators=typeof ToLogInSuccess|typeof ToLogOutSuccess|typeof ToRegisterSuccess|typeof ToClearMsgSuccess|typeof failed
 export type ILoginActions=ReturnType<LoginActionCreators>

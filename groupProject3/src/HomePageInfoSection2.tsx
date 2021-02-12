@@ -11,8 +11,10 @@ const HomePageInfoSection2:React.FC=()=>{
     const pathName= useSelector((state:IRootState)=>state.router.location.pathname);
     const dispatch=useDispatch();
     useEffect(() => {
+      if(isLoggedIn){
       dispatch(ToLoadWatchListThunk())
-    }, [dispatch])
+      }
+    }, [dispatch,isLoggedIn,watchListArray,AllStockInfoArray])
     return (
         <div>
                

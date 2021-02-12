@@ -11,7 +11,7 @@ const SelfProfilePage:React.FC=()=>{ //suppose it have CRUD in here
     useEffect(() => {
         dispatch(ToLoadPortfolioThunk())
     
-    },[dispatch])
+    },[dispatch,Portfolio,AllStockInfoArray])
     return (                                 //
         <div>
             <div className="IndexRowArrangement">
