@@ -25,9 +25,9 @@ const Login:React.FC=()=> {
     const dispatch=useDispatch();
     const onSubmit =(data:ILoginForm)=>{
        // dispatch(ToLogInThunk(data.username,data.password));
-        dispatch(ToLogInThunk(data.username,data.password))
+         dispatch(ToLogInThunk(data.username,data.password))
         if(isLoggedIn){
-        dispatch(replace('/homepage'))
+             dispatch(replace('/homepage'))
         }
         // You can do whatever you want in the data here.
     }

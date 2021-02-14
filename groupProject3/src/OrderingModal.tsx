@@ -174,7 +174,7 @@ export default function OrderingModal(props:transactionAction){
       </Button>
       <Modal
         visible={visible}
-        title="Order"
+        title={AllStockInfoArray[props.arrayIndex].stock_symbol}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[

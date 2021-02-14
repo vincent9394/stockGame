@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './HomePageInfo1.scss'
 import HomePageStockRow from './HomePageStockRow';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import { IRootState } from './store';
-import { ToLoadWatchListThunk } from './Stock/thunks';
 const HomePageInfoSection2:React.FC=()=>{
     const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray);
     const watchListArray= useSelector((state:IRootState)=>state.stock.WatchListArray);
     const isLoggedIn= useSelector((state:IRootState)=>state.login.isLoggedIn);
     const pathName= useSelector((state:IRootState)=>state.router.location.pathname);
-    const dispatch=useDispatch();
-    useEffect(() => {
-      if(isLoggedIn){
-      dispatch(ToLoadWatchListThunk())
-      }
-    }, [dispatch,isLoggedIn,watchListArray,AllStockInfoArray])
     return (
-        <div>
-               
+        <div key={pathName}>
 
                   <div className="IndexRowArrangement">
                     <div>股票代號</div>
@@ -42,12 +34,12 @@ const HomePageInfoSection2:React.FC=()=>{
                       }
                       if(pathName==='/showTheStockBySortingPage'){
                         if(CheckWatchListCondition===true){
-                          return <HomePageStockRow key={index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
+                          return <HomePageStockRow key={pathName+"_"+index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
                         }else{
                           return <></>
                         }
                       }else{
-                      return<HomePageStockRow key={index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
+                      return<HomePageStockRow key={pathName+"_"+index} value={index} Content={StockInfo} isWatchList={CheckWatchListCondition}/>
                       }
                   }
                   )}

@@ -3,7 +3,9 @@
   
 }
 body{
-  background-image: linear-gradient(to bottom right, rgba(0, 255, 255,0.2), rgba(204, 0, 255,0.3),rgba(0, 255, 255,0.3),rgba(204, 0, 255,0.2))
+  /*background-image: linear-gradient(to bottom right, rgba(0, 255, 255,0.2), rgba(204, 0, 255,0.3),rgba(0, 255, 255,0.3),rgba(204, 0, 255,0.2))*/
+  background-image: linear-gradient(to bottom right,#6c6b7471,#2e303e98,#9199BE,#54678F,#212624a9);
+  background-attachment: fixed;
 }
 .App-logo {
   height: 40vmin;

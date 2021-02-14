@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { failed, IStockActions, ToBuyStockSuccess, ToChangeWatchListSuccess, ToLoadAllStockSuccess, ToLoadInstructionHistorySuccess, ToLoadPortfolioSuccess, ToLoadSpecificStockSuccess, ToLoadWatchListSuccess, ToSoldStockSuccess } from "./actions";
+import { failed, IStockActions, ToBuyStockSuccess, ToLoadAllStockSuccess, ToLoadInstructionHistorySuccess, ToLoadPortfolioSuccess, ToLoadSpecificStockSuccess, ToLoadWatchListSuccess, ToSoldStockSuccess } from "./actions";
 
 const { REACT_APP_API_BACKEND_SERVER } = process.env
 
@@ -92,7 +92,7 @@ export function ToAddInstructionThunk(stock_symbol:string,action:string,Purchase
     }
 }
 
-export function ToChangeWatchListThunk(stock_symbol: string, watchListAction: string) {
+export function ToChangeWatchListThunk(stock_symbol: string, watchListAction: string,) {
     return async (dispatch: Dispatch<IStockActions>) => {
         const formObject:any={};
             formObject['stock_symbol']=stock_symbol;
@@ -108,8 +108,7 @@ export function ToChangeWatchListThunk(stock_symbol: string, watchListAction: st
         });
         const result = await res.json();
         if (result.result) {   
-            dispatch(ToChangeWatchListSuccess())
-            console.log('OK')
+            dispatch(ToLoadWatchListSuccess(result.NewWatchList));
         } else {
             dispatch(failed("TO_CHANGE_WATCH_LIST_FAILED", result.msg))
         }

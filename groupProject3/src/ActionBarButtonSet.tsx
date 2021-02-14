@@ -10,8 +10,8 @@ function ActionBarButtonSet(props:StockInfoProps) {
     const accountBalance= useSelector((state:IRootState)=>state.login.accountBalance);
     return (
         <div className="ButtonSet">
-            <OrderingModal  arrayIndex={props.value} action="BUY" AccountBalance={accountBalance}/>
-            <OrderingModal arrayIndex={props.value} action="SELL"  AccountBalance={accountBalance} />
+            <OrderingModal arrayIndex={props.value} action="BUY" AccountBalance={accountBalance}/>
+            <OrderingModal  arrayIndex={props.value} action="SELL"  AccountBalance={accountBalance} />
             </div>
     )
 }

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import MediaQuery from 'react-responsive'
 import './HomePageInfo1.scss'
+import InstructionHistoryBlock from './InstructionHistoryBlock'
 import InstructionHistoryRow from './InstructionHistoryRow'
 import { ToLoadInstructionHistoryThunk } from './Stock/thunks'
 import { IRootState } from './store'
@@ -11,10 +13,11 @@ const InstructionHistoryPage:React.FC=()=>{ //suppose it have CRUD in here
   const dispatch=useDispatch();
   useEffect(() => {
     dispatch(ToLoadInstructionHistoryThunk())
-  }, [dispatch,InstructionHistoryArray])
+  }, [dispatch])
     return (                                 //
         <div>
-            <div className="IndexRowArrangement">
+           <MediaQuery minWidth={768} >
+           <div className="IndexRowArrangement">
                     <div>股票代號</div>
                     <div>行動</div>
                     <div>指示價</div>
@@ -28,9 +31,16 @@ const InstructionHistoryPage:React.FC=()=>{ //suppose it have CRUD in here
                       return<InstructionHistoryRow key={index} value={index} Content={StockInfo} />
                   }
                   )}
+      </MediaQuery>
+      <MediaQuery maxWidth={768}>
+      <InstructionHistoryBlock key={3}/>
+      </MediaQuery>
+            
 
 
         </div>
+
+
     )
 }
 

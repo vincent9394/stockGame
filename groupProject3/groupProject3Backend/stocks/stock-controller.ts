@@ -148,11 +148,18 @@ export class StockController {
                 })
             }else{
                 if(req.user){
-                    const watchListStatus= await this.stockService.actionToWatchList(req.user.id,req.body.stock_symbol,req.body.watchListAction)
-                    res.status(200).json({
-                        result: true,
-                        watchListStatus: watchListStatus[0],
-                    })
+                    const actionWatchList= await this.stockService.actionToWatchList(req.user.id,req.body.stock_symbol,req.body.watchListAction)
+                    if (actionWatchList!=null){
+                        const WatchListInfo=await this.stockService.loadWatchListSymbol(req.user.id)
+                        res.status(200).json({
+                            result: true,
+                             NewWatchList:WatchListInfo,
+                        })
+                    }else{res.status(500).json({
+                        result: false,
+                        msg: "failed to Action"
+                    })}
+                   
                 } else {
                     res.status(401).json({
                         result: false,

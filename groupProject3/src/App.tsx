@@ -16,7 +16,7 @@ import Heatmap from './Heatmap';
 //import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
-import { ToLoadAllStockThunk } from './Stock/thunks';
+import { ToLoadAllStockThunk, ToLoadWatchListThunk } from './Stock/thunks';
 
 const start = new Date();
 
@@ -58,12 +58,15 @@ function App() {
         clearInterval(timer)
       }
     },[])*/
+    const isLoggedIn= useSelector((state:IRootState)=>state.login.isLoggedIn);
     const dispatch=useDispatch();
                     useEffect(() => {
                       dispatch(ToLoadAllStockThunk())
+                      if(isLoggedIn){
+                        dispatch(ToLoadWatchListThunk())
+                        }
                       const timer=setInterval(()=>{
                         dispatch(ToLoadAllStockThunk())
-                        console.log('Updated Home')
                       },1000*120)
                       return ()=>{
                         clearInterval(timer)

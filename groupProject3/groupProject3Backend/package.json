@@ -6,6 +6,7 @@
     "start": "ts-node-dev main.ts",
     "test": "jest --runInBand"
   },
+  
   "license": "MIT",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",

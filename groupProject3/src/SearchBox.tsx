@@ -17,12 +17,12 @@ const SearchBox:React.FC=()=>{
         <div>
              <form className="SearchForm" onSubmit={onSubmit}>
  <select value={stockChoice} onChange={(e)=>setStockChoice(e.target.value)}>
-     <option value="SearchStockID">stockID</option>
-     <option value="SearchStockName">stockName</option>
+     <option value="SearchStockID">股票代號</option>
+     <option value="SearchStockName">公司名稱</option>
      </select>
      {stockChoice==='SearchStockID'&&  <input type='text' name="stockID" value={SearchStockID} onChange={(e)=>setSearchStockID(e.target.value)}/>}
      {stockChoice==='SearchStockName'&&  <input type='text' name="stockName" value={SearchStockName} onChange={(e)=>setSearchStockName(e.target.value)}/>}
- <input type="submit" value="Search" />
+ <input type="submit" value="搜尋" />
              </form>
         </div>
     )

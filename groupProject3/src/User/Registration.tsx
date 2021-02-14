@@ -32,7 +32,7 @@ const Registration:React.FC=() => {
             dispatch(ToClearMsgSuccess())
         }
     },[dispatch])
-    const onSubmit = (data:IRegistrationForm)=>{
+    const onSubmit = async (data:IRegistrationForm)=>{
         //compare with database  if success,add data to database
         // You can do whatever you want in the data here.
         dispatch(ToRegisterThunk(data.username,data.password,data.email))

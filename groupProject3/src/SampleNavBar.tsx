@@ -9,6 +9,10 @@ import {
   Nav,
   NavItem,
   NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
@@ -33,40 +37,70 @@ useEffect(() => {
   return (
     <div>
       <Navbar color="light" light expand="md" className="NavBarBackground">
-        <NavbarBrand onClick={()=>dispatch(push('/'))}>Stock Game</NavbarBrand>
+        <NavbarBrand onClick={()=>dispatch(push('/'))}>炒股王</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} className="NavBarArrangement" navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-            <NavLink onClick={()=>dispatch(push('/homepage'))}>Home</NavLink>
+            <NavLink onClick={()=>dispatch(push('/homepage'))}>市場資訊</NavLink>
             </NavItem>
-            <NavItem>
-            <NavLink onClick={()=>dispatch(push('/selfProfilePage'))}>Profile</NavLink>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                我的股票
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                <NavItem>
+            <NavLink onClick={()=>dispatch(push('/selfProfilePage'))}>持有股票</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink onClick={()=>dispatch(push('/showTheStockBySortingPage'))}>Info</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                <NavItem>
+              <NavLink onClick={()=>dispatch(push('/showTheStockBySortingPage'))}>關注列表</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink onClick={()=>dispatch(push('/instructionHistory'))}>History</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                <NavItem>
+              <NavLink onClick={()=>dispatch(push('/instructionHistory'))}>指示概覽</NavLink>
             </NavItem>
-            {isLoggedIn && username &&<p>Hello,{username}</p>}
-            {isLoggedIn && accountBalance &&<p> Account Balance:${accountBalance}</p>}
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <SearchBox/>
             {!isLoggedIn &&
             <NavItem>
-              <NavLink onClick={()=>dispatch(push("/register"))}>Register</NavLink>
+              <NavLink onClick={()=>dispatch(push("/register"))}>註冊</NavLink>
             </NavItem>}
              {!isLoggedIn &&
              <NavItem>
-              <NavLink onClick={()=>dispatch(push("/login"))}>Login</NavLink>
+              <NavLink onClick={()=>dispatch(push("/login"))}>登入</NavLink>
             </NavItem>}
-            {isLoggedIn && 
+            {isLoggedIn &&
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                帳戶資料
+              </DropdownToggle>
+              <DropdownMenu right>
+              <DropdownItem>
+                {isLoggedIn && username &&<p>歡迎,{username}</p>}
+                </DropdownItem>
+                <DropdownItem>
+                {isLoggedIn && accountBalance &&<p>戶口結餘:${accountBalance}</p>}
+                </DropdownItem>
+                <DropdownItem>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                {isLoggedIn && 
             <NavItem>
               <NavLink className="Logout" onClick={()=>{
                 dispatch(logout())
                 dispatch(replace('/'))
-              }}>LogOut</NavLink>
+              }}>登出</NavLink>
             </NavItem>}
-            <SearchBox/>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>}
           </Nav>
         </Collapse>
       </Navbar>

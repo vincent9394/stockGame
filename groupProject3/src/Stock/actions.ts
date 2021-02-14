@@ -28,10 +28,9 @@ export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStock
         SearchContent:content,
     }
 }
-export function ToChangeWatchListSuccess(){  
+export function ToChangeWatchListSuccess(stock_symbol:string,watchListAction:string){ 
     return{                       //can add more para if needed more info of stocks
         type:"CHANGE_WATCH_LIST"as"CHANGE_WATCH_LIST",
-
 
     }
 }

@@ -51,7 +51,7 @@ function HomePageStockRow(props:StockInfoProps) {
     <div>{props.Content.low}</div>
     <div>{props.Content.volume_ltc}</div>
     <div>{props.Content.volume_usd}</div>
-    {isLoggedIn  && <div className="watchListButton" onClick={ChangeWatchList}><PushpinOutlined style={{fontSize:'30px',color:props.isWatchList?'black':'white'}}/></div>}
+    {isLoggedIn  && <div className="watchListButton" onClick={ChangeWatchList}><PushpinOutlined style={{fontSize:'30px',color:props.isWatchList?'yellow':'rgba(255,255,255,0.9)'}}/></div>}
 </div>
         
             /*<div className="ItemRowArrangement">
