@@ -27,7 +27,7 @@ const InstructionHistoryBlock:React.FC=()=>{ //suppose it have CRUD in here
   year: 'numeric', month: 'numeric', day: 'numeric',
   hour: 'numeric', minute: 'numeric', second: 'numeric',
   hour12: false,
-  timeZone: 'America/Los_Angeles'
+  timeZone: 'HongKong'
 }).format(new Date(InstructionHistoryArrayInfo.exp_datetime))}</div>
                     <div>狀態:{InstructionHistoryArrayInfo.transaction_status_id===1?"失敗":(InstructionHistoryArrayInfo.transaction_status_id===3?"成功":"正在執行")}</div>
                         </div>
