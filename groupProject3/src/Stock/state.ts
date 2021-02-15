@@ -9,6 +9,7 @@ export interface IStockState{
     SearchStockID:string|null,
     SearchStockName:string|null,
     SearchContent:{stock_symbol:string,date:string,open:number,high:number,low:number,close:number,volume_ltc:number,volume_usd:number}[],
+    SearchCompanyInfo:{name:string,background:Text}[],
     WatchListArray:{stock_symbol:string}[],
     Portfolio:{stock_symbol:string,shares:number}[],
     InstructionHistory:{id:string,

@@ -26,7 +26,7 @@ const producer = kafka.producer();
 (async () => { await producer.connect(); })();
 export const kafkaService = new KafkaService(producer);
 const kafkaController = new KafkaController(kafkaService);
-const stockController = new StockController(stockService, kafkaService)
+const stockController = new StockController(stockService,kafkaService)
 const routes = createRoute(userController, stockController, kafkaController);
 
 const app = express()

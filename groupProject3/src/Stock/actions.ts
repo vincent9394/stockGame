@@ -20,12 +20,13 @@ export function ToLoadAllStockSuccess(InfoContent:any){
         CurrentStockInfoArray:InfoContent,
     }
 }
-export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null,content:any){  
+export function ToLoadSpecificStockSuccess(SearchStockID:string|null,SearchStockName:string|null,content:any,CompanyInfo:any){  
     return{                       //can add more para if needed more info of stocks
         type:"LOAD_SPECIFIC_STOCK"as"LOAD_SPECIFIC_STOCK",
         SearchStockID:SearchStockID,
         SearchStockName:SearchStockName,
         SearchContent:content,
+        SearchCompanyInfo:CompanyInfo,
     }
 }
 export function ToChangeWatchListSuccess(stock_symbol:string,watchListAction:string){ 

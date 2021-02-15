@@ -51,14 +51,13 @@ export function ToLoadSpecificStockThunk(SearchStockID: string, SearchStockName:
         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/search`, { //giving ID/name to Search Info
             headers:{
                 "Content-Type": "application/json",
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
             },
             method: "POST",
             body: JSON.stringify(formObject)
         });
         const result = await res.json();
         if (result.result) {   //fetch to get all the stock ID and it maximum & minimum
-            dispatch(ToLoadSpecificStockSuccess(SearchStockID, SearchStockName,result.content)) //can add Search Info to Stock(keep 1 page as record)
+            dispatch(ToLoadSpecificStockSuccess(SearchStockID, SearchStockName,result.content,result.CompanyInfo)) //can add Search Info to Stock(keep 1 page as record)
         } else {
             dispatch(failed("TO_LOAD_SPECIFIC_STOCK_FAILED", result.msg))
         }

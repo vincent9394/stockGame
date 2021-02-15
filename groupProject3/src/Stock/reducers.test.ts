@@ -20,6 +20,7 @@ describe('StockReducers',()=>{
             InstructionHistory:[],
             WatchListArray:[],
             Portfolio:[],
+            SearchCompanyInfo:[],
         }
     })
 

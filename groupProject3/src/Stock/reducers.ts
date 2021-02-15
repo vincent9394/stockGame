@@ -15,6 +15,7 @@ const initialState = {
     WatchListArray:[],
     Portfolio:[],
     InstructionHistory:[],
+    SearchCompanyInfo:[],
 }
 export const StockReducers = (state: IStockState = initialState, action: IStockActions) => {
     const newStockIDArray = state.stockIDArray.slice()
@@ -52,6 +53,7 @@ export const StockReducers = (state: IStockState = initialState, action: IStockA
                 SearchStockID:action.SearchStockID,
                 SearchStockName:action.SearchStockName,
                 SearchContent:action.SearchContent,
+                SearchCompanyInfo:action.SearchCompanyInfo,
             }
             case  "LOAD_WATCH_LIST":
                 return {
