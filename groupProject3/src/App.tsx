@@ -16,7 +16,7 @@ import Heatmap from './Heatmap';
 //import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
-import { ToLoadAllStockThunk, ToLoadWatchListThunk } from './Stock/thunks';
+import { ToLoadAllStockThunk, ToLoadInstructionHistoryThunk, ToLoadPortfolioThunk, ToLoadWatchListThunk } from './Stock/thunks';
 
 const start = new Date();
 
@@ -64,6 +64,8 @@ function App() {
                       dispatch(ToLoadAllStockThunk())
                       if(isLoggedIn){
                         dispatch(ToLoadWatchListThunk())
+                        dispatch(ToLoadPortfolioThunk())
+                        dispatch(ToLoadInstructionHistoryThunk())
                         }
                       const timer=setInterval(()=>{
                         dispatch(ToLoadAllStockThunk())

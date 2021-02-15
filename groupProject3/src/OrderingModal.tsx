@@ -134,17 +134,41 @@ export default function OrderingModal(props:transactionAction){
     setModalState({...modalState,visible:true});
   };
   const AllStockInfoArray= useSelector((state:IRootState)=>state.stock.CurrentStockInfoArray);
+  const accountBalance= useSelector((state:IRootState)=>state.login.accountBalance);
+  const Portfolio= useSelector((state:IRootState)=>state.stock.Portfolio);
   const dispatch=useDispatch();
   const handleOk = () => {
     setModalState({ ...modalState,loading: true });
-    console.log(modalState.PurchasePrice)
-    console.log(modalState.PurchaseVolume)
-    console.log(modalState.EffectPeriod)
+    if(props.action==="BUY"){
+      if(accountBalance!==null && accountBalance>parseInt(modalState.PurchasePrice)*parseInt(modalState.PurchaseVolume)){
+        dispatch(ToAddInstructionThunk(AllStockInfoArray[props.arrayIndex].stock_symbol,props.action,parseInt(modalState.PurchasePrice),parseInt(modalState.PurchaseVolume),modalState.EffectPeriod))
+        setTimeout(() => {
+          setModalState({...modalState, loading: false, visible: false });
+        }, 3000);
+      }else{
+        console.log("no enough cash")
+        setModalState({ ...modalState,loading: false });
+      }
+    }else if(props.action==="SELL"){
+      if(Portfolio!==[]){
+        let StockShare;
+          for (const StockInfo of Portfolio){
+              if(StockInfo.stock_symbol===AllStockInfoArray[props.arrayIndex].stock_symbol){
+                StockShare=StockInfo.shares
+              }
+      }
+      if(StockShare!=null && StockShare-parseInt(modalState.PurchaseVolume)>0){
+      dispatch(ToAddInstructionThunk(AllStockInfoArray[props.arrayIndex].stock_symbol,props.action,parseInt(modalState.PurchasePrice),parseInt(modalState.PurchaseVolume),modalState.EffectPeriod))
+      setTimeout(() => {
+        setModalState({...modalState, loading: false, visible: false });
+      }, 3000);
+      }else{
+        console.log("not enough share")
+        setModalState({ ...modalState,loading: false });
+      }
+    }
     //fetch data at here
-    dispatch(ToAddInstructionThunk(AllStockInfoArray[props.arrayIndex].stock_symbol,props.action,parseInt(modalState.PurchasePrice),parseInt(modalState.PurchaseVolume),modalState.EffectPeriod))
-    setTimeout(() => {
-      setModalState({...modalState, loading: false, visible: false });
-    }, 3000);
+  }
   };
 
   const handleCancel = () => {
@@ -206,11 +230,7 @@ export default function OrderingModal(props:transactionAction){
         <div className="optionColumn">
           <div>
         <input type="radio"  id="Today" name="Period" value={modalState.EffectPeriod} onChange={evt =>updateEffectPeriod("Today")}/>
-        <label htmlFor="Today">Today{props.arrayIndex}</label>
-        </div>
-        <div>
-        <input type="radio"  id="Forever" name="Period" value={modalState.EffectPeriod} onChange={evt => updateEffectPeriod("Forever")}/>
-        <label htmlFor="Forever">Forever{props.arrayIndex}</label>
+        <label htmlFor="Today">Today</label>
         </div>
         <br/>
         </div>
@@ -219,6 +239,10 @@ export default function OrderingModal(props:transactionAction){
       </Modal>
     </>
   );
+  /* <div>
+  <input type="radio"  id="Forever" name="Period" value={modalState.EffectPeriod} onChange={evt => updateEffectPeriod("Forever")}/>
+  <label htmlFor="Forever">Forever</label>
+  </div>*/
 
 
 

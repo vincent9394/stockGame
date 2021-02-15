@@ -33,7 +33,7 @@ function InstructionHistoryRow(props:InstructionHistoryProps) {
   year: 'numeric', month: 'numeric', day: 'numeric',
   hour: 'numeric', minute: 'numeric', second: 'numeric',
   hour12: false,
-  timeZone: 'America/Los_Angeles'
+  timeZone: 'HongKong'
 }).format(new Date(props.Content.exp_datetime))}</div>
                   <div>{status}</div>
                 </div>
