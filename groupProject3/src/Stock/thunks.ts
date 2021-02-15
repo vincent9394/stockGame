@@ -161,3 +161,35 @@ export function ToLoadInstructionHistoryThunk() {
         }
     }
 }
+
+//------------------------------------------------------------------------------------------------------
+// export function ToLoadHeatmapThunk() {
+//     return async (dispatch: Dispatch<IStockActions>) => {
+//         const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/pushToKafka`,{
+//             headers:{
+//                 "Authorization":`Bearer ${localStorage.getItem('token')}`
+//             }
+//         });
+//         const result = await res.json();
+       
+//     }
+// }
+
+export function ToLoadHeatmapThunk(x:number,y:number,time:number) {
+    return async (dispatch: Dispatch<IStockActions>) => {
+        const formObject:any={};
+        formObject['x']=x;
+        formObject['y']=y;
+        formObject['time_interval']=time;
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/pushToKafka`,{
+            headers:{
+                "Content-Type": "application/json",
+                },
+            method: "POST",
+            body: JSON.stringify(formObject)
+        })
+        
+        const result = await res.json();
+        
+    }
+}

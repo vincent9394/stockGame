@@ -36,8 +36,24 @@ async function mouseXY(e: React.MouseEvent<HTMLDivElement, MouseEvent>, username
   // console.log(" x: " + x + " y: " + y + "  time: " + mouseTime);
 
   console.log("Begin Date Time " + start + " User: " + username + " x: " + x + " y: " + y + "  time: " + (time) + " component: " + component);
+  
   // heatmap.addData({ x: x, y: y, value: 1 });
-
+  // const dispatch=useDispatch();
+  // dispatch(ToLoadHeatmapThunk(x,y,time))
+  const { REACT_APP_API_BACKEND_SERVER } = process.env
+  const formObject:any={};
+        formObject['x']=x;
+        formObject['y']=y;
+        formObject['timeInterval']=time;
+        const res = await fetch(`${REACT_APP_API_BACKEND_SERVER}/pushToKafka`,{
+            headers:{
+                "Content-Type": "application/json",
+                },
+            method: "POST",
+            body: JSON.stringify(formObject)
+        })
+        
+        const result = await res.json();
 }
 
 function App() {

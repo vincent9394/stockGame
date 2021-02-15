@@ -6,7 +6,8 @@ export class KafkaController {
     pushToKafka = async (req: Request, res: Response) => {
         try {
             if (!req.body.x || !req.body.y || !req.body.timeInterval) {
-                res.status(400).json({
+                console.log(req.body)
+                res.status(401).json({
                     result: false,
                     message: "req.body missing data"
                 })
