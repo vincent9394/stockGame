@@ -155,14 +155,12 @@ dfStream = spark.readStream.format('kafka')\
         .option('kafka.bootstrap.servers','localhost:9092')\
         .option('subscribe','Heatmap').load()
 
-
-from pyspark.sql import SparkSession
-from pyspark.sql.types import StringType, IntegerType, StructType, StructField
+from pyspark.sql.types import StringType, IntegerType, StructType, FloatType, StructField
 schema = StructType([
     StructField("_id",StringType()),
     StructField("x",IntegerType()),
     StructField("y",IntegerType()),
-    StructField("time_interval",IntegerType())
+    StructField("time_interval",FloatType())
 ])
 
 from pyspark.sql import functions as F
@@ -172,16 +170,8 @@ dfStream_with_schema = dfStream.selectExpr("mouse_move.x",
                                 "mouse_move.time_interval"
                                 )
 
-
-# def print_df(df,epoch_id):
-#     # df here normal dataframe
-#     df.show()
-
-# query = dfStream_with_schema.writeStream.foreachBatch(print_df).start()
-# query.awaitTermination()
-
 db_config = {
-    "url":"jdbc:postgresql://localhost:5432/heatmap",
+    "url":"jdbc:postgresql://localhost:5432/stock",
     "user":"admin",
     "password":"admin",
     "driver" :"org.postgresql.Driver"
