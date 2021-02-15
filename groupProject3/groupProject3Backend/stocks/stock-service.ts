@@ -63,6 +63,20 @@ export class StockService {
             return []
         }
     }
+    async loadSearchingCompanyInfo(stockSymbol: string | null, stockName: string | null) {   //get the result time by time to draw a graph
+        if (stockSymbol !== null) {
+            return await this.knex.select('name','background').from('stock_info').where('stock_symbol', stockSymbol);
+        } else if (stockName !== null) {
+            const ResultStockSymbol = await this.knex.select('stock_symbol').from('stock_info').where('name', stockName)
+            if (ResultStockSymbol.length > 0) {
+                return await this.knex.select('name','background').from('stock_info').where('stock_symbol', ResultStockSymbol[0].stock_symbol);
+            } else {
+                return []
+            }
+        } else {
+            return []
+        }
+    }
     async loadAllStockInfo() {   //show all basic info with latest  ,problem
         return await this.knex.select('*').from('stock_current')
     }

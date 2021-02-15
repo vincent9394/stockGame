@@ -1,0 +1,45 @@
+.companyInfoSection{
+background: rgba(0, 0, 0, 0.2);
+margin-left:20px ;
+margin-right: 20px;
+padding:15px;
+margin-top: 15px;
+margin-bottom: 15px;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+.title{
+    width: 100%;
+color:rgba(255, 255, 0, 0.801);
+align-self: center;
+margin-bottom: 5px;
+}
+.Background{
+//color:rgba(255, 255, 255, 0.856);
+border: 0px!important;
+background: transparent;
+//background-image: linear-gradient(to bottom right,
+//#9199be,#395ead);
+}
+.backgroundContent{
+
+    color:rgba(255, 255, 0, 0.596);
+}
+}
+.ButtonSet{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    button{
+        margin-left:5px;
+        margin-right:5px;
+    }
+}
+.ButtonSetDiv{
+    display:flex;
+    justify-content: center;
+}
+.stockPriceInfoSection{
+    margin-top: 10px;
+    color:rgba(255, 255, 255, 0.753);
+    font-size: 20px;
+    margin-left: 5%;
+}

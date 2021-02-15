@@ -260,7 +260,7 @@ export default function Graph(){
     }
   };
   const containerProps = {                     //size of the graph
-    width: "100%",
+    width: "90%",
     height: "450px",
     margin: "auto"
   };

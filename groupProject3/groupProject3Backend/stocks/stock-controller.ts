@@ -1,8 +1,8 @@
 import { StockService } from './stock-service'
-import { KafkaService } from '../kafka/kafka-service'
+//import { KafkaService } from '../kafka/kafka-service'
 import { Request, Response } from 'express'
 export class StockController {
-    constructor(private stockService: StockService, private kafkaService: KafkaService) { }
+    constructor(private stockService: StockService) { }//, private kafkaService: KafkaService
     /*  StockTransaction = async (req: Request, res: Response) => {
           try {
               if (!req.body.stock_symbol  ||req.body.is_buy==null|| !req.body.price || !req.body.shares||!req.user) {
@@ -57,17 +57,21 @@ export class StockController {
     StockSearch = async (req: Request, res: Response) => {
         try {
             let SearchingResult;
-            let kafkaResult;
+            let CompanySearchResult;
+           // let kafkaResult;
             if (req.body.SearchStockID) {
-                kafkaResult = await this.kafkaService.sendSearch(req.body.SearchStockID, null);
+              //  kafkaResult = await this.kafkaService.sendSearch(req.body.SearchStockID, null);
                 SearchingResult = await this.stockService.loadSearchingResult(req.body.SearchStockID, null)
-                kafkaResult = kafkaResult;
-            } else if (req.body.SearchName) {
-                kafkaResult = await this.kafkaService.sendSearch(null, req.body.SearchName);
-                SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchName)
-                kafkaResult = kafkaResult;
+                CompanySearchResult=await this.stockService.loadSearchingCompanyInfo(req.body.SearchStockID, null)
+             //   kafkaResult = kafkaResult;
+            } else if (req.body.SearchStockName) {
+               // kafkaResult = await this.kafkaService.sendSearch(null, req.body.SearchName);
+                SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchStockName)
+                CompanySearchResult = await this.stockService.loadSearchingResult(null, req.body.SearchStockName)
+
+              //  kafkaResult = kafkaResult;
             } else {
-                res.status(401).json({
+                res.status(400).json({
                     result: false,
                     msg: "no searching Item",
                 })
@@ -76,6 +80,7 @@ export class StockController {
                 res.status(200).json({
                     result: true,
                     content: SearchingResult,
+                    CompanyInfo:CompanySearchResult,
                 })
             } else {
                 res.status(400).json({ result: false })
