@@ -59,13 +59,21 @@ export class StockController {
             let SearchingResult;
             let kafkaResult;
             if (req.body.SearchStockID) {
-                kafkaResult = await this.kafkaService.sendSearch(req.body.SearchStockID, null);
+                try {
+                    kafkaResult = await this.kafkaService.sendSearch(req.body.SearchStockID, null);
+                    kafkaResult = kafkaResult;
+                } catch {
+                    console.log("kafka connection problem")
+                }
                 SearchingResult = await this.stockService.loadSearchingResult(req.body.SearchStockID, null)
-                kafkaResult = kafkaResult;
             } else if (req.body.SearchName) {
-                kafkaResult = await this.kafkaService.sendSearch(null, req.body.SearchName);
+                try {
+                    kafkaResult = await this.kafkaService.sendSearch(null, req.body.SearchName);
+                    kafkaResult = kafkaResult;
+                } catch {
+                    console.log("kafka connection problem")
+                }
                 SearchingResult = await this.stockService.loadSearchingResult(null, req.body.SearchName)
-                kafkaResult = kafkaResult;
             } else {
                 res.status(401).json({
                     result: false,

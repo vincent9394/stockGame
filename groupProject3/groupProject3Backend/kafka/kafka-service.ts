@@ -48,6 +48,9 @@ java --add-opens=java.base/sun.nio.ch=ALL-UNNAMED -jar kafdrop-3.27.0.jar --kafk
 // Edit Topic
 ./bin/kafka-console-producer.sh --topic Heatmap --bootstrap-server localhost:9092
 
+// List all topics
+./bin/kafka-topics.sh --list --zookeeper localhost:2181
+
 // Specify Topic key
 ./bin/kafka-console-producer.sh --topic Heatmap --bootstrap-server localhost:9092 --property "parse.key=true" --property "key.separator=:"
 
