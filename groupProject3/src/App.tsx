@@ -16,11 +16,7 @@ import Heatmap from './Heatmap';
 //import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
-<<<<<<< HEAD
- import { ToLoadAllStockThunk,   ToLoadWatchListThunk } from './Stock/thunks';
-=======
 import { ToLoadAllStockThunk, ToLoadInstructionHistoryThunk, ToLoadPortfolioThunk, ToLoadWatchListThunk } from './Stock/thunks';
->>>>>>> 7ff08542c50222799ce11a1a097415e69eeba4fb
 
 const start = new Date();
 

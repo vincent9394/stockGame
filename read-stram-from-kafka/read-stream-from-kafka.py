@@ -33,12 +33,12 @@ dfStream = spark.readStream.format('kafka')\
 
 # %% [markdown]
 # Make a schema for incoming data
-from pyspark.sql.types import StringType, IntegerType, StructType, StructField
+from pyspark.sql.types import StringType, IntegerType, StructType, StructField , FloatType
 schema = StructType([
     StructField("_id",StringType()),
     StructField("x",IntegerType()),
     StructField("y",IntegerType()),
-    StructField("time_interval",IntegerType())
+    StructField("time_interval",FloatType())
 ])
 
 from pyspark.sql import functions as F
