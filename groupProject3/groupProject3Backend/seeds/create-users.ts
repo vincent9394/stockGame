@@ -1,4 +1,5 @@
 import * as Knex from "knex";
+import {hashPassword} from "../hash";
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
@@ -15,12 +16,12 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     let user_id = await knex("users").insert([
-        { name: "alex", password: "alex", email: "alex@email.com", cash_in_hand: 100000 },
-        { name: "gordon", password: "gordon", email: "gordon@email.com", cash_in_hand: 100000 },
-        { name: "jason", password: "jason", email: "jason@email.com", cash_in_hand: 100000 },
-        { name: "vincent", password: "vincent", email: "vincent@email.com", cash_in_hand: 100000 },
-        { name: "bruce", password: "bruce", email: "bruce@email.com", cash_in_hand: 100000 },
-        { name: "ricky", password: "ricky", email: "ricky@email.com", cash_in_hand: 100000 },
+        { name: "alex", password: await hashPassword("alex"), email: "alex@email.com", cash_in_hand: 100000 },
+        { name: "gordon", password: await hashPassword("gordon"), email: "gordon@email.com", cash_in_hand: 100000 },
+        { name: "jason", password: await hashPassword("jason"), email: "jason@email.com", cash_in_hand: 100000 },
+        { name: "vincent", password: await hashPassword("vincent"), email: "vincent@email.com", cash_in_hand: 100000 },
+        { name: "bruce", password: await hashPassword("bruce"), email: "bruce@email.com", cash_in_hand: 100000 },
+        { name: "ricky", password: await hashPassword("ricky"), email: "ricky@email.com", cash_in_hand: 100000 },
     ]).returning('id');
 
     await knex("portfolio").insert([

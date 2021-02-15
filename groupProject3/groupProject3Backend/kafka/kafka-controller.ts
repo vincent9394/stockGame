@@ -16,7 +16,7 @@ export class KafkaController {
                 if (messageStatus != null) {
                     res.status(200).json({ result: true })
                 } else {
-                    res.status(500).json({
+                    res.status(501).json({
                         result: false,
                         message: "Failed to send Kafka message."
                     })
